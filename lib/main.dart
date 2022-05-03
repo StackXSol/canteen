@@ -1,4 +1,5 @@
 import 'package:canteen/screens/homepage.dart';
+import 'package:canteen/screens/loading.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,12 +13,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Canteen',
       theme: ThemeData(
+        fontFamily: "Gilroy",
         textTheme: TextTheme(bodyText2: TextStyle(color: Colors.black)),
       ),
       routes: {
         '/homepage': (context) => const HomePage(),
+        '/loadingscreen': (context) => const LoadingPage(),
       },
-      initialRoute: '/navbar',
+      initialRoute: '/loadingscreen',
     );
   }
 }

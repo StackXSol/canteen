@@ -11,10 +11,21 @@ class HomePage extends StatelessWidget {
             child: Column(
       children: [
         SizedBox(height: getheight(context, 50)),
-        Icon(Icons.shopping_cart),
+        Padding(
+          padding: EdgeInsets.only(right: getwidth(context, 40)),
+          child: Align(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Icons.shopping_cart_outlined,
+                color: Colors.grey,
+                size: getheight(context, 24),
+              )),
+        ),
         SizedBox(
           height: getheight(context, 19),
-        )
+        ),
+        Text("Hello Diana",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900))
       ],
     )));
   }
