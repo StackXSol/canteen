@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Canteen',
       theme: ThemeData(
+        scaffoldBackgroundColor: Color.fromARGB(255, 212, 212, 212),
         fontFamily: "Gilroy",
         textTheme: TextTheme(bodyText2: TextStyle(color: Colors.black)),
       ),

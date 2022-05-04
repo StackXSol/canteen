@@ -1,4 +1,4 @@
-import 'package:canteen/screens/homepage.dart';
+import 'package:canteen/screens/navbar.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +17,10 @@ class _LoadingPageState extends State<LoadingPage> {
   void initState() {
     super.initState();
     Future.delayed(
-        const Duration(seconds: 6),
+        const Duration(seconds: 1),
         () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(builder: (context) => const Navbar()),
             ));
   }
 
