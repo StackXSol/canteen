@@ -1,3 +1,4 @@
+import 'package:canteen/screens/items.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -101,7 +102,10 @@ class _HomePageState extends State<HomePage> {
           children: [
             GestureDetector(
               onTap: (() {
-                // BreakFast
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Items()),
+                );
               }),
               child: Container(
                 height: getheight(context, 113),

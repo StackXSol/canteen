@@ -1,5 +1,6 @@
 import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/loading.dart';
+import 'package:canteen/screens/login_signup.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,15 +14,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Canteen',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color.fromARGB(255, 212, 212, 212),
+        scaffoldBackgroundColor: Color.fromARGB(255, 240, 240, 240),
         fontFamily: "Gilroy",
         textTheme: TextTheme(bodyText2: TextStyle(color: Colors.black)),
       ),
       routes: {
         '/homepage': (context) => const HomePage(),
         '/loadingscreen': (context) => const LoadingPage(),
+        '/login': (context) => const Login(),
       },
-      initialRoute: '/loadingscreen',
+      initialRoute: '/login',
     );
   }
 }
