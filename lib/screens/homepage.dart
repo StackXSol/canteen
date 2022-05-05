@@ -1,3 +1,4 @@
+import 'package:canteen/screens/cart.dart';
 import 'package:canteen/screens/items.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
@@ -31,10 +32,18 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.only(right: getwidth(context, 40)),
           child: Align(
               alignment: Alignment.centerRight,
-              child: Icon(
-                Icons.shopping_cart_outlined,
-                color: Colors.grey,
-                size: getheight(context, 24),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Cart()),
+                  );
+                },
+                child: Icon(
+                  Icons.shopping_cart_outlined,
+                  color: Colors.grey,
+                  size: getheight(context, 24),
+                ),
               )),
         ),
         SizedBox(

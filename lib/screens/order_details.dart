@@ -28,9 +28,14 @@ class _OrderDetailsState extends State<OrderDetails> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
-                    Icons.arrow_back_ios,
-                    size: 18,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      size: 18,
+                    ),
                   ),
                   Text(
                     "Order details",

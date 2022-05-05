@@ -1,3 +1,4 @@
+import 'package:canteen/screens/login_signup.dart';
 import 'package:canteen/screens/navbar.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,7 +21,7 @@ class _LoadingPageState extends State<LoadingPage> {
         const Duration(seconds: 1),
         () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Navbar()),
+              MaterialPageRoute(builder: (context) => const Login()),
             ));
   }
 

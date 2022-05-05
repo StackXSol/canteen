@@ -1,3 +1,4 @@
+import 'package:canteen/screens/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter/services.dart';
@@ -116,7 +117,11 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   Spacer(),
                   GestureDetector(
                     onTap: () {
-                      //login
+                      ///////////// LOGIN ////////////
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Navbar()),
+                      );
                     },
                     child: Container(
                       height: getheight(context, 70),
@@ -282,8 +287,12 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
                   Spacer(),
                   GestureDetector(
+                    /////////// sign up////////////////
                     onTap: () {
-                      //login
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Navbar()),
+                      );
                     },
                     child: Container(
                       height: getheight(context, 70),

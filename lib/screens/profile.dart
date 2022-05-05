@@ -20,10 +20,15 @@ class _ProfileState extends State<Profile> {
             SizedBox(height: getheight(context, 45)),
             Padding(
               padding: EdgeInsets.only(left: getwidth(context, 36)),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.grey,
-                size: getheight(context, 24),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.grey,
+                  size: getheight(context, 24),
+                ),
               ),
             ),
             SizedBox(

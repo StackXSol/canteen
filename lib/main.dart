@@ -21,11 +21,11 @@ class MyApp extends StatelessWidget {
         fontFamily: "Gilroy",
         textTheme: TextTheme(bodyText2: TextStyle(color: Colors.black)),
       ),
-      // routes: {
-      //   '/homepage': (context) => const HomePage(),
-      //   '/loadingscreen': (context) => const LoadingPage(),
-      // },
-      // initialRoute: '/loadingscreen',
+      routes: {
+        '/homepage': (context) => const HomePage(),
+        '/loadingscreen': (context) => const LoadingPage(),
+      },
+      initialRoute: '/loadingscreen',
     );
   }
 }

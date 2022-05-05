@@ -1,3 +1,4 @@
+import 'package:canteen/screens/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -30,10 +31,18 @@ class _ItemsState extends State<Items> {
               Text("Breakfast",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               Spacer(),
-              Icon(
-                Icons.shopping_cart_outlined,
-                color: Colors.grey,
-                size: getheight(context, 24),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Cart()),
+                  );
+                },
+                child: Icon(
+                  Icons.shopping_cart_outlined,
+                  color: Colors.grey,
+                  size: getheight(context, 24),
+                ),
               ),
             ],
           ),
@@ -58,7 +67,7 @@ class _ItemsState extends State<Items> {
           ),
         ),
         SizedBox(
-          height: getheight(context, 70),
+          height: getheight(context, 10),
         )
       ],
     )));
