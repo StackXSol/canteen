@@ -14,63 +14,65 @@ class _ItemsState extends State<Items> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color(0xffF5F5F8),
         body: Container(
             child: Column(
-      children: [
-        SizedBox(height: getheight(context, 50)),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: getwidth(context, 40)),
-          child: Row(
-            children: [
-              GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(Icons.keyboard_arrow_left)),
-              Spacer(),
-              Text("Breakfast",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              Spacer(),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Cart()),
-                  );
-                },
-                child: Icon(
-                  Icons.shopping_cart_outlined,
-                  color: Colors.grey,
-                  size: getheight(context, 24),
+          children: [
+            SizedBox(height: getheight(context, 50)),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: getwidth(context, 40)),
+              child: Row(
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(Icons.keyboard_arrow_left)),
+                  Spacer(),
+                  Text("Breakfast",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Cart()),
+                      );
+                    },
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Colors.grey,
+                      size: getheight(context, 24),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: getheight(context, getheight(context, 40)),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Item(),
+                    Item(),
+                    Item(),
+                    Item(),
+                    Item(),
+                    Item(),
+                    Item(),
+                    Item(),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: getheight(context, getheight(context, 40)),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Item(),
-                Item(),
-                Item(),
-                Item(),
-                Item(),
-                Item(),
-                Item(),
-                Item(),
-              ],
             ),
-          ),
-        ),
-        SizedBox(
-          height: getheight(context, 10),
-        )
-      ],
-    )));
+            SizedBox(
+              height: getheight(context, 10),
+            )
+          ],
+        )));
   }
 }
 
@@ -128,7 +130,7 @@ class Item extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
-                              color: Color(0xFFFA4A0C)))
+                              color: orange_color))
                     ]),
                 Spacer(),
                 Container(
@@ -136,7 +138,7 @@ class Item extends StatelessWidget {
                   height: getheight(context, 20),
                   width: getheight(context, 52),
                   decoration: BoxDecoration(
-                      color: Color(0xFFFA4A0C),
+                      color: orange_color,
                       borderRadius: BorderRadius.circular(30)),
                   child: Icon(
                     Icons.add,

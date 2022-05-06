@@ -18,6 +18,7 @@ class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF5F5F8),
       body: screens[_index],
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
@@ -39,7 +40,7 @@ class _NavbarState extends State<Navbar> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline_rounded, size: 30), label: ""),
           ],
-          selectedItemColor: Color(0xFFFA4A0C),
+          selectedItemColor: orange_color,
           iconSize: 50,
           showSelectedLabels: false,
           showUnselectedLabels: false,

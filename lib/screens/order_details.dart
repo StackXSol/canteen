@@ -14,7 +14,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffE5E5E5),
+      backgroundColor: Color(0xffF5F5F8),
       body: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +51,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               padding: EdgeInsets.only(left: getwidth(context, 34)),
               child: Text(
                 "Order Deatils",
-                style: TextStyle(fontSize: 34, fontWeight: FontWeight.w800),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
               ),
             ),
             SizedBox(
@@ -66,8 +66,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                           children: [
                             Container(
                               alignment: Alignment.center,
-                              height: getheight(context, 274),
-                              width: getwidth(context, 272),
+                              height: getheight(context, 174),
+                              width: getwidth(context, 172),
                               decoration: BoxDecoration(
                                   color: Color(0xff1A9F0B),
                                   shape: BoxShape.circle),
@@ -115,11 +115,15 @@ class _OrderDetailsState extends State<OrderDetails> {
                     text: TextSpan(
                         text: "Time-",
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
                         children: [
                           TextSpan(
                               text: "5:38 PM",
-                              style: TextStyle(fontWeight: FontWeight.w300))
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black))
                         ]),
                   )
                 ],
@@ -218,7 +222,7 @@ class Items extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
-                              color: Color(0xFFFA4A0C)))
+                              color: orange_color))
                     ]),
                 Spacer(),
               ],

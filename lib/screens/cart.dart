@@ -12,6 +12,7 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF5F5F8),
       body: Container(
         child: Column(
           children: [
@@ -32,7 +33,7 @@ class _CartState extends State<Cart> {
                   Spacer(),
                   Icon(
                     Icons.shopping_cart_outlined,
-                    color: Color(0xffFA4A0C),
+                    color: orange_color,
                     size: getheight(context, 24),
                   ),
                 ],
@@ -55,11 +56,12 @@ class _CartState extends State<Cart> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
+                margin: EdgeInsets.only(bottom: 15),
                 alignment: Alignment.center,
                 height: getheight(context, 70),
                 width: getwidth(context, 314),
                 decoration: BoxDecoration(
-                    color: Color(0xffFA4A0C),
+                    color: orange_color,
                     borderRadius: BorderRadius.circular(30)),
                 child: Text(
                   "Complete Order",
@@ -131,7 +133,7 @@ class Item extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
-                              color: Color(0xFFFA4A0C)))
+                              color: orange_color))
                     ]),
                 Spacer(),
                 Container(
@@ -139,7 +141,7 @@ class Item extends StatelessWidget {
                   height: getheight(context, 20),
                   width: getheight(context, 52),
                   decoration: BoxDecoration(
-                      color: Color(0xFFFA4A0C),
+                      color: orange_color,
                       borderRadius: BorderRadius.circular(30)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

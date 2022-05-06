@@ -23,6 +23,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   bool _isObscure = true;
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF5F5F8),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(200.0),
         child: AppBar(
@@ -34,7 +35,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           ),
           bottom: TabBar(
             indicator: UnderlineTabIndicator(
-              borderSide: BorderSide(width: 6.0, color: Color(0xFFFA4A0C)),
+              borderSide: BorderSide(width: 6.0, color: orange_color),
               insets: EdgeInsets.symmetric(horizontal: 35.0),
             ),
             labelPadding: EdgeInsets.all(15),
@@ -69,7 +70,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Email address", style: TextStyle(color: Colors.grey)),
+                  Text("Email address", style: TextStyle(color: Colors.black)),
                   TextField(
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
@@ -86,7 +87,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   SizedBox(
                     height: getheight(context, 40),
                   ),
-                  Text("Password", style: TextStyle(color: Colors.grey)),
+                  Text("Password", style: TextStyle(color: Colors.black)),
                   TextField(
                       obscureText: _isObscure,
                       style:
@@ -109,7 +110,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     child: Text(
                       "Forgot passcode?",
                       style: TextStyle(
-                          color: Color(0xFFFA4A0C),
+                          color: orange_color,
                           fontSize: 17,
                           fontWeight: FontWeight.w600),
                     ),
@@ -128,7 +129,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       width: getwidth(context, 310),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          color: Color(0xFFFA4A0C)),
+                          color: orange_color),
                       child: Center(
                         child: Text(
                           "Login",
@@ -154,7 +155,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //////////////// full name
-                  Text("Full Name", style: TextStyle(color: Colors.grey)),
+                  Text("Full Name", style: TextStyle(color: Colors.black)),
                   TextField(
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
@@ -173,7 +174,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ),
 
                   ////////////// email address
-                  Text("Email address", style: TextStyle(color: Colors.grey)),
+                  Text("Email address", style: TextStyle(color: Colors.black)),
                   TextField(
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
@@ -222,7 +223,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ),
                   SizedBox(height: 10),
                   /////////////// college
-                  Text("College", style: TextStyle(color: Colors.grey)),
+                  Text("College", style: TextStyle(color: Colors.black)),
                   DropdownButton<String>(
                     isExpanded: true,
                     value: dropdownValue,
@@ -250,7 +251,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   SizedBox(height: 15),
 
                   ///// /////////roll number
-                  Text("Roll Number", style: TextStyle(color: Colors.grey)),
+                  Text("Roll Number", style: TextStyle(color: Colors.black)),
                   TextField(
                       obscureText: _isObscure,
                       style:
@@ -268,7 +269,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   SizedBox(height: getheight(context, 15)),
 
                   ///////////////// password
-                  Text("Password", style: TextStyle(color: Colors.grey)),
+                  Text("Password", style: TextStyle(color: Colors.black)),
                   TextField(
                       obscureText: _isObscure,
                       style:
@@ -299,7 +300,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       width: getwidth(context, 310),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          color: Color(0xFFFA4A0C)),
+                          color: orange_color),
                       child: Center(
                         child: Text(
                           "Sign Up",
