@@ -1,9 +1,12 @@
+import 'package:canteen/cubit/canteen_cubit.dart';
+import 'package:canteen/main.dart';
 import 'package:canteen/screens/cart.dart';
 import 'package:canteen/screens/foodItems.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -36,9 +39,9 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Hello Diana",
+                      Text("${currentUser.full_name}",
                           style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.w900)),
+                              fontSize: 22, fontWeight: FontWeight.w900)),
                       SizedBox(
                         height: 12,
                       ),
@@ -108,31 +111,37 @@ class _HomePageState extends State<HomePage> {
               children: [
                 GestureDetector(
                   onTap: (() async {
-                    var key = await FirebaseFirestore.instance
-                        .collection("Canteens")
-                        .where("College", isEqualTo: "XYX")
-                        .get();
-                    var key2 = await FirebaseFirestore.instance
-                        .collection("Canteens")
-                        .doc(key.docs.first.id)
-                        .collection("Menu")
-                        .doc("BreakFast")
-                        .collection("Items")
-                        .get();
-
                     List<Widget> food_items = [];
-                    for (var i in key2.docs) {
-                      if (i.data()["Status"]) {
-                        food_items.add(_Item(
-                            image: i.data()["Photo"],
-                            name: i.data()["Name"],
-                            price: i.data()["Price"]));
+
+                    try {
+                      var key = await FirebaseFirestore.instance
+                          .collection("Canteens")
+                          .where("College", isEqualTo: currentUser.College)
+                          .get();
+                      var key2 = await FirebaseFirestore.instance
+                          .collection("Canteens")
+                          .doc(key.docs.first.id)
+                          .collection("Menu")
+                          .doc("BreakFast")
+                          .collection("Items")
+                          .get();
+
+                      for (var i in key2.docs) {
+                        if (i.data()["Status"]) {
+                          food_items.add(_Item(
+                              image: i.data()["Photo"],
+                              name: i.data()["Name"],
+                              price: i.data()["Price"]));
+                        }
                       }
+                    } catch (e) {
+                      food_items.add(Text("No Canteen of your college found!"));
                     }
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Items(
+                          builder: (context) => Food_Items(
                                 food_type: "Breakfast",
                                 food_items: food_items,
                               )),
@@ -376,15 +385,6 @@ class _Item extends StatelessWidget {
                   radius: 35,
                   backgroundImage: NetworkImage(image),
                 ),
-                // Container(
-                //   height: getheight(context, 65),
-                //   width: getheight(context, 65),
-                //   decoration: BoxDecoration(
-                //       shape: BoxShape.circle,
-                //       color: Colors.white,
-                //       border: Border.all(color: Colors.grey.withOpacity(0.2))),
-                //   child: Image(image: NetworkImage(image)),
-                // ),
                 SizedBox(
                   width: 12,
                 ),
@@ -405,17 +405,24 @@ class _Item extends StatelessWidget {
                               color: orange_color))
                     ]),
                 Spacer(),
-                Container(
-                  margin: EdgeInsets.only(top: getheight(context, 30)),
-                  height: getheight(context, 23),
-                  width: getheight(context, 55),
-                  decoration: BoxDecoration(
-                      color: orange_color,
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: getheight(context, 14),
+                GestureDetector(
+                  onTap: () {
+                    cart_list.add([name, image, price, 1]);
+                    BlocProvider.of<CanteenCubit>(context)
+                        .update_cart(cart_list);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(top: getheight(context, 30)),
+                    height: getheight(context, 23),
+                    width: getheight(context, 55),
+                    decoration: BoxDecoration(
+                        color: orange_color,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: getheight(context, 14),
+                    ),
                   ),
                 ),
               ],

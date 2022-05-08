@@ -1,4 +1,4 @@
-import 'package:canteen/screens/Authntication/forgotpassword.dart';
+import 'package:canteen/main.dart';
 import 'package:canteen/backend_data.dart';
 import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/navbar.dart';
@@ -20,7 +20,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> with TickerProviderStateMixin {
-  late final BackendData userdata;
   final auth = FirebaseAuth.instance;
   late String _email;
   late String _pass;
@@ -385,6 +384,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   }
 
   Future registration() async {
+    Fluttertoast.showToast(msg: "Registering...");
     try {
       auth
           .createUserWithEmailAndPassword(email: _email, password: _pass)
@@ -398,13 +398,22 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           "phone": phone,
           "uid": user.uid,
           "Rollno": rollno,
-          "College": dropdownValue
+          "College": dropdownValue,
+          "Verified": false
         });
+
+        currentUser = appUser(
+            College: dropdownValue,
+            full_name: fullname,
+            email: _email,
+            phone: phone,
+            uid: user.uid,
+            Roll_no: rollno);
 
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => Navbar(),
           ),
         );
       });
@@ -414,15 +423,24 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   }
 
   Future login() async {
+    Fluttertoast.showToast(msg: "Signing in...");
     try {
       auth
           .signInWithEmailAndPassword(email: _email, password: _pass)
-          .then((value) {
+          .then((value) async {
         print("signin successful");
         User? user = FirebaseAuth.instance.currentUser;
         var db = FirebaseFirestore.instance;
 
-        var userdata = db.collection("Users").doc(user?.uid).get();
+        dynamic userdata = await db.collection("Users").doc(user?.uid).get();
+
+        currentUser = await appUser(
+            College: userdata.data()["College"],
+            full_name: userdata.data()["Fullname"],
+            email: userdata.data()["email"],
+            phone: userdata.data()["phone"],
+            uid: userdata.data()["uid"],
+            Roll_no: userdata.data()["Rollno"]);
 
         Navigator.push(
           context,

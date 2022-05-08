@@ -1,5 +1,9 @@
+import 'package:canteen/main.dart';
 import 'package:canteen/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'Authentication/login_signup.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
@@ -188,7 +192,7 @@ class _ProfileState extends State<Profile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Name",
+                    currentUser.full_name,
                     style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w600,
@@ -198,7 +202,7 @@ class _ProfileState extends State<Profile> {
                     height: getheight(context, 12),
                   ),
                   Text(
-                    "email123@gmail.com",
+                    currentUser.email,
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
                   ),
                   SizedBox(
@@ -211,7 +215,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   SizedBox(height: getheight(context, 8)),
                   Text(
-                    "91+ 9871228811",
+                    currentUser.phone,
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
                   ),
                   SizedBox(height: getheight(context, 8)),
@@ -224,7 +228,7 @@ class _ProfileState extends State<Profile> {
                   Container(
                     width: getwidth(context, 285),
                     child: Text(
-                      "2C - 1707 Golflinks,Ghaziabad,UttarPradesh",
+                      "College: ${currentUser.College}",
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
                     ),
@@ -238,7 +242,11 @@ class _ProfileState extends State<Profile> {
             info_containers("Previous Orders", () {}),
             info_containers("About Us", () {}),
             info_containers("Report Bug", () {}),
-            info_containers("Logout", () {})
+            info_containers("Logout", () {
+              FirebaseAuth.instance.signOut();
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => Login()));
+            })
           ],
         ),
       ),

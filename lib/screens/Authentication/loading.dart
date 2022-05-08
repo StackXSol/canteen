@@ -1,4 +1,6 @@
-import 'package:canteen/screens/Authntication/login_signup.dart';
+import 'package:canteen/backend_data.dart';
+import 'package:canteen/main.dart';
+
 import 'package:canteen/screens/navbar.dart';
 import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import 'login_signup.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({Key? key}) : super(key: key);
@@ -24,21 +28,29 @@ class _LoadingPageState extends State<LoadingPage> {
 
   Future<void> set_screen() async {
     try {
-      var key = await FirebaseFirestore.instance
+      dynamic key = await FirebaseFirestore.instance
           .collection("Users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get();
       print(key.data());
+      currentUser = appUser(
+          College: key.data()["College"],
+          full_name: key.data()["Fullname"],
+          email: key.data()["email"],
+          phone: key.data()["phone"],
+          uid: key.data()["uid"],
+          Roll_no: key.data()["Rollno"]);
       Future.delayed(
           const Duration(seconds: 1),
-          () => Navigator.push(
+          () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const Navbar()),
               ));
     } catch (e) {
+      print(e);
       Future.delayed(
           const Duration(seconds: 1),
-          () => Navigator.push(
+          () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const Login()),
               ));

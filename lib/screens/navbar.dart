@@ -1,7 +1,9 @@
+import 'package:canteen/main.dart';
 import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/foodItems.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:canteen/screens/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 
@@ -15,6 +17,18 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   int _index = 0;
   final List<Widget> screens = [HomePage(), OrderDetails(), Profile()];
+
+  @override
+  void initState() {
+    // verify_mail();
+  }
+
+  void verify_mail() {
+    FirebaseAuth.instance.sendSignInLinkToEmail(
+        email: currentUser.email,
+        actionCodeSettings: ActionCodeSettings(
+            url: "https://google.com", handleCodeInApp: true));
+  }
 
   @override
   Widget build(BuildContext context) {

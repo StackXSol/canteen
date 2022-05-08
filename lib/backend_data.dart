@@ -1,16 +1,16 @@
-class BackendData {
+class appUser {
   String full_name;
   String email;
-  int phone;
+  String phone;
   String uid;
-  // String College;
-  int Roll_no;
-  BackendData({
+  String College;
+  String Roll_no;
+  appUser({
+    required this.College,
     required this.full_name,
     required this.email,
     required this.phone,
     required this.uid,
-    // required this.College,
     required this.Roll_no,
   });
 }

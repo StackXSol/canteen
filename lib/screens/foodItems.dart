@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class Items extends StatefulWidget {
-  Items({required this.food_type, required this.food_items});
+class Food_Items extends StatefulWidget {
+  Food_Items({required this.food_type, required this.food_items});
   String food_type;
   List<Widget> food_items;
 
   @override
-  State<Items> createState() => _ItemsState();
+  State<Food_Items> createState() => _Food_ItemsState();
 }
 
-class _ItemsState extends State<Items> {
+class _Food_ItemsState extends State<Food_Items> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
