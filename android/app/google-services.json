@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "402043640521",
-    "project_id": "canteen-859a4",
-    "storage_bucket": "canteen-859a4.appspot.com"
+    "project_number": "720783347904",
+    "project_id": "canteen-bcbf5",
+    "storage_bucket": "canteen-bcbf5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:402043640521:android:d367fdb326e78caae44b18",
+        "mobilesdk_app_id": "1:720783347904:android:7cc79170358e3ce4855d25",
         "android_client_info": {
-          "package_name": "com.example.canteen"
+          "package_name": "com.app.canteen"
         }
       },
       "oauth_client": [
         {
-          "client_id": "402043640521-qjgle43q9girm47oi830ndb1d9srp7ki.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.canteen",
-            "certificate_hash": "4d7308eee5779a86118898a45f2e0bc53f136be7"
-          }
-        },
-        {
-          "client_id": "402043640521-6k5r6d03799rpijeq4sodv34lc404l6l.apps.googleusercontent.com",
+          "client_id": "720783347904-59m9c0lfcp5tra4a9iskjbfqi7ahmbje.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC15U0R0T0HdCumA1Lj9E30rOCo0mccvis"
+          "current_key": "AIzaSyCgV4U02-KGaaBFrOTY1bIUXP9Sp5Hg_9o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "402043640521-6k5r6d03799rpijeq4sodv34lc404l6l.apps.googleusercontent.com",
+              "client_id": "720783347904-59m9c0lfcp5tra4a9iskjbfqi7ahmbje.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

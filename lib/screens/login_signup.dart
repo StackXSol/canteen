@@ -25,7 +25,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   late String rollno;
 
   late TabController _tabController;
-  String dropdownValue = "One";
+  String dropdownValue = "Select College";
   @override
   void initState() {
     super.initState();
@@ -48,7 +48,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           ),
           bottom: TabBar(
             indicator: UnderlineTabIndicator(
-              borderSide: BorderSide(width: 6.0, color: orange_color),
+              borderSide: BorderSide(width: 5.0, color: orange_color),
               insets: EdgeInsets.symmetric(horizontal: 35.0),
             ),
             labelPadding: EdgeInsets.all(15),
@@ -272,7 +272,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         dropdownValue = newValue!;
                       });
                     },
-                    items: <String>['One', 'Two', 'Free', 'Four']
+                    items: <String>['Select College', 'XYZ', 'Tree', 'Four']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -285,10 +285,10 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ///// /////////roll number
                   Text("Roll Number", style: TextStyle(color: Colors.black)),
                   TextField(
+                      keyboardType: TextInputType.number,
                       onChanged: (value) {
                         rollno = value;
                       },
-                      obscureText: _isObscure,
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                       decoration: InputDecoration(
@@ -306,20 +306,29 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ///////////////// password
                   Text("Password", style: TextStyle(color: Colors.black)),
                   TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          _pass = value;
-                        });
-                      },
-                      obscureText: _isObscure,
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Enter Password",
-                          hintStyle: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey.withOpacity(0.5)))),
+                    onChanged: (value) {
+                      setState(() {
+                        _pass = value;
+                      });
+                    },
+                    obscureText: _isObscure,
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          },
+                          icon: Icon(Icons.remove_red_eye)),
+                      border: InputBorder.none,
+                      hintText: "Enter Password",
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
                   Divider(
                     height: 2,
                     color: Colors.black,
