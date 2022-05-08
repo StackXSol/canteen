@@ -1,7 +1,7 @@
 import 'package:canteen/screens/cart.dart';
 import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/loading.dart';
-import 'package:canteen/screens/login_signup.dart';
+import 'package:canteen/screens/Authntication/login_signup.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:canteen/screens/profile.dart';
 import 'package:firebase_core/firebase_core.dart';

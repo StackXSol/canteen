@@ -1,4 +1,4 @@
-import 'package:canteen/screens/login_signup.dart';
+import 'package:canteen/screens/Authntication/login_signup.dart';
 import 'package:canteen/screens/navbar.dart';
 import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -1,4 +1,4 @@
-import 'package:canteen/screens/forgotpassword.dart';
+import 'package:canteen/screens/Authntication/forgotpassword.dart';
 import 'package:canteen/backend_data.dart';
 import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/navbar.dart';
@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import 'forgotpassword.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
