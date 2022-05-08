@@ -1,3 +1,4 @@
+import 'package:canteen/screens/forgotpassword.dart';
 import 'package:canteen/screens/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
@@ -105,10 +106,14 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   SizedBox(height: getheight(context, 30)),
                   GestureDetector(
                     onTap: () {
-                      //forgot password
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResetPassword()),
+                      );
                     },
                     child: Text(
-                      "Forgot passcode?",
+                      "Forgot password?",
                       style: TextStyle(
                           color: orange_color,
                           fontSize: 17,

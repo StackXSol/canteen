@@ -9,9 +9,11 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffF5F5F8),
       body: Container(
         child: Column(
@@ -19,28 +21,26 @@ class _ProfileState extends State<Profile> {
           children: [
             SizedBox(height: getheight(context, 60)),
             Padding(
-              padding: EdgeInsets.only(left: getwidth(context, 26)),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Row(
-                  children: [
-                    Icon(
+              padding: EdgeInsets.symmetric(horizontal: getwidth(context, 26)),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
                       Icons.arrow_back_ios,
                       color: Colors.grey,
                       size: getheight(context, 24),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: getwidth(context, 26)),
-                      child: const Text(
-                        "My Profile",
-                        style: TextStyle(
-                            fontSize: 26, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  Spacer(),
+                  Text(
+                    "My Profile",
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
+                  ),
+                  Spacer()
+                ],
               ),
             ),
             SizedBox(
@@ -57,7 +57,110 @@ class _ProfileState extends State<Profile> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Stack(
+                                overflow: Overflow.visible,
+                                children: <Widget>[
+                                  Positioned(
+                                    right: -40.0,
+                                    top: -40.0,
+                                    child: InkResponse(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: CircleAvatar(
+                                        child: Icon(Icons.close),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                  Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Text("Edit Details"),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: TextField(
+                                              style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold),
+                                              decoration: InputDecoration(
+                                                  hintText: "Enter name",
+                                                  hintStyle: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5)))),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: TextField(
+                                              style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold),
+                                              decoration: InputDecoration(
+                                                  hintText: "Phone number",
+                                                  hintStyle: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5)))),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Container(
+                                            height: getheight(context, 100),
+                                            child: TextField(
+                                                expands: true,
+                                                maxLines: null,
+                                                style: TextStyle(
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                decoration: InputDecoration(
+                                                    hintText: "Address",
+                                                    hintStyle: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.grey
+                                                            .withOpacity(
+                                                                0.5)))),
+                                          ),
+                                        ),
+                                        SizedBox(height: 20),
+                                        GestureDetector(
+                                          onTap: () {
+                                            ///////////// Edit changes ////////////
+                                          },
+                                          child: Container(
+                                            height: getheight(context, 50),
+                                            width: getwidth(context, 100),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
+                                                color: orange_color),
+                                            child: Center(
+                                              child: Text(
+                                                "Done",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 17),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                    },
                     child: Text(
                       "edit",
                       style: TextStyle(
