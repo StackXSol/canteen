@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 import 'package:canteen/screens/forgotpassword.dart';
-=======
 import 'package:canteen/backend_data.dart';
 import 'package:canteen/screens/homepage.dart';
->>>>>>> 3e475e15a90399706a69e55e2778b3f8fb1b4a77
 import 'package:canteen/screens/navbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
