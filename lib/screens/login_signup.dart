@@ -1,4 +1,9 @@
+import 'package:canteen/backend_data.dart';
+import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/navbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +16,16 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> with TickerProviderStateMixin {
+  late final BackendData userdata;
+  final auth = FirebaseAuth.instance;
+  late String _email;
+  late String _pass;
+  late String fullname;
+  late String phone;
+  late String rollno;
+
   late TabController _tabController;
-  String dropdownValue = 'One';
+  String dropdownValue = "One";
   @override
   void initState() {
     super.initState();
@@ -25,7 +38,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: Color(0xffF5F5F8),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(200.0),
+        preferredSize: Size.fromHeight(100.0),
         child: AppBar(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
@@ -72,6 +85,11 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                 children: [
                   Text("Email address", style: TextStyle(color: Colors.black)),
                   TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          _email = value;
+                        });
+                      },
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                       decoration: InputDecoration(
@@ -89,6 +107,11 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ),
                   Text("Password", style: TextStyle(color: Colors.black)),
                   TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          _pass = value;
+                        });
+                      },
                       obscureText: _isObscure,
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
@@ -118,11 +141,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   Spacer(),
                   GestureDetector(
                     onTap: () {
-                      ///////////// LOGIN ////////////
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Navbar()),
-                      );
+                      login();
                     },
                     child: Container(
                       height: getheight(context, 70),
@@ -157,6 +176,11 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   //////////////// full name
                   Text("Full Name", style: TextStyle(color: Colors.black)),
                   TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          fullname = value;
+                        });
+                      },
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                       decoration: InputDecoration(
@@ -173,9 +197,14 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     height: getheight(context, 15),
                   ),
 
-                  ////////////// email address
+                  ////////////// email address for signup
                   Text("Email address", style: TextStyle(color: Colors.black)),
                   TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          _email = value;
+                        });
+                      },
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                       decoration: InputDecoration(
@@ -206,6 +235,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       Container(
                         width: getwidth(context, 200),
                         child: TextField(
+                            onChanged: (value) {
+                              phone = value;
+                            },
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.digitsOnly
@@ -253,6 +285,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ///// /////////roll number
                   Text("Roll Number", style: TextStyle(color: Colors.black)),
                   TextField(
+                      onChanged: (value) {
+                        rollno = value;
+                      },
                       obscureText: _isObscure,
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
@@ -271,6 +306,11 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ///////////////// password
                   Text("Password", style: TextStyle(color: Colors.black)),
                   TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          _pass = value;
+                        });
+                      },
                       obscureText: _isObscure,
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
@@ -295,19 +335,24 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         MaterialPageRoute(builder: (context) => const Navbar()),
                       );
                     },
-                    child: Container(
-                      height: getheight(context, 70),
-                      width: getwidth(context, 310),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: orange_color),
-                      child: Center(
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17),
+                    child: InkWell(
+                      onTap: () {
+                        registration();
+                      },
+                      child: Container(
+                        height: getheight(context, 70),
+                        width: getwidth(context, 310),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: orange_color),
+                        child: Center(
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17),
+                          ),
                         ),
                       ),
                     ),
@@ -320,5 +365,65 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  Future registration() async {
+    try {
+      auth
+          .createUserWithEmailAndPassword(email: _email, password: _pass)
+          .then((value) async {
+        User? user = FirebaseAuth.instance.currentUser;
+
+        final db = FirebaseFirestore.instance;
+        db.collection("Users").doc(user!.uid).set({
+          "Fullname": fullname,
+          "email": _email,
+          "phone": phone,
+          "uid": user.uid,
+          "Rollno": rollno,
+        });
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future login() async {
+    try {
+      auth
+          .signInWithEmailAndPassword(email: _email, password: _pass)
+          .then((value) {
+        print("signin successful");
+        User? user = FirebaseAuth.instance.currentUser;
+        var db = FirebaseFirestore.instance;
+
+        var userdata = db.collection("Users").doc(user?.uid).get();
+
+        print(userdata);
+
+        // BackendData(
+        //     full_name: "vaibhav",
+        //     email: "email",
+        //     phone: 45,
+        //     uid: user.uid,
+        //     Roll_no: 1313);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
