@@ -132,7 +132,7 @@ class _ProfileState extends State<Profile> {
             SizedBox(
               height: 22,
             ),
-            info_containers("Orders", () {}),
+            info_containers("Previous Orders", () {}),
             info_containers("About Us", () {}),
             info_containers("Report Bug", () {}),
             info_containers("Logout", () {})

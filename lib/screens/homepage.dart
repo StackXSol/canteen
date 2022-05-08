@@ -109,20 +109,26 @@ class _HomePageState extends State<HomePage> {
                   onTap: (() {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Items()),
+                      MaterialPageRoute(
+                          builder: (context) => Items(
+                                food_type: "Breakfast",
+                              )),
                     );
                   }),
                   child: Container(
-                    height: getheight(context, 113),
+                    height: getheight(context, 120),
                     width: getwidth(context, 113),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white,
+                      color: Colors.transparent,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image(image: AssetImage('images/food.png')),
+                        CircleAvatar(
+                          radius: 45,
+                          backgroundImage: AssetImage('images/breakfast.jpg'),
+                        ),
                         SizedBox(
                           height: 5,
                         ),
@@ -139,16 +145,19 @@ class _HomePageState extends State<HomePage> {
                     // Lunch
                   }),
                   child: Container(
-                    height: getheight(context, 113),
+                    height: getheight(context, 120),
                     width: getwidth(context, 113),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white,
+                      color: Colors.transparent,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image(image: AssetImage('images/food.png')),
+                        CircleAvatar(
+                          radius: 45,
+                          backgroundImage: AssetImage('images/lunch.jpg'),
+                        ),
                         SizedBox(
                           height: 5,
                         ),
@@ -165,16 +174,19 @@ class _HomePageState extends State<HomePage> {
                     // Dinner
                   }),
                   child: Container(
-                    height: getheight(context, 113),
+                    height: getheight(context, 120),
                     width: getwidth(context, 113),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white,
+                      color: Colors.transparent,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image(image: AssetImage('images/food.png')),
+                        CircleAvatar(
+                          radius: 45,
+                          backgroundImage: AssetImage('images/dinner.jpg'),
+                        ),
                         SizedBox(
                           height: 5,
                         ),
@@ -199,16 +211,19 @@ class _HomePageState extends State<HomePage> {
                     // Snacks
                   }),
                   child: Container(
-                    height: getheight(context, 113),
+                    height: getheight(context, 120),
                     width: getwidth(context, 113),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white,
+                      color: Colors.transparent,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image(image: AssetImage('images/food.png')),
+                        CircleAvatar(
+                          radius: 45,
+                          backgroundImage: AssetImage('images/snacks.jpg'),
+                        ),
                         SizedBox(
                           height: 5,
                         ),
@@ -225,16 +240,19 @@ class _HomePageState extends State<HomePage> {
                     // Bakery
                   }),
                   child: Container(
-                    height: getheight(context, 113),
+                    height: getheight(context, 120),
                     width: getwidth(context, 113),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white,
+                      color: Colors.transparent,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image(image: AssetImage('images/food.png')),
+                        CircleAvatar(
+                          radius: 45,
+                          backgroundImage: AssetImage('images/bakery.jpg'),
+                        ),
                         SizedBox(
                           height: 5,
                         ),
@@ -251,16 +269,19 @@ class _HomePageState extends State<HomePage> {
                     // Beverages
                   }),
                   child: Container(
-                    height: getheight(context, 113),
+                    height: getheight(context, 120),
                     width: getwidth(context, 113),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white,
+                      color: Colors.transparent,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image(image: AssetImage('images/food.png')),
+                        CircleAvatar(
+                          radius: 45,
+                          backgroundImage: AssetImage('images/bevrages.jpg'),
+                        ),
                         SizedBox(
                           height: 5,
                         ),

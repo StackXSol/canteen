@@ -4,7 +4,8 @@ import 'package:canteen/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class Items extends StatefulWidget {
-  const Items({Key? key}) : super(key: key);
+  Items({required this.food_type});
+  String food_type;
 
   @override
   State<Items> createState() => _ItemsState();
@@ -18,7 +19,7 @@ class _ItemsState extends State<Items> {
         body: Container(
             child: Column(
           children: [
-            SizedBox(height: getheight(context, 50)),
+            SizedBox(height: getheight(context, 60)),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: getwidth(context, 40)),
               child: Row(
@@ -29,7 +30,7 @@ class _ItemsState extends State<Items> {
                       },
                       child: Icon(Icons.keyboard_arrow_left)),
                   Spacer(),
-                  Text("Breakfast",
+                  Text(widget.food_type,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                   Spacer(),
@@ -50,20 +51,16 @@ class _ItemsState extends State<Items> {
               ),
             ),
             SizedBox(
-              height: getheight(context, getheight(context, 40)),
+              height: getheight(context, getheight(context, 30)),
             ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Item(),
-                    Item(),
-                    Item(),
-                    Item(),
-                    Item(),
-                    Item(),
-                    Item(),
-                    Item(),
+                    _Item(),
+                    _Item(),
+                    _Item(),
+                    _Item(),
                   ],
                 ),
               ),
@@ -76,8 +73,8 @@ class _ItemsState extends State<Items> {
   }
 }
 
-class Item extends StatelessWidget {
-  const Item({
+class _Item extends StatelessWidget {
+  const _Item({
     Key? key,
   }) : super(key: key);
 
@@ -87,7 +84,7 @@ class Item extends StatelessWidget {
       children: [
         Container(
           height: getheight(context, 102),
-          width: getwidth(context, 315),
+          width: getwidth(context, 325),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -101,7 +98,7 @@ class Item extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: getheight(context, 17)),
+            padding: EdgeInsets.symmetric(horizontal: getheight(context, 10)),
             child: Row(
               children: [
                 Container(
@@ -135,8 +132,8 @@ class Item extends StatelessWidget {
                 Spacer(),
                 Container(
                   margin: EdgeInsets.only(top: getheight(context, 30)),
-                  height: getheight(context, 20),
-                  width: getheight(context, 52),
+                  height: getheight(context, 23),
+                  width: getheight(context, 55),
                   decoration: BoxDecoration(
                       color: orange_color,
                       borderRadius: BorderRadius.circular(30)),

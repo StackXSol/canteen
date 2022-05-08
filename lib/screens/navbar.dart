@@ -14,7 +14,7 @@ class Navbar extends StatefulWidget {
 
 class _NavbarState extends State<Navbar> {
   int _index = 0;
-  final List<Widget> screens = [HomePage(), Items(), Profile()];
+  final List<Widget> screens = [HomePage(), OrderDetails(), Profile()];
 
   @override
   Widget build(BuildContext context) {

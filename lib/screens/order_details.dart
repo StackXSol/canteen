@@ -1,6 +1,7 @@
 import 'package:canteen/screens/items.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class OrderDetails extends StatefulWidget {
   OrderDetails({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: getheight(context, 66),
+              height: getheight(context, 60),
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -45,17 +46,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               ),
             ),
             SizedBox(
-              height: getheight(context, 34),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: getwidth(context, 34)),
-              child: Text(
-                "Order Deatils",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
-              ),
-            ),
-            SizedBox(
-              height: getheight(context, 26),
+              height: getheight(context, 36),
             ),
             Align(
               alignment: Alignment.center,
@@ -83,8 +74,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                             Text(
                               "Scanned",
                               style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w100,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
                                   color: Color(0xff000000)),
                             )
                           ],
@@ -97,14 +88,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                   SizedBox(height: getheight(context, 28)),
                   RichText(
                     text: TextSpan(
-                        text: "Date-",
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                             color: Color(0xff000000)),
                         children: [
                           TextSpan(
-                              text: "05/07/2022",
+                              text: DateFormat.yMMMd().format(DateTime.now()),
                               style: TextStyle(fontWeight: FontWeight.w300))
                         ]),
                   ),
@@ -113,7 +103,6 @@ class _OrderDetailsState extends State<OrderDetails> {
                   ),
                   RichText(
                     text: TextSpan(
-                        text: "Time-",
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,

@@ -9,4 +9,4 @@ double getwidth(context, value) {
   return MediaQuery.of(context).size.width * (value / 375);
 }
 
-Color orange_color = Color.fromARGB(255, 236, 122, 80);
+Color orange_color = Color.fromARGB(255, 255, 110, 57);
