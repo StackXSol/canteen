@@ -1,4 +1,5 @@
 import 'package:canteen/screens/homepage.dart';
+import 'package:canteen/screens/items.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:canteen/screens/profile.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class Navbar extends StatefulWidget {
 
 class _NavbarState extends State<Navbar> {
   int _index = 0;
-  final List<Widget> screens = [HomePage(), OrderDetails(), Profile()];
+  final List<Widget> screens = [HomePage(), Items(), Profile()];
 
   @override
   Widget build(BuildContext context) {

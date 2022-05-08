@@ -25,48 +25,42 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xffF5F5F8),
-        body: Container(
-            child: Column(
+        body: Column(
           children: [
-            SizedBox(height: getheight(context, 50)),
+            SizedBox(height: getheight(context, 65)),
             Padding(
-              padding: EdgeInsets.only(right: getwidth(context, 40)),
-              child: Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
+              padding: EdgeInsets.symmetric(horizontal: getwidth(context, 22)),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Hello Diana",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w900)),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Text("What are you carving for today?")
+                    ],
+                  ),
+                  Spacer(),
+                  GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Cart()),
-                      );
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Cart()));
                     },
                     child: Icon(
                       Icons.shopping_cart_outlined,
                       color: Colors.grey,
-                      size: getheight(context, 24),
+                      size: getheight(context, 28),
                     ),
-                  )),
-            ),
-            SizedBox(
-              height: getheight(context, 19),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: getwidth(context, 30)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text("Hello Diana",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
-                  SizedBox(
-                    height: 12,
                   ),
-                  Text("What are you carving for today?")
                 ],
               ),
             ),
             SizedBox(
-              height: getheight(context, 42),
+              height: getheight(context, 32),
             ),
             Column(
               children: [
@@ -281,7 +275,7 @@ class _HomePageState extends State<HomePage> {
               ],
             )
           ],
-        )));
+        ));
   }
 }
 

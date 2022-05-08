@@ -90,7 +90,7 @@ class Item extends StatelessWidget {
       children: [
         Container(
           height: getheight(context, 102),
-          width: getwidth(context, 315),
+          width: getwidth(context, 325),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -104,7 +104,7 @@ class Item extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: getheight(context, 17)),
+            padding: EdgeInsets.symmetric(horizontal: getwidth(context, 10)),
             child: Row(
               children: [
                 Container(
@@ -138,28 +138,34 @@ class Item extends StatelessWidget {
                 Spacer(),
                 Container(
                   margin: EdgeInsets.only(top: getheight(context, 30)),
-                  height: getheight(context, 20),
-                  width: getheight(context, 52),
+                  height: getheight(context, 30),
+                  width: getheight(context, 65),
                   decoration: BoxDecoration(
                       color: orange_color,
                       borderRadius: BorderRadius.circular(30)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Icon(
-                        Icons.remove,
-                        color: Colors.white,
-                        size: getheight(context, 14),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Icon(
+                          Icons.remove,
+                          color: Colors.white,
+                          size: getheight(context, 14),
+                        ),
                       ),
                       Text(
                         "1",
                         style:
                             TextStyle(color: Color(0xffffffff), fontSize: 12),
                       ),
-                      Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: getheight(context, 14),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: getheight(context, 14),
+                        ),
                       )
                     ],
                   ),

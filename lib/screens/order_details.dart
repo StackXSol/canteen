@@ -156,8 +156,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Items(),
-                      Items(),
+                      _Items(),
+                      _Items(),
                     ],
                   ),
                 ),
@@ -170,8 +170,8 @@ class _OrderDetailsState extends State<OrderDetails> {
   }
 }
 
-class Items extends StatelessWidget {
-  const Items({Key? key}) : super(key: key);
+class _Items extends StatelessWidget {
+  const _Items({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -17,32 +17,34 @@ class _ProfileState extends State<Profile> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: getheight(context, 45)),
+            SizedBox(height: getheight(context, 60)),
             Padding(
-              padding: EdgeInsets.only(left: getwidth(context, 36)),
+              padding: EdgeInsets.only(left: getwidth(context, 26)),
               child: GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.grey,
-                  size: getheight(context, 24),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.grey,
+                      size: getheight(context, 24),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: getwidth(context, 26)),
+                      child: const Text(
+                        "My Profile",
+                        style: TextStyle(
+                            fontSize: 26, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             SizedBox(
-              height: getheight(context, 32),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: getwidth(context, 36)),
-              child: const Text(
-                "My Profile",
-                style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
-              ),
-            ),
-            SizedBox(
-              height: getheight(context, 26),
+              height: getheight(context, 42),
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -85,9 +87,12 @@ class _ProfileState extends State<Profile> {
                   Text(
                     "Name",
                     style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 22,
                         fontWeight: FontWeight.w600,
                         color: Color(0xff000000)),
+                  ),
+                  SizedBox(
+                    height: getheight(context, 12),
                   ),
                   Text(
                     "email123@gmail.com",
@@ -101,7 +106,7 @@ class _ProfileState extends State<Profile> {
                     height: getheight(context, 0.5),
                     width: getwidth(context, 165),
                   ),
-                  SizedBox(height: getheight(context, 7)),
+                  SizedBox(height: getheight(context, 8)),
                   Text(
                     "91+ 9871228811",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
@@ -112,7 +117,7 @@ class _ProfileState extends State<Profile> {
                     height: getheight(context, 0.5),
                     width: getwidth(context, 165),
                   ),
-                  SizedBox(height: getheight(context, 7)),
+                  SizedBox(height: getheight(context, 8)),
                   Container(
                     width: getwidth(context, 285),
                     child: Text(
@@ -125,21 +130,12 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             SizedBox(
-              height: getheight(context, 21),
+              height: 22,
             ),
             info_containers("Orders", () {}),
-            SizedBox(
-              height: getheight(context, 21),
-            ),
-            info_containers("Faq", () {}),
-            SizedBox(
-              height: getheight(context, 21),
-            ),
             info_containers("About Us", () {}),
-            SizedBox(
-              height: getheight(context, 21),
-            ),
-            info_containers("Help", () {})
+            info_containers("Report Bug", () {}),
+            info_containers("Logout", () {})
           ],
         ),
       ),
@@ -151,18 +147,19 @@ class _ProfileState extends State<Profile> {
       onTap: () {
         functoin_work();
       },
-      child: Container(
-        margin: EdgeInsets.only(left: getwidth(context, 27)),
-        height: getheight(context, 60),
-        width: getwidth(context, 315),
-        decoration: BoxDecoration(
-            color: Color(0xffFFFFFF), borderRadius: BorderRadius.circular(20)),
-        child: Padding(
-          padding: EdgeInsets.only(
-              left: getwidth(context, 23), right: getwidth(context, 67)),
+      child: Center(
+        child: Container(
+          margin: EdgeInsets.only(bottom: getwidth(context, 21)),
+          height: getheight(context, 60),
+          width: getwidth(context, 315),
+          decoration: BoxDecoration(
+              color: Color(0xffFFFFFF),
+              borderRadius: BorderRadius.circular(20)),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              SizedBox(
+                width: getwidth(context, 22),
+              ),
               Text(
                 function_name,
                 style: TextStyle(
@@ -170,9 +167,13 @@ class _ProfileState extends State<Profile> {
                     color: Color(0xff000000),
                     fontWeight: FontWeight.w800),
               ),
+              Spacer(),
               Icon(
                 Icons.arrow_forward_ios,
                 size: 18,
+              ),
+              SizedBox(
+                width: getwidth(context, 22),
               )
             ],
           ),
