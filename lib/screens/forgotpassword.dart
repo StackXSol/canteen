@@ -1,14 +1,15 @@
 import 'package:canteen/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ResetPassword extends StatefulWidget {
-  ResetPassword({Key? key}) : super(key: key);
-
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
+  late String email;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,8 +57,11 @@ class _ResetPasswordState extends State<ResetPassword> {
               child: Column(
                 children: [
                   TextField(
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                      onChanged: (val) {
+                        email = val;
+                      },
+                      style: TextStyle(
+                          fontSize: 17, fontWeight: FontWeight.normal),
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Enter Email",
@@ -73,7 +77,8 @@ class _ResetPasswordState extends State<ResetPassword> {
             ),
             GestureDetector(
               onTap: () {
-                ///////////// Reset password ////////////
+                Fluttertoast.showToast(msg: "Reset link sent!");
+                FirebaseAuth.instance.sendPasswordResetEmail(email: email);
               },
               child: Container(
                 height: getheight(context, 70),
@@ -83,7 +88,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     color: orange_color),
                 child: Center(
                   child: Text(
-                    "Reset",
+                    "Continue",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

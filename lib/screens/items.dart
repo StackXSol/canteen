@@ -4,8 +4,9 @@ import 'package:canteen/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class Items extends StatefulWidget {
-  Items({required this.food_type});
+  Items({required this.food_type, required this.food_items});
   String food_type;
+  List<Widget> food_items;
 
   @override
   State<Items> createState() => _ItemsState();
@@ -55,14 +56,7 @@ class _ItemsState extends State<Items> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _Item(),
-                    _Item(),
-                    _Item(),
-                    _Item(),
-                  ],
-                ),
+                child: Column(children: widget.food_items),
               ),
             ),
             SizedBox(
@@ -70,87 +64,5 @@ class _ItemsState extends State<Items> {
             )
           ],
         )));
-  }
-}
-
-class _Item extends StatelessWidget {
-  const _Item({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: getheight(context, 102),
-          width: getwidth(context, 325),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.001),
-                spreadRadius: 3,
-                blurRadius: 8,
-                offset: Offset(0, 7), // changes position of shadow
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: getheight(context, 10)),
-            child: Row(
-              children: [
-                Container(
-                  height: getheight(context, 65),
-                  width: getheight(context, 65),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey.withOpacity(0.2))),
-                  child: Image(image: AssetImage('images/food.png')),
-                ),
-                SizedBox(
-                  width: 7,
-                ),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Veggie tomato mix",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 17),
-                      ),
-                      SizedBox(height: 10),
-                      Text("#1999",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              color: orange_color))
-                    ]),
-                Spacer(),
-                Container(
-                  margin: EdgeInsets.only(top: getheight(context, 30)),
-                  height: getheight(context, 23),
-                  width: getheight(context, 55),
-                  decoration: BoxDecoration(
-                      color: orange_color,
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: getheight(context, 14),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          height: getheight(context, 14),
-        )
-      ],
-    );
   }
 }

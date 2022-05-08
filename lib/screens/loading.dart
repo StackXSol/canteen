@@ -1,6 +1,8 @@
 import 'package:canteen/screens/login_signup.dart';
 import 'package:canteen/screens/navbar.dart';
 import 'package:canteen/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,13 +18,31 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
+    set_screen();
     super.initState();
-    Future.delayed(
-        const Duration(seconds: 1),
-        () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Login()),
-            ));
+  }
+
+  Future<void> set_screen() async {
+    try {
+      var key = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      print(key.data());
+      Future.delayed(
+          const Duration(seconds: 1),
+          () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Navbar()),
+              ));
+    } catch (e) {
+      Future.delayed(
+          const Duration(seconds: 1),
+          () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Login()),
+              ));
+    }
   }
 
   Widget build(BuildContext context) {

@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -395,6 +396,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           "phone": phone,
           "uid": user.uid,
           "Rollno": rollno,
+          "College": dropdownValue
         });
 
         Navigator.push(
@@ -420,23 +422,15 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
         var userdata = db.collection("Users").doc(user?.uid).get();
 
-        print(userdata);
-
-        // BackendData(
-        //     full_name: "vaibhav",
-        //     email: "email",
-        //     phone: 45,
-        //     uid: user.uid,
-        //     Roll_no: 1313);
-
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => Navbar(),
           ),
         );
       });
     } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
       print(e.toString());
     }
   }

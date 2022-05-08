@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Login(),
+      home: LoadingPage(),
       title: 'Canteen',
       theme: ThemeData(
         scaffoldBackgroundColor: Color.fromARGB(255, 212, 212, 212),
