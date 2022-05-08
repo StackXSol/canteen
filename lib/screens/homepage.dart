@@ -1,5 +1,5 @@
 import 'package:canteen/screens/cart.dart';
-import 'package:canteen/screens/items.dart';
+import 'package:canteen/screens/foodItems.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';

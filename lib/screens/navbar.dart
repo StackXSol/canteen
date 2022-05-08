@@ -1,5 +1,5 @@
 import 'package:canteen/screens/homepage.dart';
-import 'package:canteen/screens/items.dart';
+import 'package:canteen/screens/foodItems.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:canteen/screens/profile.dart';
 import 'package:flutter/material.dart';
