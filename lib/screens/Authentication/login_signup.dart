@@ -27,6 +27,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   late String phone;
   late String rollno;
 
+  late var collegelist = FirebaseFirestore
+      .instance.collection("CollegeList").doc("Colleges").snapshots();
+
   late TabController _tabController;
   String dropdownValue = "Select College";
   @override
@@ -263,30 +266,65 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   SizedBox(height: 10),
                   /////////////// college
                   Text("College", style: TextStyle(color: Colors.black)),
-                  DropdownButton<String>(
-                    isExpanded: true,
-                    value: dropdownValue,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    elevation: 16,
-                    style: const TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                    underline: Container(
-                      height: 0.5,
-                      color: Colors.black,
-                    ),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                      });
-                    },
-                    items: <String>['Select College', 'XYZ', 'Tree', 'Four']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
+
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance.collection("CollegeList")
+                        .doc("Colleges").snapshots(),
+
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      return DropdownButton<String>(
+                        isExpanded: true,
+                        value:dropdownValue ,
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                        elevation: 16,
+                        style: const TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                          underline: Container(
+                            height: 0.5,
+                            color: Colors.black,
+                          ),
+                        items: snapshot.data.map<DropdownMenuItem<String>>((String value){
+                          return DropdownMenuItem(
+                              value: value,
+                              child: Text(value));
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            dropdownValue = value.toString();
+                          });
+                        },
                       );
-                    }).toList(),
+                    },
                   ),
+
+
+
+
+
+                  // DropdownButton<String>(
+                  //   isExpanded: true,
+                  //   value: dropdownValue,
+                  //   icon: const Icon(Icons.keyboard_arrow_down),
+                  //   elevation: 16,
+                  //   style: const TextStyle(
+                  //       color: Colors.black, fontWeight: FontWeight.bold),
+                  //   underline: Container(
+                  //     height: 0.5,
+                  //     color: Colors.black,
+                  //   ),
+                  //   onChanged: (String? newValue) {
+                  //     setState(() {
+                  //       dropdownValue = newValue!;
+                  //     });
+                  //   },
+                  //   items: collegelist ((value) {
+                  //     return DropdownMenuItem<String>(
+                  //       value: value,
+                  //       child: Text(value),
+                  //     );
+                  //   }),
+                  // ),
+
                   SizedBox(height: 15),
 
                   ///// /////////roll number
