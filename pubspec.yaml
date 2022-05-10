@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.17.0
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
+  firebase_messaging: ^11.3.0
   
 
 dev_dependencies:

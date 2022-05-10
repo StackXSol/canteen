@@ -39,13 +39,13 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("${currentUser.full_name}",
+                      Text("Hey ${currentUser.full_name}",
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.w900)),
                       SizedBox(
                         height: 12,
                       ),
-                      Text("What are you carving for today?")
+                      Text("What are you craving for today?")
                     ],
                   ),
                   Spacer(),
