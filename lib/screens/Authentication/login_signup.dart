@@ -1,5 +1,6 @@
 import 'package:canteen/main.dart';
 import 'package:canteen/backend_data.dart';
+import 'package:canteen/screens/email_verify_screen.dart';
 import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/navbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,16 +28,23 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   late String phone;
   late String rollno;
 
-  late var collegelist = FirebaseFirestore
-      .instance.collection("CollegeList").doc("Colleges").snapshots();
-
   late TabController _tabController;
-  String dropdownValue = "Select College";
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
   }
+
+  String dropdownValue = 'Apple';
+  var items = [
+    'Apple',
+    'Banana',
+    'Grapes',
+    'Orange',
+    'watermelon',
+    'Pineapple'
+  ];
 
   @override
   bool _isObscure = true;
@@ -267,63 +275,57 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   /////////////// college
                   Text("College", style: TextStyle(color: Colors.black)),
 
-                  StreamBuilder(
-                    stream: FirebaseFirestore.instance.collection("CollegeList")
-                        .doc("Colleges").snapshots(),
-
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      return DropdownButton<String>(
-                        isExpanded: true,
-                        value:dropdownValue ,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                        elevation: 16,
-                        style: const TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                          underline: Container(
-                            height: 0.5,
-                            color: Colors.black,
-                          ),
-                        items: snapshot.data.map<DropdownMenuItem<String>>((String value){
-                          return DropdownMenuItem(
-                              value: value,
-                              child: Text(value));
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            dropdownValue = value.toString();
-                          });
-                        },
-                      );
-                    },
-                  ),
-
-
-
-
-
-                  // DropdownButton<String>(
-                  //   isExpanded: true,
-                  //   value: dropdownValue,
-                  //   icon: const Icon(Icons.keyboard_arrow_down),
-                  //   elevation: 16,
-                  //   style: const TextStyle(
-                  //       color: Colors.black, fontWeight: FontWeight.bold),
-                  //   underline: Container(
-                  //     height: 0.5,
-                  //     color: Colors.black,
-                  //   ),
-                  //   onChanged: (String? newValue) {
-                  //     setState(() {
-                  //       dropdownValue = newValue!;
-                  //     });
-                  //   },
-                  //   items: collegelist ((value) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: value,
-                  //       child: Text(value),
+                  // StreamBuilder(
+                  //   stream: FirebaseFirestore.instance
+                  //       .collection("CollegeList")
+                  //       .doc("Colleges")
+                  //       .snapshots(),
+                  //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  //     return DropdownButton<String>(
+                  //       isExpanded: true,
+                  //       value: dropdownValue,
+                  //       icon: const Icon(Icons.keyboard_arrow_down),
+                  //       elevation: 16,
+                  //       style: const TextStyle(
+                  //           color: Colors.black, fontWeight: FontWeight.bold),
+                  //       underline: Container(
+                  //         height: 0.5,
+                  //         color: Colors.black,
+                  //       ),
+                  //       items: snapshot.data
+                  //           .map<DropdownMenuItem<String>>((String value) {
+                  //         return DropdownMenuItem(
+                  //             value: value, child: Text(value));
+                  //       }).toList(),
+                  //       onChanged: (value) {
+                  //         setState(() {
+                  //           dropdownValue = value.toString();
+                  //         });
+                  //       },
                   //     );
-                  //   }),
+                  //   },
                   // ),
+
+                  DropdownButton<String>(
+                    isExpanded: true,
+                    value: dropdownValue,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    elevation: 16,
+                    style: const TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                    underline: Container(
+                      height: 0.5,
+                      color: Colors.black,
+                    ),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                      });
+                    },
+                    items: items.map((String items) {
+                      return DropdownMenuItem(value: items, child: Text(items));
+                    }).toList(),
+                  ),
 
                   SizedBox(height: 15),
 
@@ -428,6 +430,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           .createUserWithEmailAndPassword(email: _email, password: _pass)
           .then((value) async {
         User? user = FirebaseAuth.instance.currentUser;
+
+        user?.sendEmailVerification().then((value) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EmailverificationScreen()));
+        });
 
         final db = FirebaseFirestore.instance;
         db.collection("Users").doc(user!.uid).set({
