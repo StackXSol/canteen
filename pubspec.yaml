@@ -44,6 +44,8 @@ dependencies:
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
   firebase_messaging: ^11.3.0
+  qr_flutter: ^4.0.0
+  firebase_storage: ^10.2.15
   
 
 dev_dependencies:

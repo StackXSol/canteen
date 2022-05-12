@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/main.dart';
 import 'package:canteen/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class Cart extends StatefulWidget {
   Cart({Key? key}) : super(key: key);
@@ -58,20 +63,57 @@ class _CartState extends State<Cart> {
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 15),
-                    alignment: Alignment.center,
-                    height: getheight(context, 70),
-                    width: getwidth(context, 314),
-                    decoration: BoxDecoration(
-                        color: orange_color,
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Text(
-                      "Complete Order",
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xfff6f6f9)),
+                  child: GestureDetector(
+                    onTap: () {
+                      int total_price = 0;
+                      DateTime time = DateTime.now();
+                      Map _orders = {};
+                      int OID = Random().nextInt(100000000) +
+                          Random().nextInt(1000000) +
+                          Random().nextInt(10000) +
+                          Random().nextInt(100);
+                      for (var i in cart_list) {
+                        total_price += int.parse(i[2].toString()) *
+                            int.parse(i[3].toString());
+                        _orders[i[0]] = {
+                          "Price": i[2] * i[3],
+                          "Quantity": i[3]
+                        };
+                      }
+                      FirebaseFirestore.instance
+                          .collection("Users")
+                          .doc(currentUser.uid)
+                          .collection("Orders")
+                          .doc(DateTime.now().toString())
+                          .set({
+                        "OID": OID,
+                        "DateTime": DateTime.now().toString(),
+                        "Total_Price": total_price,
+                        "Status": false,
+                        "Items": _orders
+                      }, SetOptions(merge: true));
+                      print(total_price);
+                      print(OID);
+                      print(_orders);
+                      cart_list = [];
+                      BlocProvider.of<CanteenCubit>(context)
+                          .update_cart(cart_list);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 15),
+                      alignment: Alignment.center,
+                      height: getheight(context, 70),
+                      width: getwidth(context, 314),
+                      decoration: BoxDecoration(
+                          color: orange_color,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(
+                        "Complete Order",
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xfff6f6f9)),
+                      ),
                     ),
                   ),
                 ),

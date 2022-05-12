@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -407,9 +408,20 @@ class _Item extends StatelessWidget {
                 Spacer(),
                 GestureDetector(
                   onTap: () {
-                    cart_list.add([name, image, price, 1]);
+                    print(name + "what the fuck!");
+                    bool already = false;
+                    for (var i in cart_list) {
+                      if (i.contains(name)) {
+                        i[3] += 1;
+                        already = true;
+                      }
+                    }
+                    !already
+                        ? cart_list.add([name, image, price, 1])
+                        : cart_list;
                     BlocProvider.of<CanteenCubit>(context)
                         .update_cart(cart_list);
+                    Fluttertoast.showToast(msg: "$name Added to cart");
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: getheight(context, 30)),

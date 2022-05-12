@@ -1,6 +1,6 @@
 import 'package:canteen/main.dart';
+import 'package:canteen/screens/Orders/pending_orders.dart';
 import 'package:canteen/screens/homepage.dart';
-import 'package:canteen/screens/foodItems.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:canteen/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,7 +16,7 @@ class Navbar extends StatefulWidget {
 
 class _NavbarState extends State<Navbar> {
   int _index = 0;
-  final List<Widget> screens = [HomePage(), OrderDetails(), Profile()];
+  final List<Widget> screens = [HomePage(), PendingOrders(), Profile()];
 
   @override
   void initState() {
