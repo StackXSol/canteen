@@ -1,5 +1,7 @@
 import 'package:canteen/main.dart';
 import 'package:canteen/backend_data.dart';
+import 'package:canteen/screens/Admin/admin_login.dart';
+import 'package:canteen/screens/email_verify_screen.dart';
 import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/navbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,12 +29,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   late String phone;
   late String rollno;
 
-  List<String> collegelist = [
-    "Select College",
-    "UIT, HPU",
-    "IIT Madras",
-    "IIT Delhi"
-  ];
+  List<String> collegelist = [];
 
   late TabController _tabController;
   String dropdownValue = "Select College";
@@ -178,10 +175,28 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           fontWeight: FontWeight.w600),
                     ),
                   ),
+                  SizedBox(
+                    height: getheight(context, 40),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AdminLogin()),
+                      );
+                    },
+                    child: Text(
+                      "Admin login",
+                      style: TextStyle(
+                          color: orange_color,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
                   Spacer(),
                   GestureDetector(
                     onTap: () {
-                      login();
+                      ////////////// login
                     },
                     child: Container(
                       height: getheight(context, 70),
@@ -456,6 +471,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           .createUserWithEmailAndPassword(email: _email, password: _pass)
           .then((value) async {
         User? user = FirebaseAuth.instance.currentUser;
+
+        user?.sendEmailVerification().then((value) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EmailverificationScreen()));
+        });
 
         final db = FirebaseFirestore.instance;
         db.collection("Users").doc(user!.uid).set({
