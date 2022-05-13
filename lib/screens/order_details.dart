@@ -56,39 +56,55 @@ class _OrderDetailsState extends State<OrderDetails> {
               alignment: Alignment.center,
               child: Column(
                 children: [
-                  widget.paystatus
-                      ? Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              height: getheight(context, 174),
-                              width: getwidth(context, 172),
-                              decoration: BoxDecoration(
-                                  color: Color(0xff1A9F0B),
-                                  shape: BoxShape.circle),
-                              child: Icon(
-                                Icons.check,
-                                size: 100,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(
-                              height: getheight(context, 20),
-                            ),
-                            Text(
-                              "Scanned",
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff000000)),
-                            )
-                          ],
-                        )
-                      : Container(
-                          height: getheight(context, 274),
-                          width: getwidth(context, 272),
-                          child: QrImage(data: widget.oid.toString()),
-                        ),
+                  StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection("Users")
+                          .doc(currentUser.uid)
+                          .collection("Orders")
+                          .where("OID", isEqualTo: widget.oid)
+                          .snapshots(),
+                      builder: ((context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          for (var i in snapshot.data.docs) {
+                            if (i.data()["Status"]) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: getheight(context, 174),
+                                    width: getwidth(context, 172),
+                                    decoration: BoxDecoration(
+                                        color: Color(0xff1A9F0B),
+                                        shape: BoxShape.circle),
+                                    child: Icon(
+                                      Icons.check,
+                                      size: 100,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: getheight(context, 20),
+                                  ),
+                                  Text(
+                                    "Scanned",
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff000000)),
+                                  )
+                                ],
+                              );
+                            } else {
+                              return Container(
+                                height: getheight(context, 274),
+                                width: getwidth(context, 272),
+                                child: QrImage(data: widget.oid.toString()),
+                              );
+                            }
+                          }
+                        }
+                        return Column();
+                      })),
                   SizedBox(height: getheight(context, 28)),
                   RichText(
                     text: TextSpan(
