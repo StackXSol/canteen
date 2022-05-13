@@ -19,25 +19,7 @@ class _PendingOrdersState extends State<PendingOrders> {
 
   @override
   void initState() {
-    get_orders();
     super.initState();
-  }
-
-  void get_orders() async {
-    _orders = [];
-    var key = await FirebaseFirestore.instance
-        .collection("Users")
-        .doc(currentUser.uid)
-        .collection("Orders")
-        .get();
-
-    for (var i in key.docs) {
-      if (i.data()["Status"]) {
-        _orders.add(_PendingItem(
-            total_price: i.data()["Total_Price"], oid: i.data()["OID"]));
-      }
-    }
-    setState(() {});
   }
 
   @override
@@ -70,11 +52,28 @@ class _PendingOrdersState extends State<PendingOrders> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                child: Column(children: _orders
-                    // widget.food_items
-
-                    ),
-              ),
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection("Users")
+                          .doc(currentUser.uid)
+                          .collection("Orders")
+                          .snapshots(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        List<_PendingItem> _orders = [];
+                        if (snapshot.hasData) {
+                          var odocs = snapshot.data.docs;
+                          for (var i in odocs.reversed) {
+                            if (!i.data()["Status"]) {
+                              _orders.add(_PendingItem(
+                                  total_price: i.data()["Total_Price"],
+                                  oid: i.data()["OID"]));
+                            }
+                          }
+                        }
+                        return Column(
+                          children: _orders,
+                        );
+                      })),
             ),
             SizedBox(
               height: getheight(context, 10),

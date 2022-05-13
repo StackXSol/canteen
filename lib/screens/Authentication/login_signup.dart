@@ -27,19 +27,41 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   late String phone;
   late String rollno;
 
-  late var collegelist = FirebaseFirestore
-      .instance.collection("CollegeList").doc("Colleges").snapshots();
+  List<String> collegelist = [
+    "Select College",
+    "UIT, HPU",
+    "IIT Madras",
+    "IIT Delhi"
+  ];
 
   late TabController _tabController;
   String dropdownValue = "Select College";
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    fetch_colleges();
+  }
+
+  Future<void> fetch_colleges() async {
+    collegelist = ["Select College"];
+
+    var key = await FirebaseFirestore.instance
+        .collection("CollegeList")
+        .doc("Colleges")
+        .get();
+
+    for (var i in (key.data() as dynamic)["CollegeList"]) {
+      collegelist.add(i.toString());
+    }
+
+    setState(() {});
   }
 
   @override
   bool _isObscure = true;
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF5F5F8),
@@ -113,6 +135,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ),
                   Text("Password", style: TextStyle(color: Colors.black)),
                   TextField(
+                      cursorColor: Colors.black,
                       onChanged: (value) {
                         setState(() {
                           _pass = value;
@@ -122,6 +145,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                       decoration: InputDecoration(
+                          suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                              child: Icon(Icons.remove_red_eye)),
                           border: InputBorder.none,
                           hintText: "Enter Password",
                           hintStyle: TextStyle(
@@ -267,63 +297,60 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   /////////////// college
                   Text("College", style: TextStyle(color: Colors.black)),
 
-                  StreamBuilder(
-                    stream: FirebaseFirestore.instance.collection("CollegeList")
-                        .doc("Colleges").snapshots(),
-
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      return DropdownButton<String>(
-                        isExpanded: true,
-                        value:dropdownValue ,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                        elevation: 16,
-                        style: const TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                          underline: Container(
-                            height: 0.5,
-                            color: Colors.black,
-                          ),
-                        items: snapshot.data.map<DropdownMenuItem<String>>((String value){
-                          return DropdownMenuItem(
-                              value: value,
-                              child: Text(value));
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            dropdownValue = value.toString();
-                          });
-                        },
-                      );
-                    },
-                  ),
-
-
-
-
-
-                  // DropdownButton<String>(
-                  //   isExpanded: true,
-                  //   value: dropdownValue,
-                  //   icon: const Icon(Icons.keyboard_arrow_down),
-                  //   elevation: 16,
-                  //   style: const TextStyle(
-                  //       color: Colors.black, fontWeight: FontWeight.bold),
-                  //   underline: Container(
-                  //     height: 0.5,
-                  //     color: Colors.black,
-                  //   ),
-                  //   onChanged: (String? newValue) {
-                  //     setState(() {
-                  //       dropdownValue = newValue!;
-                  //     });
-                  //   },
-                  //   items: collegelist ((value) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: value,
-                  //       child: Text(value),
+                  // StreamBuilder(
+                  //   stream: FirebaseFirestore.instance
+                  //       .collection("CollegeList")
+                  //       .doc("Colleges")
+                  //       .snapshots(),
+                  //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  //     return DropdownButton<String>(
+                  //       isExpanded: true,
+                  //       value: dropdownValue,
+                  //       icon: const Icon(Icons.keyboard_arrow_down),
+                  //       elevation: 16,
+                  //       style: const TextStyle(
+                  //           color: Colors.black, fontWeight: FontWeight.bold),
+                  //       underline: Container(
+                  //         height: 0.5,
+                  //         color: Colors.black,
+                  //       ),
+                  //       items: snapshot.data
+                  //           .map<DropdownMenuItem<String>>((String value) {
+                  //         return DropdownMenuItem(
+                  //             value: value, child: Text(value));
+                  //       }).toList(),
+                  //       onChanged: (value) {
+                  //         setState(() {
+                  //           dropdownValue = value.toString();
+                  //         });
+                  //       },
                   //     );
-                  //   }),
+                  //   },
                   // ),
+
+                  DropdownButton<String>(
+                    isExpanded: true,
+                    value: dropdownValue,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    elevation: 16,
+                    style: const TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                    underline: Container(
+                      height: 0.5,
+                      color: Colors.black,
+                    ),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                      });
+                    },
+                    items: collegelist.map<DropdownMenuItem<String>>((value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
 
                   SizedBox(height: 15),
 
@@ -351,6 +378,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ///////////////// password
                   Text("Password", style: TextStyle(color: Colors.black)),
                   TextField(
+                    cursorColor: Colors.black,
                     onChanged: (value) {
                       setState(() {
                         _pass = value;

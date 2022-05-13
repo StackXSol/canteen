@@ -1,4 +1,5 @@
 import 'package:canteen/main.dart';
+import 'package:canteen/screens/Orders/previous.orders.dart';
 import 'package:canteen/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -239,7 +240,10 @@ class _ProfileState extends State<Profile> {
             SizedBox(
               height: 22,
             ),
-            info_containers("Previous Orders", () {}),
+            info_containers("Previous Orders", () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PreviousOrders()));
+            }),
             info_containers("About Us", () {}),
             info_containers("Report Bug", () {}),
             info_containers("Logout", () {

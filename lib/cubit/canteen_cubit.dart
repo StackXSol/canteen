@@ -101,7 +101,11 @@ class _cartItem extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          cart_list[index][3] -= 1;
+                          if (cart_list[index][3] != 1) {
+                            cart_list[index][3] -= 1;
+                          } else {
+                            cart_list.removeAt(index);
+                          }
                           BlocProvider.of<CanteenCubit>(context)
                               .update_cart(cart_list);
                         },
