@@ -1,5 +1,6 @@
 import 'package:canteen/main.dart';
 import 'package:canteen/backend_data.dart';
+import 'package:canteen/screens/Admin/admin_login.dart';
 import 'package:canteen/screens/email_verify_screen.dart';
 import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/navbar.dart';
@@ -156,10 +157,28 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           fontWeight: FontWeight.w600),
                     ),
                   ),
+                  SizedBox(
+                    height: getheight(context, 40),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AdminLogin()),
+                      );
+                    },
+                    child: Text(
+                      "Admin login",
+                      style: TextStyle(
+                          color: orange_color,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
                   Spacer(),
                   GestureDetector(
                     onTap: () {
-                      login();
+                      ////////////// login
                     },
                     child: Container(
                       height: getheight(context, 70),
