@@ -1,4 +1,5 @@
 import 'package:canteen/backend_data.dart';
+import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/main.dart';
 
 import 'package:canteen/screens/navbar.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'login_signup.dart';
@@ -33,13 +35,9 @@ class _LoadingPageState extends State<LoadingPage> {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get();
       print(key.data());
-      currentUser = appUser(
-          College: key.data()["College"],
-          full_name: key.data()["Fullname"],
-          email: key.data()["email"],
-          phone: key.data()["phone"],
-          uid: key.data()["uid"],
-          Roll_no: key.data()["Rollno"]);
+      BlocProvider.of<CanteenCubit>(context)
+          .get_user_data(FirebaseAuth.instance.currentUser!.uid);
+
       Future.delayed(
           const Duration(seconds: 1),
           () => Navigator.pushReplacement(

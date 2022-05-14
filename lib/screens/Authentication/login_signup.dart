@@ -2,16 +2,16 @@ import 'package:canteen/main.dart';
 import 'package:canteen/backend_data.dart';
 import 'package:canteen/screens/Admin/admin_login.dart';
 import 'package:canteen/screens/email_verify_screen.dart';
-import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/navbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../cubit/canteen_cubit.dart';
 import 'forgotpassword.dart';
 
 class Login extends StatefulWidget {
@@ -29,26 +29,36 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   late String phone;
   late String rollno;
 
+  List<String> collegelist = [];
+
   late TabController _tabController;
+  String dropdownValue = "Select College";
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    fetch_colleges();
   }
 
-  String dropdownValue = 'Apple';
-  var items = [
-    'Apple',
-    'Banana',
-    'Grapes',
-    'Orange',
-    'watermelon',
-    'Pineapple'
-  ];
+  Future<void> fetch_colleges() async {
+    collegelist = ["Select College"];
+
+    var key = await FirebaseFirestore.instance
+        .collection("CollegeList")
+        .doc("Colleges")
+        .get();
+
+    for (var i in (key.data() as dynamic)["CollegeList"]) {
+      collegelist.add(i.toString());
+    }
+
+    setState(() {});
+  }
 
   @override
   bool _isObscure = true;
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF5F5F8),
@@ -122,6 +132,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ),
                   Text("Password", style: TextStyle(color: Colors.black)),
                   TextField(
+                      cursorColor: Colors.black,
                       onChanged: (value) {
                         setState(() {
                           _pass = value;
@@ -131,6 +142,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                       decoration: InputDecoration(
+                          suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                              child: Icon(Icons.remove_red_eye)),
                           border: InputBorder.none,
                           hintText: "Enter Password",
                           hintStyle: TextStyle(
@@ -178,7 +196,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   Spacer(),
                   GestureDetector(
                     onTap: () {
-                      ////////////// login
+                      login();
                     },
                     child: Container(
                       height: getheight(context, 70),
@@ -293,38 +311,6 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   SizedBox(height: 10),
                   /////////////// college
                   Text("College", style: TextStyle(color: Colors.black)),
-
-                  // StreamBuilder(
-                  //   stream: FirebaseFirestore.instance
-                  //       .collection("CollegeList")
-                  //       .doc("Colleges")
-                  //       .snapshots(),
-                  //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  //     return DropdownButton<String>(
-                  //       isExpanded: true,
-                  //       value: dropdownValue,
-                  //       icon: const Icon(Icons.keyboard_arrow_down),
-                  //       elevation: 16,
-                  //       style: const TextStyle(
-                  //           color: Colors.black, fontWeight: FontWeight.bold),
-                  //       underline: Container(
-                  //         height: 0.5,
-                  //         color: Colors.black,
-                  //       ),
-                  //       items: snapshot.data
-                  //           .map<DropdownMenuItem<String>>((String value) {
-                  //         return DropdownMenuItem(
-                  //             value: value, child: Text(value));
-                  //       }).toList(),
-                  //       onChanged: (value) {
-                  //         setState(() {
-                  //           dropdownValue = value.toString();
-                  //         });
-                  //       },
-                  //     );
-                  //   },
-                  // ),
-
                   DropdownButton<String>(
                     isExpanded: true,
                     value: dropdownValue,
@@ -341,8 +327,11 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         dropdownValue = newValue!;
                       });
                     },
-                    items: items.map((String items) {
-                      return DropdownMenuItem(value: items, child: Text(items));
+                    items: collegelist.map<DropdownMenuItem<String>>((value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
                     }).toList(),
                   ),
 
@@ -372,6 +361,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ///////////////// password
                   Text("Password", style: TextStyle(color: Colors.black)),
                   TextField(
+                    cursorColor: Colors.black,
                     onChanged: (value) {
                       setState(() {
                         _pass = value;
@@ -402,32 +392,23 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   SizedBox(height: getheight(context, 15)),
 
                   Spacer(),
-                  GestureDetector(
-                    /////////// sign up////////////////
+                  InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Navbar()),
-                      );
+                      registration();
                     },
-                    child: InkWell(
-                      onTap: () {
-                        registration();
-                      },
-                      child: Container(
-                        height: getheight(context, 70),
-                        width: getwidth(context, 310),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: orange_color),
-                        child: Center(
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17),
-                          ),
+                    child: Container(
+                      height: getheight(context, 70),
+                      width: getwidth(context, 310),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: orange_color),
+                      child: Center(
+                        child: Text(
+                          "Sign Up",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17),
                         ),
                       ),
                     ),
@@ -468,13 +449,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           "Verified": false
         });
 
-        currentUser = appUser(
-            College: dropdownValue,
-            full_name: fullname,
-            email: _email,
-            phone: phone,
-            uid: user.uid,
-            Roll_no: rollno);
+        BlocProvider.of<CanteenCubit>(context)
+            .get_user_data(FirebaseAuth.instance.currentUser!.uid);
 
         Navigator.push(
           context,
@@ -496,17 +472,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           .then((value) async {
         print("signin successful");
         User? user = FirebaseAuth.instance.currentUser;
-        var db = FirebaseFirestore.instance;
 
-        dynamic userdata = await db.collection("Users").doc(user?.uid).get();
-
-        currentUser = await appUser(
-            College: userdata.data()["College"],
-            full_name: userdata.data()["Fullname"],
-            email: userdata.data()["email"],
-            phone: userdata.data()["phone"],
-            uid: userdata.data()["uid"],
-            Roll_no: userdata.data()["Rollno"]);
+        BlocProvider.of<CanteenCubit>(context).get_user_data(user?.uid);
 
         Navigator.push(
           context,

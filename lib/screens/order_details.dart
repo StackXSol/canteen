@@ -1,21 +1,46 @@
+import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/main.dart';
 import 'package:canteen/screens/foodItems.dart';
 import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class OrderDetails extends StatefulWidget {
-  OrderDetails({required this.oid, required this.paystatus});
+  OrderDetails(
+      {required this.oid,
+      required this.paystatus,
+      required this.items,
+      required this.datetime});
   bool paystatus;
   int oid;
+  Map items;
+  DateTime datetime;
 
   @override
   State<OrderDetails> createState() => _OrderDetailsState();
 }
 
 class _OrderDetailsState extends State<OrderDetails> {
+  @override
+  void initState() {
+    get_items();
+    super.initState();
+  }
+
+  List<_Items> _order_items = [];
+
+  void get_items() {
+    widget.items.forEach((k, v) => _order_items.add(_Items(
+          name: k,
+          price: v["Price"],
+          quantity: v["Quantity"],
+        )));
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,39 +81,58 @@ class _OrderDetailsState extends State<OrderDetails> {
               alignment: Alignment.center,
               child: Column(
                 children: [
-                  widget.paystatus
-                      ? Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              height: getheight(context, 174),
-                              width: getwidth(context, 172),
-                              decoration: BoxDecoration(
-                                  color: Color(0xff1A9F0B),
-                                  shape: BoxShape.circle),
-                              child: Icon(
-                                Icons.check,
-                                size: 100,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(
-                              height: getheight(context, 20),
-                            ),
-                            Text(
-                              "Scanned",
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff000000)),
-                            )
-                          ],
-                        )
-                      : Container(
-                          height: getheight(context, 274),
-                          width: getwidth(context, 272),
-                          child: QrImage(data: widget.oid.toString()),
-                        ),
+                  StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection("Users")
+                          .doc(BlocProvider.of<CanteenCubit>(context)
+                              .state
+                              .currentuser
+                              .uid)
+                          .collection("Orders")
+                          .where("OID", isEqualTo: widget.oid)
+                          .snapshots(),
+                      builder: ((context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          for (var i in snapshot.data.docs) {
+                            if (i.data()["Status"]) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: getheight(context, 174),
+                                    width: getwidth(context, 172),
+                                    decoration: BoxDecoration(
+                                        color: Color(0xff1A9F0B),
+                                        shape: BoxShape.circle),
+                                    child: Icon(
+                                      Icons.check,
+                                      size: 100,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: getheight(context, 20),
+                                  ),
+                                  Text(
+                                    "Scanned",
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff000000)),
+                                  )
+                                ],
+                              );
+                            } else {
+                              return Container(
+                                height: getheight(context, 274),
+                                width: getwidth(context, 272),
+                                child: QrImage(data: widget.oid.toString()),
+                              );
+                            }
+                          }
+                        }
+                        return Column();
+                      })),
                   SizedBox(height: getheight(context, 28)),
                   RichText(
                     text: TextSpan(
@@ -98,7 +142,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             color: Color(0xff000000)),
                         children: [
                           TextSpan(
-                              text: DateFormat.yMMMd().format(DateTime.now()),
+                              text: DateFormat.yMMMd().format(widget.datetime),
                               style: TextStyle(fontWeight: FontWeight.w300))
                         ]),
                   ),
@@ -113,7 +157,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             color: Colors.black),
                         children: [
                           TextSpan(
-                              text: "5:38 PM",
+                              text: DateFormat.jm().format(widget.datetime),
                               style: TextStyle(
                                   fontWeight: FontWeight.w300,
                                   color: Colors.black))
@@ -147,12 +191,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               child: Padding(
                 padding: EdgeInsets.only(left: getwidth(context, 34)),
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      _Items(),
-                      _Items(),
-                    ],
-                  ),
+                  child: Column(children: _order_items),
                 ),
               ),
             ),
@@ -164,7 +203,9 @@ class _OrderDetailsState extends State<OrderDetails> {
 }
 
 class _Items extends StatelessWidget {
-  const _Items({Key? key}) : super(key: key);
+  _Items({required this.name, required this.price, required this.quantity});
+  String name;
+  int price, quantity;
 
   @override
   Widget build(BuildContext context) {
@@ -206,18 +247,28 @@ class _Items extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Veggie tomato mix",
+                        name,
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 17),
                       ),
                       SizedBox(height: 10),
-                      Text("#1999",
+                      Text("₹$price",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
                               color: orange_color))
                     ]),
                 Spacer(),
+                Text(
+                  quantity.toString(),
+                  style: TextStyle(
+                      color: orange_color,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  width: 6,
+                )
               ],
             ),
           ),
