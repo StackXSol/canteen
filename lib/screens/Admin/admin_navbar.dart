@@ -1,8 +1,7 @@
 import 'package:canteen/main.dart';
-import 'package:canteen/screens/Orders/pending_orders.dart';
 import 'package:canteen/screens/Admin/admin_homepage.dart';
-import 'package:canteen/screens/order_details.dart';
-import 'package:canteen/screens/profile.dart';
+import 'package:canteen/screens/Admin/admin_profile.dart';
+import 'package:canteen/screens/Admin/orders_this_month.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
@@ -16,7 +15,11 @@ class AdminNavbar extends StatefulWidget {
 
 class _AdminNavbarState extends State<AdminNavbar> {
   int _index = 0;
-  final List<Widget> screens = [AdminHomepage(), PendingOrders(), Profile()];
+  final List<Widget> screens = [
+    AdminHomepage(),
+    OrdersOfMonth(),
+    AdminProfile()
+  ];
 
   @override
   void initState() {
@@ -63,26 +66,6 @@ class _AdminNavbarState extends State<AdminNavbar> {
           currentIndex: _index,
         ),
       ),
-      // floatingActionButton: Container(
-      //   decoration: BoxDecoration(
-      //       boxShadow: [
-      //         BoxShadow(
-      //           color: Colors.black.withOpacity(0.2),
-      //           offset: Offset(0, 0.2),
-      //           blurRadius: 6,
-      //         ),
-      //       ],
-      //       borderRadius: BorderRadius.circular(50),
-      //       gradient:
-      //           LinearGradient(colors: [Color(0xFF92A3FD), Color(0xFF9DCEFF)])),
-      //   child: FloatingActionButton(
-      //     child: Icon(Icons.search),
-      //     elevation: 0,
-      //     backgroundColor: Colors.transparent,
-      //     onPressed: () {},
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

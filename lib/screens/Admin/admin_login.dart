@@ -164,8 +164,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => AdminHomepage()),
+                        MaterialPageRoute(builder: (context) => AdminNavbar()),
                       );
                     },
                     child: Container(
@@ -404,7 +403,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AdminHomepage()),
+                              builder: (context) => AdminNavbar()),
                         );
                       },
                       child: Container(
