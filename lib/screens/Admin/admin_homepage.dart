@@ -1,3 +1,4 @@
+import 'package:canteen/screens/Admin/add_food.dart';
 import 'package:canteen/screens/Admin/my_menu.dart';
 import 'package:canteen/screens/Admin/orders_this_month.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +62,7 @@ class AdminHomepage extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          ///////////// my menu
           GestureDetector(
             onTap: (() {
               Navigator.push(
@@ -94,8 +96,12 @@ class AdminHomepage extends StatelessWidget {
             ),
           ),
           GestureDetector(
+            //////////////////add food
             onTap: (() {
-              // Add Food
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddFood()),
+              );
             }),
             child: Container(
               height: getheight(context, 147),

@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Canteen',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color.fromARGB(255, 212, 212, 212),
+        scaffoldBackgroundColor: Color(0xffF5F5F8),
         fontFamily: "Gilroy",
         textTheme: TextTheme(bodyText2: TextStyle(color: Colors.black)),
       ),

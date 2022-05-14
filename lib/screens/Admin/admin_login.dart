@@ -24,7 +24,6 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
   late String _pass;
   late String fullname;
   late String phone;
-  late String rollno;
 
   late TabController _tabController;
 
@@ -349,7 +348,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                       style: const TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       underline: Container(
-                        height: 0.5,
+                        height: 0.3,
                         color: Colors.black,
                       ),
                       onChanged: (String? newValue) {
