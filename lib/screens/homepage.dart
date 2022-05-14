@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
     "images/Splashscreen.png",
     "images/Splashscreen.png",
   ];
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CanteenCubit, CanteenState>(
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Hey ${currentUser.full_name}",
+                          Text("Hey ${BlocProvider.of<CanteenCubit>(context).state.currentuser.full_name}",
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.w900)),
                           SizedBox(
@@ -116,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: currentUser.College)
+                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -135,8 +136,27 @@ class _HomePageState extends State<HomePage> {
                             }
                           }
                         } catch (e) {
-                          food_items
-                              .add(Text("No Canteen of your college found!"));
+                          food_items = [
+                            SizedBox(
+                              height: getheight(context, 200),
+                            ),
+                            Text(
+                              "College Canteen\nNot Found!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 24),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "We are expanding and will let\nyou know when we will be in your college!",
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
+                            )
+                          ];
                         }
 
                         Navigator.push(
@@ -202,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: currentUser.College)
+                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -221,8 +241,27 @@ class _HomePageState extends State<HomePage> {
                             }
                           }
                         } catch (e) {
-                          food_items
-                              .add(Text("No Canteen of your college found!"));
+                          food_items = [
+                            SizedBox(
+                              height: getheight(context, 200),
+                            ),
+                            Text(
+                              "College Canteen\nNot Found!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 24),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "We are expanding and will let\nyou know when we will be in your college!",
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
+                            )
+                          ];
                         }
 
                         Navigator.push(
@@ -287,7 +326,7 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: currentUser.College)
+                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -306,8 +345,27 @@ class _HomePageState extends State<HomePage> {
                             }
                           }
                         } catch (e) {
-                          food_items
-                              .add(Text("No Canteen of your college found!"));
+                          food_items = [
+                            SizedBox(
+                              height: getheight(context, 200),
+                            ),
+                            Text(
+                              "College Canteen\nNot Found!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 24),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "We are expanding and will let\nyou know when we will be in your college!",
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
+                            )
+                          ];
                         }
 
                         Navigator.push(
@@ -380,7 +438,7 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: currentUser.College)
+                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -399,8 +457,27 @@ class _HomePageState extends State<HomePage> {
                             }
                           }
                         } catch (e) {
-                          food_items
-                              .add(Text("No Canteen of your college found!"));
+                          food_items = [
+                            SizedBox(
+                              height: getheight(context, 200),
+                            ),
+                            Text(
+                              "College Canteen\nNot Found!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 24),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "We are expanding and will let\nyou know when we will be in your college!",
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
+                            )
+                          ];
                         }
 
                         Navigator.push(
@@ -465,7 +542,7 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: currentUser.College)
+                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -484,8 +561,27 @@ class _HomePageState extends State<HomePage> {
                             }
                           }
                         } catch (e) {
-                          food_items
-                              .add(Text("No Canteen of your college found!"));
+                          food_items = [
+                            SizedBox(
+                              height: getheight(context, 200),
+                            ),
+                            Text(
+                              "College Canteen\nNot Found!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 24),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "We are expanding and will let\nyou know when we will be in your college!",
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
+                            )
+                          ];
                         }
 
                         Navigator.push(
@@ -550,7 +646,7 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: currentUser.College)
+                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -569,11 +665,28 @@ class _HomePageState extends State<HomePage> {
                             }
                           }
                         } catch (e) {
-                          food_items
-                              .add(Text("No Canteen of your college found!"));
+                          food_items = [
+                            SizedBox(
+                              height: getheight(context, 200),
+                            ),
+                            Text(
+                              "College Canteen\nNot Found!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 24),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "We are expanding and will let\nyou know when we will be in your college!",
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
+                            )
+                          ];
                         }
-
-                        print(food_items);
 
                         Navigator.push(
                           context,

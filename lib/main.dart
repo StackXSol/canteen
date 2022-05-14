@@ -21,11 +21,7 @@ void main() async {
   ));
 }
 
-//Globals
-
 List<List> cart_list = [];
-
-late appUser currentUser;
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

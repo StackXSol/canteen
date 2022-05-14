@@ -1,10 +1,15 @@
+import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/main.dart';
 import 'package:canteen/screens/cart.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class PendingOrders extends StatefulWidget {
   // PendingOrders({required this.food_items});
@@ -15,8 +20,6 @@ class PendingOrders extends StatefulWidget {
 }
 
 class _PendingOrdersState extends State<PendingOrders> {
-  List<Widget> _orders = [];
-
   @override
   void initState() {
     super.initState();
@@ -55,7 +58,10 @@ class _PendingOrdersState extends State<PendingOrders> {
                   child: StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection("Users")
-                          .doc(currentUser.uid)
+                          .doc(BlocProvider.of<CanteenCubit>(context)
+                              .state
+                              .currentuser
+                              .uid)
                           .collection("Orders")
                           .snapshots(),
                       builder: (context, AsyncSnapshot snapshot) {
@@ -66,12 +72,56 @@ class _PendingOrdersState extends State<PendingOrders> {
                             if (!i.data()["Status"]) {
                               _orders.add(_PendingItem(
                                   total_price: i.data()["Total_Price"],
+                                  items: i.data()["Items"],
+                                  datetime:
+                                      DateTime.parse(i.data()["DateTime"]),
                                   oid: i.data()["OID"]));
                             }
                           }
                         }
                         return Column(
-                          children: _orders,
+                          children: _orders.length != 0
+                              ? _orders
+                              : [
+                                  SizedBox(
+                                    height: getheight(context, 230),
+                                  ),
+                                  Text(
+                                    "No orders Yet!",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 24),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "Hit the orange button down\nbelow to Create an order",
+                                    style: TextStyle(fontSize: 16),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(
+                                    height: getheight(context, 235),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(bottom: 15),
+                                    alignment: Alignment.center,
+                                    height: getheight(context, 70),
+                                    width: getwidth(context, 314),
+                                    decoration: BoxDecoration(
+                                        color: orange_color,
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
+                                    child: Text(
+                                      "Start odering",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(0xfff6f6f9)),
+                                    ),
+                                  ),
+                                ],
                         );
                       })),
             ),
@@ -84,9 +134,15 @@ class _PendingOrdersState extends State<PendingOrders> {
 }
 
 class _PendingItem extends StatelessWidget {
-  _PendingItem({required this.total_price, required this.oid});
+  _PendingItem(
+      {required this.total_price,
+      required this.oid,
+      required this.items,
+      required this.datetime});
 
   int total_price, oid;
+  Map items;
+  DateTime datetime;
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +153,12 @@ class _PendingItem extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        OrderDetails(oid: oid, paystatus: false)));
+                    builder: (context) => OrderDetails(
+                          oid: oid,
+                          paystatus: false,
+                          items: items,
+                          datetime: datetime,
+                        )));
           },
           child: Container(
             height: getheight(context, 102),
@@ -119,11 +179,9 @@ class _PendingItem extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: getheight(context, 10)),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 35,
-                    // backgroundImage: NetworkImage(image),
-                    backgroundImage: NetworkImage(
-                        "https://www.listchallenges.com/f/items/57fc372f-9ae7-44e7-b35d-68c8d5bd8df0.jpg"),
+                  QrImage(
+                    data: oid.toString(),
+                    size: 90,
                   ),
                   SizedBox(
                     width: 12,
@@ -140,7 +198,7 @@ class _PendingItem extends StatelessWidget {
                         SizedBox(height: 10),
                         Text(
                             // "Rs. $price",
-                            "Time",
+                            DateFormat.jm().format(datetime),
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 15,

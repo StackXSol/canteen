@@ -8,8 +8,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../cubit/canteen_cubit.dart';
 import 'forgotpassword.dart';
 
 class Login extends StatefulWidget {
@@ -447,13 +449,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           "Verified": false
         });
 
-        currentUser = appUser(
-            College: dropdownValue,
-            full_name: fullname,
-            email: _email,
-            phone: phone,
-            uid: user.uid,
-            Roll_no: rollno);
+        BlocProvider.of<CanteenCubit>(context)
+            .get_user_data(FirebaseAuth.instance.currentUser!.uid);
 
         Navigator.push(
           context,
@@ -475,17 +472,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           .then((value) async {
         print("signin successful");
         User? user = FirebaseAuth.instance.currentUser;
-        var db = FirebaseFirestore.instance;
 
-        dynamic userdata = await db.collection("Users").doc(user?.uid).get();
-
-        currentUser = await appUser(
-            College: userdata.data()["College"],
-            full_name: userdata.data()["Fullname"],
-            email: userdata.data()["email"],
-            phone: userdata.data()["phone"],
-            uid: userdata.data()["uid"],
-            Roll_no: userdata.data()["Rollno"]);
+        BlocProvider.of<CanteenCubit>(context).get_user_data(user?.uid);
 
         Navigator.push(
           context,

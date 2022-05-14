@@ -4,6 +4,7 @@ import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/main.dart';
 import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -101,7 +102,7 @@ class _CartState extends State<Cart> {
                       }
                       FirebaseFirestore.instance
                           .collection("Users")
-                          .doc(currentUser.uid)
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
                           .collection("Orders")
                           .doc(DateTime.now().toString())
                           .set({

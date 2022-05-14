@@ -23,12 +23,12 @@ class _AdminNavbarState extends State<AdminNavbar> {
     // verify_mail();
   }
 
-  void verify_mail() {
-    FirebaseAuth.instance.sendSignInLinkToEmail(
-        email: currentUser.email,
-        actionCodeSettings: ActionCodeSettings(
-            url: "https://google.com", handleCodeInApp: true));
-  }
+  // void verify_mail() {
+  //   FirebaseAuth.instance.sendSignInLinkToEmail(
+  //       email: currentUser.email,
+  //       actionCodeSettings: ActionCodeSettings(
+  //           url: "https://google.com", handleCodeInApp: true));
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:canteen/backend_data.dart';
 import 'package:canteen/main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +10,16 @@ import '../widgets.dart';
 part 'canteen_state.dart';
 
 class CanteenCubit extends Cubit<CanteenState> {
-  CanteenCubit() : super(CanteenState(cart_items: []));
+  CanteenCubit()
+      : super(CanteenState(
+            cart_items: [],
+            currentuser: appUser(
+                College: "",
+                full_name: "",
+                email: "",
+                phone: "",
+                uid: "",
+                Roll_no: "")));
 
   void update_cart(List<List> new_cart_list) {
     print(new_cart_list);
@@ -26,8 +37,30 @@ class CanteenCubit extends Cubit<CanteenState> {
       ));
       n += 1;
     }
+    emit(CanteenState(
+        cart_items: new_cart, currentuser: CanteenCubit().state.currentuser));
+  }
 
-    emit(CanteenState(cart_items: new_cart));
+  void get_user_data(uid) async {
+    Stream user_data = await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(uid)
+        .snapshots();
+
+    late appUser currentuser;
+
+    user_data.forEach((element) async {
+      currentuser = await appUser(
+          College: element.data()["College"],
+          full_name: element.data()["Fullname"],
+          email: element.data()["email"],
+          phone: element.data()["phone"],
+          uid: uid,
+          Roll_no: element.data()["Rollno"]);
+      emit(CanteenState(
+          cart_items: CanteenCubit().state.cart_items,
+          currentuser: currentuser));
+    });
   }
 }
 

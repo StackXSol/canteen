@@ -2,9 +2,14 @@ import 'package:canteen/main.dart';
 import 'package:canteen/screens/cart.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+
+import '../../cubit/canteen_cubit.dart';
 
 class PreviousOrders extends StatefulWidget {
   // PendingOrders({required this.food_items});
@@ -55,7 +60,10 @@ class _PreviousOrdersState extends State<PreviousOrders> {
                   child: StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection("Users")
-                          .doc(currentUser.uid)
+                          .doc(BlocProvider.of<CanteenCubit>(context)
+                              .state
+                              .currentuser
+                              .uid)
                           .collection("Orders")
                           .snapshots(),
                       builder: (context, AsyncSnapshot snapshot) {
@@ -65,6 +73,9 @@ class _PreviousOrdersState extends State<PreviousOrders> {
                           for (var i in odocs.reversed) {
                             if (i.data()["Status"]) {
                               _orders.add(_PrevItem(
+                                  items: i.data()["Items"],
+                                  datetime:
+                                      DateTime.parse(i.data()["DateTime"]),
                                   total_price: i.data()["Total_Price"],
                                   oid: i.data()["OID"]));
                             }
@@ -84,9 +95,15 @@ class _PreviousOrdersState extends State<PreviousOrders> {
 }
 
 class _PrevItem extends StatelessWidget {
-  _PrevItem({required this.total_price, required this.oid});
+  _PrevItem(
+      {required this.total_price,
+      required this.oid,
+      required this.items,
+      required this.datetime});
 
   int total_price, oid;
+  Map items;
+  DateTime datetime;
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +114,12 @@ class _PrevItem extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        OrderDetails(oid: oid, paystatus: true)));
+                    builder: (context) => OrderDetails(
+                          oid: oid,
+                          paystatus: true,
+                          items: items,
+                          datetime: datetime,
+                        )));
           },
           child: Container(
             height: getheight(context, 102),
@@ -121,12 +142,17 @@ class _PrevItem extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 35,
-                    // backgroundImage: NetworkImage(image),
-                    backgroundImage: NetworkImage(
-                        "https://www.listchallenges.com/f/items/57fc372f-9ae7-44e7-b35d-68c8d5bd8df0.jpg"),
+                    backgroundColor: Colors.green,
+                    child: Center(
+                      child: Icon(
+                        Icons.done,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
                   ),
                   SizedBox(
-                    width: 12,
+                    width: 18,
                   ),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -140,7 +166,7 @@ class _PrevItem extends StatelessWidget {
                         SizedBox(height: 10),
                         Text(
                             // "Rs. $price",
-                            "Time",
+                            DateFormat.jm().format(datetime),
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 15,
