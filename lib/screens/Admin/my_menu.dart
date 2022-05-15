@@ -1,3 +1,4 @@
+import 'package:canteen/screens/Admin/admin_items.dart';
 import 'package:flutter/material.dart';
 import '../../widgets.dart';
 
@@ -71,31 +72,37 @@ class _MenuItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-            height: getheight(context, 100),
-            width: getwidth(context, 315),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(30)),
-            child: Row(children: [
-              SizedBox(width: getwidth(context, 17)),
-              CircleAvatar(
-                radius: 35,
-                backgroundImage: AssetImage('images/snacks.jpg'),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                "Breakfast",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              )
-            ])),
-        SizedBox(
-          height: getheight(context, 25),
-        )
-      ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AdminItems()));
+      },
+      child: Column(
+        children: [
+          Container(
+              height: getheight(context, 100),
+              width: getwidth(context, 315),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(30)),
+              child: Row(children: [
+                SizedBox(width: getwidth(context, 17)),
+                CircleAvatar(
+                  radius: 35,
+                  backgroundImage: AssetImage('images/snacks.jpg'),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Breakfast",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                )
+              ])),
+          SizedBox(
+            height: getheight(context, 30),
+          )
+        ],
+      ),
     );
   }
 }

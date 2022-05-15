@@ -24,7 +24,6 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
   late String _pass;
   late String fullname;
   late String phone;
-  late String rollno;
 
   late TabController _tabController;
 
@@ -165,8 +164,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => AdminHomepage()),
+                        MaterialPageRoute(builder: (context) => AdminNavbar()),
                       );
                     },
                     child: Container(
@@ -349,7 +347,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                       style: const TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       underline: Container(
-                        height: 0.5,
+                        height: 0.3,
                         color: Colors.black,
                       ),
                       onChanged: (String? newValue) {
@@ -405,7 +403,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AdminHomepage()),
+                              builder: (context) => AdminNavbar()),
                         );
                       },
                       child: Container(
