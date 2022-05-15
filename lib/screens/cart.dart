@@ -117,7 +117,9 @@ class _CartState extends State<Cart> {
                       print(_orders);
                       cart_list = [];
                       BlocProvider.of<CanteenCubit>(context)
-                          .update_cart(cart_list);
+                          .update_cart(cart_list, context);
+                      // BlocProvider.of<CanteenCubit>(context).get_user_data(
+                      //     FirebaseAuth.instance.currentUser!.uid);
                     },
                     child: Visibility(
                       visible: BlocProvider.of<CanteenCubit>(context)

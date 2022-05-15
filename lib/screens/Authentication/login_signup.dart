@@ -449,8 +449,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           "Verified": false
         });
 
-        BlocProvider.of<CanteenCubit>(context)
-            .get_user_data(FirebaseAuth.instance.currentUser!.uid);
+        BlocProvider.of<CanteenCubit>(context).get_user_data(
+            FirebaseAuth.instance.currentUser!.uid,
+            BlocProvider.of<CanteenCubit>(context).state.cart_items);
 
         Navigator.push(
           context,
@@ -473,7 +474,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         print("signin successful");
         User? user = FirebaseAuth.instance.currentUser;
 
-        BlocProvider.of<CanteenCubit>(context).get_user_data(user?.uid);
+        BlocProvider.of<CanteenCubit>(context)
+            .get_user_data(user?.uid, context);
 
         Navigator.push(
           context,

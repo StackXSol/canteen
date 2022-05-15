@@ -30,13 +30,8 @@ class _LoadingPageState extends State<LoadingPage> {
 
   Future<void> set_screen() async {
     try {
-      dynamic key = await FirebaseFirestore.instance
-          .collection("Users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .get();
-      print(key.data());
       BlocProvider.of<CanteenCubit>(context)
-          .get_user_data(FirebaseAuth.instance.currentUser!.uid);
+          .get_user_data(FirebaseAuth.instance.currentUser!.uid, context);
 
       Future.delayed(
           const Duration(seconds: 1),

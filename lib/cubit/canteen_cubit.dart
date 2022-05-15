@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:canteen/backend_data.dart';
 import 'package:canteen/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +22,7 @@ class CanteenCubit extends Cubit<CanteenState> {
                 uid: "",
                 Roll_no: "")));
 
-  void update_cart(List<List> new_cart_list) {
+  void update_cart(List<List> new_cart_list, context) {
     print(new_cart_list);
 
     List<Widget> new_cart = [];
@@ -38,10 +39,11 @@ class CanteenCubit extends Cubit<CanteenState> {
       n += 1;
     }
     emit(CanteenState(
-        cart_items: new_cart, currentuser: CanteenCubit().state.currentuser));
+        cart_items: new_cart,
+        currentuser: BlocProvider.of<CanteenCubit>(context).state.currentuser));
   }
 
-  void get_user_data(uid) async {
+  void get_user_data(uid, context) async {
     Stream user_data = await FirebaseFirestore.instance
         .collection("Users")
         .doc(uid)
@@ -58,7 +60,7 @@ class CanteenCubit extends Cubit<CanteenState> {
           uid: uid,
           Roll_no: element.data()["Rollno"]);
       emit(CanteenState(
-          cart_items: CanteenCubit().state.cart_items,
+          cart_items: BlocProvider.of<CanteenCubit>(context).state.cart_items,
           currentuser: currentuser));
     });
   }
@@ -140,7 +142,7 @@ class _cartItem extends StatelessWidget {
                             cart_list.removeAt(index);
                           }
                           BlocProvider.of<CanteenCubit>(context)
-                              .update_cart(cart_list);
+                              .update_cart(cart_list, context);
                         },
                         child: Icon(
                           Icons.remove,
@@ -157,7 +159,7 @@ class _cartItem extends StatelessWidget {
                         onTap: () {
                           cart_list[index][3] += 1;
                           BlocProvider.of<CanteenCubit>(context)
-                              .update_cart(cart_list);
+                              .update_cart(cart_list, context);
                         },
                         child: Icon(
                           Icons.add,

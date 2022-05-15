@@ -44,7 +44,8 @@ class _HomePageState extends State<HomePage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Hey ${BlocProvider.of<CanteenCubit>(context).state.currentuser.full_name}",
+                          Text(
+                              "Hey ${BlocProvider.of<CanteenCubit>(context).state.currentuser.full_name}",
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.w900)),
                           SizedBox(
@@ -117,7 +118,12 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
+                              .where("College",
+                                  isEqualTo:
+                                      BlocProvider.of<CanteenCubit>(context)
+                                          .state
+                                          .currentuser
+                                          .College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -222,7 +228,12 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
+                              .where("College",
+                                  isEqualTo:
+                                      BlocProvider.of<CanteenCubit>(context)
+                                          .state
+                                          .currentuser
+                                          .College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -326,7 +337,12 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
+                              .where("College",
+                                  isEqualTo:
+                                      BlocProvider.of<CanteenCubit>(context)
+                                          .state
+                                          .currentuser
+                                          .College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -438,7 +454,12 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
+                              .where("College",
+                                  isEqualTo:
+                                      BlocProvider.of<CanteenCubit>(context)
+                                          .state
+                                          .currentuser
+                                          .College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -542,7 +563,12 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
+                              .where("College",
+                                  isEqualTo:
+                                      BlocProvider.of<CanteenCubit>(context)
+                                          .state
+                                          .currentuser
+                                          .College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -646,7 +672,12 @@ class _HomePageState extends State<HomePage> {
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
-                              .where("College", isEqualTo: BlocProvider.of<CanteenCubit>(context).state.currentuser.College)
+                              .where("College",
+                                  isEqualTo:
+                                      BlocProvider.of<CanteenCubit>(context)
+                                          .state
+                                          .currentuser
+                                          .College)
                               .get();
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -838,8 +869,10 @@ class _Item extends StatelessWidget {
                     !already
                         ? cart_list.add([name, image, price, 1])
                         : cart_list;
-                    BlocProvider.of<CanteenCubit>(context)
-                        .update_cart(cart_list);
+                    BlocProvider.of<CanteenCubit>(context).update_cart(
+                        cart_list,
+                        context);
+
                     Fluttertoast.showToast(msg: "$name Added to cart");
                   },
                   child: Container(
