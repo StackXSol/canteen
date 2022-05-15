@@ -37,6 +37,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           name: k,
           price: v["Price"],
           quantity: v["Quantity"],
+          image: v["Image"],
         )));
     setState(() {});
   }
@@ -203,8 +204,12 @@ class _OrderDetailsState extends State<OrderDetails> {
 }
 
 class _Items extends StatelessWidget {
-  _Items({required this.name, required this.price, required this.quantity});
-  String name;
+  _Items(
+      {required this.name,
+      required this.price,
+      required this.quantity,
+      required this.image});
+  String name, image;
   int price, quantity;
 
   @override
@@ -231,16 +236,20 @@ class _Items extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  height: getheight(context, 65),
-                  width: getheight(context, 65),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey.withOpacity(0.2))),
-                  child: Image(image: AssetImage('images/food.png')),
-                ),
+                    height: getheight(context, 65),
+                    width: getheight(context, 65),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        border:
+                            Border.all(color: Colors.grey.withOpacity(0.2))),
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(image),
+                      radius: 35,
+                      backgroundColor: Colors.grey.withOpacity(0.1),
+                    )),
                 SizedBox(
-                  width: 7,
+                  width: 20,
                 ),
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,

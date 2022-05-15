@@ -97,7 +97,8 @@ class _CartState extends State<Cart> {
                             int.parse(i[3].toString());
                         _orders[i[0]] = {
                           "Price": i[2] * i[3],
-                          "Quantity": i[3]
+                          "Quantity": i[3],
+                          "Image": i[1]
                         };
                       }
                       FirebaseFirestore.instance

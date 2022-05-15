@@ -1,6 +1,7 @@
 import 'package:canteen/screens/Admin/add_food.dart';
 import 'package:canteen/screens/Admin/my_menu.dart';
 import 'package:canteen/screens/Admin/orders_this_month.dart';
+import 'package:canteen/screens/Admin/qrScanner.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets.dart';
@@ -202,7 +203,8 @@ class AdminHomepage extends StatelessWidget {
       SizedBox(height: getheight(context, 30)),
       GestureDetector(
         onTap: () {
-          /////////// scan QR ////////////////
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => QRViewExample()));
         },
         child: Container(
           height: getheight(context, 58),

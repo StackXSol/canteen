@@ -34,30 +34,18 @@ class _ProfileState extends State<Profile> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: getheight(context, 60)),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: getwidth(context, 26)),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.grey,
-                          size: getheight(context, 24),
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        "My Profile",
-                        style: TextStyle(
-                            fontSize: 26, fontWeight: FontWeight.w600),
-                      ),
-                      Spacer()
-                    ],
-                  ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: getwidth(context, 35),
+                    ),
+                    Text(
+                      "My Profile",
+                      style:
+                          TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
+                    ),
+                    Spacer()
+                  ],
                 ),
                 SizedBox(
                   height: getheight(context, 42),
@@ -81,7 +69,6 @@ class _ProfileState extends State<Profile> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   content: Stack(
-                                    overflow: Overflow.visible,
                                     children: <Widget>[
                                       Positioned(
                                         right: -40.0,
@@ -143,6 +130,8 @@ class _ProfileState extends State<Profile> {
                                                   onChanged: (value) {
                                                     phone = value;
                                                   },
+                                                  keyboardType:
+                                                      TextInputType.number,
                                                   style: TextStyle(
                                                       fontSize: 17,
                                                       fontWeight:
@@ -157,7 +146,7 @@ class _ProfileState extends State<Profile> {
                                             ),
                                             SizedBox(height: 20),
                                             GestureDetector(
-                                              onTap: () {
+                                              onTap: () async {
                                                 if (_formKey.currentState!
                                                     .validate()) {
                                                   FirebaseFirestore.instance
@@ -172,6 +161,12 @@ class _ProfileState extends State<Profile> {
                                                     "Fullname": name,
                                                     "phone": phone
                                                   }, SetOptions(merge: true));
+                                                  BlocProvider.of<CanteenCubit>(
+                                                          context)
+                                                      .get_user_data(
+                                                          FirebaseAuth.instance
+                                                              .currentUser!.uid,
+                                                          context);
                                                   Navigator.pop(context);
                                                   Fluttertoast.showToast(
                                                       msg: "Details Updated!");

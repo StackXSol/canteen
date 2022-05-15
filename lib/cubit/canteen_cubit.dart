@@ -22,11 +22,9 @@ class CanteenCubit extends Cubit<CanteenState> {
                 uid: "",
                 Roll_no: "")));
 
+  //Emiting Cart items
   void update_cart(List<List> new_cart_list, context) {
-    print(new_cart_list);
-
     List<Widget> new_cart = [];
-
     int n = 0;
     for (var i in new_cart_list) {
       new_cart.add(_cartItem(
@@ -41,31 +39,48 @@ class CanteenCubit extends Cubit<CanteenState> {
     emit(CanteenState(
         cart_items: new_cart,
         currentuser: BlocProvider.of<CanteenCubit>(context).state.currentuser));
+    print(BlocProvider.of<CanteenCubit>(context).state.cart_items);
   }
 
+  //Emiting user data
   void get_user_data(uid, context) async {
-    Stream user_data = await FirebaseFirestore.instance
-        .collection("Users")
-        .doc(uid)
-        .snapshots();
+    //Commented code is used if we want data as a stream! Was not working in this case!
+
+    // Stream user_data = await FirebaseFirestore.instance
+    //     .collection("Users")
+    //     .doc(uid)
+    //     .snapshots();
+
+    // user_data.forEach((element) async {
+    //   currentuser = await appUser(
+    //       College: element.data()["College"],
+    //       full_name: element.data()["Fullname"],
+    //       email: element.data()["email"],
+    //       phone: element.data()["phone"],
+    //       uid: uid,
+    //       Roll_no: element.data()["Rollno"]);
+    // });
+
+    dynamic key =
+        await FirebaseFirestore.instance.collection("Users").doc(uid).get();
 
     late appUser currentuser;
 
-    user_data.forEach((element) async {
-      currentuser = await appUser(
-          College: element.data()["College"],
-          full_name: element.data()["Fullname"],
-          email: element.data()["email"],
-          phone: element.data()["phone"],
-          uid: uid,
-          Roll_no: element.data()["Rollno"]);
-      emit(CanteenState(
-          cart_items: BlocProvider.of<CanteenCubit>(context).state.cart_items,
-          currentuser: currentuser));
-    });
+    currentuser = await appUser(
+        College: key.data()["College"],
+        full_name: key.data()["Fullname"],
+        email: key.data()["email"],
+        phone: key.data()["phone"],
+        uid: uid,
+        Roll_no: key.data()["Rollno"]);
+
+    emit(CanteenState(
+        cart_items: BlocProvider.of<CanteenCubit>(context).state.cart_items,
+        currentuser: currentuser));
   }
 }
 
+//cart_item Widget!
 class _cartItem extends StatelessWidget {
   _cartItem(
       {required this.price,
