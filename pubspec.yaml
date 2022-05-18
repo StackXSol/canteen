@@ -49,6 +49,7 @@ dependencies:
   firebase_storage: ^10.2.15
   flutter_switch: ^0.3.2
   syncfusion_flutter_charts: ^20.1.55
+  image_picker: ^0.8.5+3
   
 
 dev_dependencies:

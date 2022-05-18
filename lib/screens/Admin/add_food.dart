@@ -1,5 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../widgets.dart';
 
 class AddFood extends StatefulWidget {
@@ -11,13 +17,17 @@ class AddFood extends StatefulWidget {
 
 class _AddFoodState extends State<AddFood> {
   late String _foodname;
-
   late String _price;
-  String dropdownValue = 'Breakfast';
+  late String _url;
+  late final XFile? photo;
+  final ImagePicker _picker = ImagePicker();
+  String dropdownValue = 'BreakFast';
   var items = [
-    'Breakfast',
+    'BreakFast',
     'Lunch',
     'Dinner',
+    "Snacks",
+    'Bakery',
     'Bevrages',
   ];
 
@@ -127,8 +137,8 @@ class _AddFoodState extends State<AddFood> {
               height: getheight(context, 20),
             ),
             GestureDetector(
-              onTap: () {
-                /////////// upload photo ////////////////
+              onTap: () async {
+                photo = await _picker.pickImage(source: ImageSource.gallery);
               },
               child: Container(
                 height: getheight(context, 42),
@@ -148,8 +158,32 @@ class _AddFoodState extends State<AddFood> {
       ),
       Spacer(),
       GestureDetector(
-        onTap: () {
-/////////////// save ///////////////////
+        onTap: () async {
+          var uploadTask = FirebaseStorage.instance
+              .ref(FirebaseAuth.instance.currentUser!.uid)
+              .child(dropdownValue)
+              .child(_foodname)
+              .putFile(File(photo!.path));
+
+          _url = await (await uploadTask).ref.getDownloadURL();
+
+          print(_url);
+
+          FirebaseFirestore.instance
+              .collection("Canteens")
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection("Menu")
+              .doc(dropdownValue)
+              .collection("Items")
+              .doc(DateTime.now().toString())
+              .set({
+            "Name": _foodname,
+            "Status": true,
+            "Photo": _url,
+            "Price": int.parse(_price)
+          }, SetOptions(merge: true));
+          Navigator.pop(context);
+          Fluttertoast.showToast(msg: "Food Added!");
         },
         child: Container(
           height: getheight(context, 51),

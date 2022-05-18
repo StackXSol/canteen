@@ -1,3 +1,4 @@
+import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/main.dart';
 import 'package:canteen/screens/Admin/admin_homepage.dart';
 import 'package:canteen/screens/Admin/admin_navbar.dart';
@@ -8,7 +9,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../Authentication/forgotpassword.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({Key? key}) : super(key: key);
@@ -22,8 +26,9 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
   late String _email;
   late String _canteenName;
   late String _pass;
-  late String fullname;
+  late int _code;
   late String phone;
+  final _gkey = GlobalKey<FormState>();
 
   late TabController _tabController;
 
@@ -33,11 +38,11 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
     _tabController = TabController(length: 2, vsync: this);
   }
 
-  String dropdownValue = 'Apple';
+  String dropdownValue = 'Select College';
   var items = [
-    'Apple',
-    'Banana',
-    'Grapes',
+    'Select College',
+    'XYX',
+    'UIT',
     'Orange',
     'watermelon',
     'Pineapple'
@@ -143,12 +148,12 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                   SizedBox(height: getheight(context, 30)),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => ResetPassword()),
-                      // );
-                      ////////// reset passeord
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResetPassword()),
+                      );
+                      //////// reset passeord
                     },
                     child: Text(
                       "Forgot password?",
@@ -161,11 +166,21 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                   Spacer(),
                   ////////////////////// login
                   GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AdminNavbar()),
-                      );
+                    onTap: () async {
+                      try {
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                            email: _email, password: _pass);
+                        BlocProvider.of<CanteenCubit>(context)
+                            .getCanteenUserData(
+                                FirebaseAuth.instance.currentUser!.uid,
+                                context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AdminNavbar()));
+                      } catch (e) {
+                        Fluttertoast.showToast(msg: e.toString());
+                      }
                     },
                     child: Container(
                       height: getheight(context, 70),
@@ -196,321 +211,285 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                     top: getheight(context, 30),
                     left: getwidth(context, 30),
                     right: getwidth(context, 30)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //////////////// full name
-                    Text("Full Name", style: TextStyle(color: Colors.black)),
-                    TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            fullname = value;
-                          });
-                        },
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Name",
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.5)))),
-                    Divider(
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      height: getheight(context, 20),
-                    ),
-
-                    /////////// canteen name
-                    Text("Canteen name", style: TextStyle(color: Colors.black)),
-                    TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            _canteenName = value;
-                          });
-                        },
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Canteen name",
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.5)))),
-                    Divider(
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      height: getheight(context, 20),
-                    ),
-
-                    ////////////// email address for signup
-                    Text("Email address",
-                        style: TextStyle(color: Colors.black)),
-                    TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            _email = value;
-                          });
-                        },
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Enter Email",
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.5)))),
-                    Divider(
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      height: getheight(context, 20),
-                    ),
-                    ////////////////// phone number
-
-                    Row(
-                      children: [
-                        Text(
-                          "🇮🇳",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Text(
-                          " +91",
-                        ),
-                        SizedBox(width: 10),
-                        Container(
-                          width: getwidth(context, 200),
-                          child: TextField(
-                              onChanged: (value) {
-                                phone = value;
-                              },
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Phone number",
-                                  hintStyle: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.grey.withOpacity(0.5)))),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    /////////////// college
-                    Text("College", style: TextStyle(color: Colors.black)),
-
-                    // StreamBuilder(
-                    //   stream: FirebaseFirestore.instance
-                    //       .collection("CollegeList")
-                    //       .doc("Colleges")
-                    //       .snapshots(),
-                    //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    //     return DropdownButton<String>(
-                    //       isExpanded: true,
-                    //       value: dropdownValue,
-                    //       icon: const Icon(Icons.keyboard_arrow_down),
-                    //       elevation: 16,
-                    //       style: const TextStyle(
-                    //           color: Colors.black, fontWeight: FontWeight.bold),
-                    //       underline: Container(
-                    //         height: 0.5,
-                    //         color: Colors.black,
-                    //       ),
-                    //       items: snapshot.data
-                    //           .map<DropdownMenuItem<String>>((String value) {
-                    //         return DropdownMenuItem(
-                    //             value: value, child: Text(value));
-                    //       }).toList(),
-                    //       onChanged: (value) {
-                    //         setState(() {
-                    //           dropdownValue = value.toString();
-                    //         });
-                    //       },
-                    //     );
-                    //   },
-                    // ),
-
-                    DropdownButton<String>(
-                      isExpanded: true,
-                      value: dropdownValue,
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      elevation: 16,
-                      style: const TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                      underline: Container(
-                        height: 0.3,
+                child: Form(
+                  key: _gkey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //////////////// full name
+                      Text("Access Code",
+                          style: TextStyle(color: Colors.black)),
+                      TextField(
+                          onChanged: (value) {
+                            setState(() {
+                              _code = int.parse(value);
+                            });
+                          },
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Code",
+                              hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey.withOpacity(0.5)))),
+                      Divider(
+                        height: 2,
                         color: Colors.black,
                       ),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                        });
-                      },
-                      items: items.map((String items) {
-                        return DropdownMenuItem(
-                            value: items, child: Text(items));
-                      }).toList(),
-                    ),
-
-                    SizedBox(height: 20),
-
-                    ///////////////// password
-                    Text("Set Password", style: TextStyle(color: Colors.black)),
-                    TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          _pass = value;
-                        });
-                      },
-                      obscureText: _isObscure,
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _isObscure = !_isObscure;
-                              });
-                            },
-                            icon: Icon(Icons.remove_red_eye)),
-                        border: InputBorder.none,
-                        hintText: "Enter Password",
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey.withOpacity(0.5),
-                        ),
+                      SizedBox(
+                        height: getheight(context, 20),
                       ),
-                    ),
-                    Divider(
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                    SizedBox(height: getheight(context, 15)),
 
-                    Spacer(),
-                    GestureDetector(
-                      /////////// sign up////////////////
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AdminNavbar()),
-                        );
-                      },
-                      child: Container(
-                        height: getheight(context, 70),
-                        width: getwidth(context, 310),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: orange_color),
-                        child: Center(
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17),
+                      /////////// canteen name
+                      Text("Canteen name",
+                          style: TextStyle(color: Colors.black)),
+                      TextFormField(
+                          validator: (value) {
+                            if (value.toString().length < 8) {
+                              return "Enter valid Name!";
+                            }
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              _canteenName = value;
+                            });
+                          },
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Canteen name",
+                              hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey.withOpacity(0.5)))),
+                      Divider(
+                        height: 2,
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        height: getheight(context, 20),
+                      ),
+
+                      ////////////// email address for signup
+                      Text("Email address",
+                          style: TextStyle(color: Colors.black)),
+                      TextFormField(
+                          validator: (value) {
+                            if (!(value!.contains("@"))) {
+                              return "Enter valid Email!";
+                            }
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              _email = value;
+                            });
+                          },
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Enter Email",
+                              hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey.withOpacity(0.5)))),
+                      Divider(
+                        height: 2,
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        height: getheight(context, 20),
+                      ),
+                      ////////////////// phone number
+
+                      Row(
+                        children: [
+                          Text(
+                            "🇮🇳",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            " +91",
+                          ),
+                          SizedBox(width: 10),
+                          Container(
+                            width: getwidth(context, 200),
+                            child: TextFormField(
+                                validator: (value) {
+                                  if (value.toString().length != 10) {
+                                    return "Enter valid Number!";
+                                  }
+                                },
+                                onChanged: (value) {
+                                  phone = value;
+                                },
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                style: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.bold),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Phone number",
+                                    hintStyle: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.grey.withOpacity(0.5)))),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      /////////////// college
+                      Text("College", style: TextStyle(color: Colors.black)),
+
+                      DropdownButton<String>(
+                        isExpanded: true,
+                        value: dropdownValue,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        elevation: 16,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                        underline: Container(
+                          height: 0.3,
+                          color: Colors.black,
+                        ),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue = newValue!;
+                          });
+                        },
+                        items: items.map((String items) {
+                          return DropdownMenuItem(
+                              value: items, child: Text(items));
+                        }).toList(),
+                      ),
+
+                      SizedBox(height: 20),
+
+                      ///////////////// password
+                      Text("Set Password",
+                          style: TextStyle(color: Colors.black)),
+                      TextFormField(
+                        validator: (value) {
+                          if (value.toString().length < 6) {
+                            return "Enter valid Password!";
+                          }
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            _pass = value;
+                          });
+                        },
+                        obscureText: _isObscure,
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.bold),
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                              icon: Icon(Icons.remove_red_eye)),
+                          border: InputBorder.none,
+                          hintText: "Enter Password",
+                          hintStyle: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey.withOpacity(0.5),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: getheight(context, 25),
-                    ),
-                  ],
+                      Divider(
+                        height: 2,
+                        color: Colors.black,
+                      ),
+                      SizedBox(height: getheight(context, 15)),
+
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () async {
+                          if (_gkey.currentState!.validate()) {
+                            await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                    email: _email, password: _pass);
+
+                            FirebaseFirestore.instance
+                                .collection("Canteens")
+                                .doc(FirebaseAuth.instance.currentUser!.uid)
+                                .set({
+                              "College": dropdownValue,
+                              "phone": phone,
+                              "Name": _canteenName,
+                              "email": _email
+                            }, SetOptions(merge: true));
+
+                            List<String> _cat = [
+                              'BreakFast',
+                              'Lunch',
+                              'Dinner',
+                              'Snacks',
+                              'Bakery',
+                              'Bevrages'
+                            ];
+
+                            for (var i in _cat) {
+                              FirebaseFirestore.instance
+                                  .collection("Canteens")
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .collection("Menu")
+                                  .doc(i)
+                                  .set({}, SetOptions(merge: true));
+                            }
+
+                            FirebaseFirestore.instance
+                                .collection("Canteens")
+                                .doc(FirebaseAuth.instance.currentUser!.uid)
+                                .collection("Revenue");
+
+                            FirebaseFirestore.instance
+                                .collection("Canteens")
+                                .doc(FirebaseAuth.instance.currentUser!.uid)
+                                .collection("Menu")
+                                .doc();
+
+                            BlocProvider.of<CanteenCubit>(context)
+                                .getCanteenUserData(
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                    context);
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdminNavbar()),
+                            );
+                          }
+                        },
+                        child: Container(
+                          height: getheight(context, 70),
+                          width: getwidth(context, 310),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: orange_color),
+                          child: Center(
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: getheight(context, 25),
+                      ),
+                    ],
+                  ),
                 )),
           ),
         ],
       ),
     );
   }
-
-//   Future registration() async {
-//     Fluttertoast.showToast(msg: "Registering...");
-//     try {
-//       auth
-//           .createUserWithEmailAndPassword(email: _email, password: _pass)
-//           .then((value) async {
-//         User? user = FirebaseAuth.instance.currentUser;
-
-//         user?.sendEmailVerification().then((value) {
-//           Navigator.push(
-//               context,
-//               MaterialPageRoute(
-//                   builder: (context) => EmailverificationScreen()));
-//         });
-
-//         final db = FirebaseFirestore.instance;
-//         db.collection("Users").doc(user!.uid).set({
-//           "Fullname": fullname,
-//           "email": _email,
-//           "phone": phone,
-//           "uid": user.uid,
-//           "Rollno": rollno,
-//           "College": dropdownValue,
-//           "Verified": false
-//         });
-
-//         currentUser = appUser(
-//             College: dropdownValue,
-//             full_name: fullname,
-//             email: _email,
-//             phone: phone,
-//             uid: user.uid,
-//             Roll_no: rollno);
-
-//         Navigator.push(
-//           context,
-//           MaterialPageRoute(
-//             builder: (context) => Navbar(),
-//           ),
-//         );
-//       });
-//     } catch (e) {
-//       print(e.toString());
-//     }
-//   }
-
-//   Future login() async {
-//     Fluttertoast.showToast(msg: "Signing in...");
-//     try {
-//       auth
-//           .signInWithEmailAndPassword(email: _email, password: _pass)
-//           .then((value) async {
-//         print("signin successful");
-//         User? user = FirebaseAuth.instance.currentUser;
-//         var db = FirebaseFirestore.instance;
-
-//         dynamic userdata = await db.collection("Users").doc(user?.uid).get();
-
-//         currentUser = await appUser(
-//             College: userdata.data()["College"],
-//             full_name: userdata.data()["Fullname"],
-//             email: userdata.data()["email"],
-//             phone: userdata.data()["phone"],
-//             uid: userdata.data()["uid"],
-//             Roll_no: userdata.data()["Rollno"]);
-
-//         Navigator.push(
-//           context,
-//           MaterialPageRoute(
-//             builder: (context) => Navbar(),
-//           ),
-//         );
-//       });
-//     } catch (e) {
-//       Fluttertoast.showToast(msg: e.toString());
-//       print(e.toString());
-//     }
-//   }
-// }
 }

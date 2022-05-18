@@ -1,5 +1,7 @@
+import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/screens/Admin/admin_items.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../widgets.dart';
 
 class MyMenu extends StatelessWidget {
@@ -7,94 +9,95 @@ class MyMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(children: [
-      SizedBox(height: getheight(context, 65)),
-      Padding(
-          padding: EdgeInsets.symmetric(horizontal: getwidth(context, 22)),
-          child: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return BlocBuilder<CanteenCubit, CanteenState>(
+      builder: (context, state) {
+        return Scaffold(
+            body: Column(children: [
+          SizedBox(height: getheight(context, 65)),
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: getwidth(context, 22)),
+              child: Row(
                 children: [
-                  Text("Canteen Name",
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
-                  SizedBox(
-                    height: 13,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          "College " +
+                              BlocProvider.of<CanteenCubit>(context)
+                                  .state
+                                  .currentCanteenUser
+                                  .getter()[4],
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w900)),
+                      SizedBox(
+                        height: 13,
+                      ),
+                      Text(
+                        BlocProvider.of<CanteenCubit>(context)
+                            .state
+                            .currentCanteenUser
+                            .getter()[0],
+                      ),
+                    ],
                   ),
-                  Text("Canteen Address"),
+                ],
+              )),
+          SizedBox(
+            height: getheight(context, 25),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _MenuItems(category: "BreakFast", image: 'breakfast'),
+                  _MenuItems(category: "Lunch", image: 'lunch'),
+                  _MenuItems(category: "Dinner", image: 'dinner'),
+                  _MenuItems(category: "Snacks", image: 'snacks'),
+                  _MenuItems(category: "Bakery", image: 'bakery'),
+                  _MenuItems(category: "Bevrages", image: 'bevrages'),
                 ],
               ),
-            ],
-          )),
-      SizedBox(
-        height: getheight(context, 25),
-      ),
-      SingleChildScrollView(
-        child: Column(
-          children: [
-            _MenuItems(),
-            _MenuItems(),
-            _MenuItems(),
-            _MenuItems(),
-          ],
-        ),
-      ),
-      GestureDetector(
-        onTap: () {
-          /////////// scan QR ////////////////
-        },
-        child: Container(
-          height: getheight(context, 58),
-          width: getwidth(context, 275),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30), color: orange_color),
-          child: Center(
-            child: Text(
-              "Scan QR",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17),
             ),
           ),
-        ),
-      ),
-    ]));
+        ]));
+      },
+    );
   }
 }
 
 class _MenuItems extends StatelessWidget {
-  const _MenuItems({
-    Key? key,
-  }) : super(key: key);
+  _MenuItems({required this.category, required this.image});
+  String image, category;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AdminItems()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => AdminItems(
+                      category: category,
+                    )));
       },
       child: Column(
         children: [
           Container(
               height: getheight(context, 100),
-              width: getwidth(context, 315),
+              width: getwidth(context, 325),
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(30)),
               child: Row(children: [
                 SizedBox(width: getwidth(context, 17)),
                 CircleAvatar(
                   radius: 35,
-                  backgroundImage: AssetImage('images/snacks.jpg'),
+                  backgroundImage: AssetImage('images/$image.jpg'),
                 ),
                 SizedBox(
                   width: 10,
                 ),
                 Text(
-                  "Breakfast",
+                  category,
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 )
               ])),

@@ -1,6 +1,7 @@
 import 'package:canteen/backend_data.dart';
 import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/main.dart';
+import 'package:canteen/screens/Admin/admin_navbar.dart';
 
 import 'package:canteen/screens/navbar.dart';
 import 'package:canteen/widgets.dart';
@@ -24,8 +25,33 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
-    set_screen();
+    check_admin();
     super.initState();
+  }
+
+  Future<void> check_admin() async {
+    var key = await FirebaseFirestore.instance.collection("Canteens").get();
+    bool admin = false;
+    try {
+      for (var i in key.docs) {
+        if (i.id == FirebaseAuth.instance.currentUser!.uid) {
+          BlocProvider.of<CanteenCubit>(context).getCanteenUserData(
+              FirebaseAuth.instance.currentUser!.uid, context);
+
+          Future.delayed(
+              const Duration(seconds: 1),
+              () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AdminNavbar()),
+                  ));
+          admin = true;
+        }
+      }
+      !admin ? set_screen() : null;
+    } catch (e) {
+      set_screen();
+    }
   }
 
   Future<void> set_screen() async {
@@ -64,7 +90,8 @@ class _LoadingPageState extends State<LoadingPage> {
         ),
         Positioned(
           top: getheight(context, 320),
-          left: getwidth(context, 113),
+          left: getwidth(context, 80),
+          right: getwidth(context, 80),
           child: Container(
             height: getheight(context, 200),
             width: getheight(context, 200),

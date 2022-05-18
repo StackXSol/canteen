@@ -113,14 +113,33 @@ class _CartState extends State<Cart> {
                         "Status": false,
                         "Items": _orders
                       }, SetOptions(merge: true));
+
+                      FirebaseFirestore.instance
+                          .collection("Canteens")
+                          .doc(canteenId)
+                          .collection("Revenue")
+                          .doc(OID.toString())
+                          .set({
+                        "OID": OID,
+                        "DateTime": DateTime.now().toString(),
+                        "Total_Price": total_price,
+                        "Status": false,
+                        "Items": _orders
+                      }, SetOptions(merge: true));
+
+                      FirebaseFirestore.instance
+                          .collection("Canteens")
+                          .doc(canteenId)
+                          .set({
+                        "Total_Revenue": FieldValue.increment(total_price)
+                      }, SetOptions(merge: true));
+
                       print(total_price);
                       print(OID);
                       print(_orders);
                       cart_list = [];
                       BlocProvider.of<CanteenCubit>(context)
                           .update_cart(cart_list, context);
-                      // BlocProvider.of<CanteenCubit>(context).get_user_data(
-                      //     FirebaseAuth.instance.currentUser!.uid);
                     },
                     child: Visibility(
                       visible: BlocProvider.of<CanteenCubit>(context)

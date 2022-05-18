@@ -1,19 +1,21 @@
 import 'dart:ffi';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
 import '../../widgets.dart';
 
 class AdminItems extends StatefulWidget {
-  AdminItems({Key? key}) : super(key: key);
+  AdminItems({required this.category});
+  String category;
 
   @override
   State<AdminItems> createState() => _AdminItemsState();
 }
 
 class _AdminItemsState extends State<AdminItems> {
-  bool toggle = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +32,7 @@ class _AdminItemsState extends State<AdminItems> {
                 },
                 child: Icon(Icons.keyboard_arrow_left)),
             Spacer(),
-            Text("Breakfast",
+            Text(widget.category,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             Spacer(),
           ],
@@ -41,14 +43,35 @@ class _AdminItemsState extends State<AdminItems> {
       ),
       Expanded(
           child: SingleChildScrollView(
-        child: Column(
-          children: [
-            _Item(toggle: toggle, ontap: () {}),
-            _Item(toggle: toggle, ontap: () {}),
-            _Item(toggle: toggle, ontap: () {}),
-            _Item(toggle: toggle, ontap: () {}),
-          ],
-        ),
+        child: StreamBuilder<Object>(
+            stream: FirebaseFirestore.instance
+                .collection("Canteens")
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .collection("Menu")
+                .doc(widget.category)
+                .collection("Items")
+                .snapshots(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                List<_Item> _itemlist = [];
+                for (var i in snapshot.data.docs) {
+                  print(i.id);
+                  _itemlist.add(_Item(
+                    category: widget.category,
+                    toggle: i.data()["Status"],
+                    ontap: () {},
+                    docid: i.id,
+                    image: i.data()["Photo"],
+                    name: i.data()["Name"],
+                  ));
+                }
+                return Column(children: _itemlist);
+              } else {
+                return Column(
+                  children: [Text("No Items")],
+                );
+              }
+            }),
       )),
       SizedBox(
         height: getheight(context, 60),
@@ -58,8 +81,17 @@ class _AdminItemsState extends State<AdminItems> {
 }
 
 class _Item extends StatefulWidget {
-  _Item({required this.toggle, required this.ontap});
+  _Item(
+      {required this.toggle,
+      required this.ontap,
+      required this.name,
+      required this.docid,
+      required this.category,
+      required this.image});
   late Function ontap;
+
+  String name, image, docid, category;
+
   bool toggle;
 
   @override
@@ -93,8 +125,7 @@ class _ItemState extends State<_Item> {
                 CircleAvatar(
                   radius: 35,
                   // backgroundImage: NetworkImage(image),
-                  backgroundImage: NetworkImage(
-                      "https://www.listchallenges.com/f/items/57fc372f-9ae7-44e7-b35d-68c8d5bd8df0.jpg"),
+                  backgroundImage: NetworkImage(widget.image),
                 ),
                 SizedBox(
                   width: 12,
@@ -104,7 +135,7 @@ class _ItemState extends State<_Item> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Vada Pav",
+                        widget.name,
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 17),
                       ),
@@ -130,6 +161,15 @@ class _ItemState extends State<_Item> {
                       onToggle: (value) {
                         setState(() {
                           widget.toggle = !widget.toggle;
+                          FirebaseFirestore.instance
+                              .collection("Canteens")
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .collection("Menu")
+                              .doc(widget.category)
+                              .collection("Items")
+                              .doc(widget.docid)
+                              .set({"Status": widget.toggle},
+                                  SetOptions(merge: true));
                           print(widget.toggle);
                         });
                       }),

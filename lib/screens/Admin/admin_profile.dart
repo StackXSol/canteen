@@ -1,9 +1,11 @@
 import 'package:canteen/screens/Admin/admin_homepage.dart';
 import 'package:canteen/screens/Admin/revenue.dart';
 import 'package:canteen/screens/homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets.dart';
+import '../Authentication/login_signup.dart';
 
 class AdminProfile extends StatelessWidget {
   const AdminProfile({Key? key}) : super(key: key);
@@ -72,7 +74,9 @@ class AdminProfile extends StatelessWidget {
       _profileFunctions(
         title: "Sign out",
         ontap: () {
-          ///////// sign out ///////
+          FirebaseAuth.instance.signOut();
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => Login()));
         },
       ),
     ]));

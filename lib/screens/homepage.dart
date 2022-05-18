@@ -125,6 +125,7 @@ class _HomePageState extends State<HomePage> {
                                           .currentuser
                                           .College)
                               .get();
+                          canteenId = key.docs.first.id;
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
                               .doc(key.docs.first.id)
@@ -169,6 +170,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Food_Items(
+                                    canteenid: canteenId,
                                     food_type: "Breakfast",
                                     food_items: food_items.length != 0
                                         ? food_items
@@ -235,6 +237,7 @@ class _HomePageState extends State<HomePage> {
                                           .currentuser
                                           .College)
                               .get();
+                          canteenId = key.docs.first.id;
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
                               .doc(key.docs.first.id)
@@ -279,6 +282,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Food_Items(
+                                    canteenid: canteenId,
                                     food_type: "Lunch",
                                     food_items: food_items.length != 0
                                         ? food_items
@@ -344,6 +348,7 @@ class _HomePageState extends State<HomePage> {
                                           .currentuser
                                           .College)
                               .get();
+                          canteenId = key.docs.first.id;
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
                               .doc(key.docs.first.id)
@@ -388,6 +393,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Food_Items(
+                                    canteenid: canteenId,
                                     food_type: "Dinner",
                                     food_items: food_items.length != 0
                                         ? food_items
@@ -450,7 +456,6 @@ class _HomePageState extends State<HomePage> {
                     GestureDetector(
                       onTap: (() async {
                         List<Widget> food_items = [];
-
                         try {
                           var key = await FirebaseFirestore.instance
                               .collection("Canteens")
@@ -461,6 +466,7 @@ class _HomePageState extends State<HomePage> {
                                           .currentuser
                                           .College)
                               .get();
+                          canteenId = key.docs.first.id;
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
                               .doc(key.docs.first.id)
@@ -505,6 +511,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Food_Items(
+                                    canteenid: canteenId,
                                     food_type: "Snacks",
                                     food_items: food_items.length != 0
                                         ? food_items
@@ -570,6 +577,7 @@ class _HomePageState extends State<HomePage> {
                                           .currentuser
                                           .College)
                               .get();
+                          canteenId = key.docs.first.id;
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
                               .doc(key.docs.first.id)
@@ -614,6 +622,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Food_Items(
+                                    canteenid: canteenId,
                                     food_type: "Bakery",
                                     food_items: food_items.length != 0
                                         ? food_items
@@ -679,6 +688,7 @@ class _HomePageState extends State<HomePage> {
                                           .currentuser
                                           .College)
                               .get();
+                          canteenId = key.docs.first.id;
                           var key2 = await FirebaseFirestore.instance
                               .collection("Canteens")
                               .doc(key.docs.first.id)
@@ -723,6 +733,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Food_Items(
+                                    canteenid: canteenId,
                                     food_type: "Beverages",
                                     food_items: food_items.length != 0
                                         ? food_items
@@ -862,18 +873,19 @@ class _Item extends StatelessWidget {
                     bool already = false;
                     for (var i in cart_list) {
                       if (i.contains(name)) {
-                        i[3] += 1;
+                        Fluttertoast.showToast(msg: "Already in cart!");
                         already = true;
                       }
                     }
                     !already
                         ? cart_list.add([name, image, price, 1])
                         : cart_list;
-                    BlocProvider.of<CanteenCubit>(context).update_cart(
-                        cart_list,
-                        context);
+                    BlocProvider.of<CanteenCubit>(context)
+                        .update_cart(cart_list, context);
 
-                    Fluttertoast.showToast(msg: "$name Added to cart");
+                    !already
+                        ? Fluttertoast.showToast(msg: "$name Added to cart")
+                        : null;
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: getheight(context, 30)),

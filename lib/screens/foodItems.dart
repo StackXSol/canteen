@@ -6,8 +6,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Food_Items extends StatefulWidget {
-  Food_Items({required this.food_type, required this.food_items});
+  Food_Items({required this.food_type, required this.food_items, required this.canteenid});
   String food_type;
+  String canteenid;
   List<Widget> food_items;
 
   @override

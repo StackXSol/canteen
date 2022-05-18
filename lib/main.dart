@@ -22,6 +22,7 @@ void main() async {
 }
 
 List<List> cart_list = [];
+late String canteenId;
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

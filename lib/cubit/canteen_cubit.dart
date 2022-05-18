@@ -14,6 +14,7 @@ class CanteenCubit extends Cubit<CanteenState> {
   CanteenCubit()
       : super(CanteenState(
             cart_items: [],
+            currentCanteenUser: canteenUser(),
             currentuser: appUser(
                 College: "",
                 full_name: "",
@@ -38,8 +39,9 @@ class CanteenCubit extends Cubit<CanteenState> {
     }
     emit(CanteenState(
         cart_items: new_cart,
+        currentCanteenUser:
+            BlocProvider.of<CanteenCubit>(context).state.currentCanteenUser,
         currentuser: BlocProvider.of<CanteenCubit>(context).state.currentuser));
-    print(BlocProvider.of<CanteenCubit>(context).state.cart_items);
   }
 
   //Emiting user data
@@ -75,12 +77,31 @@ class CanteenCubit extends Cubit<CanteenState> {
         Roll_no: key.data()["Rollno"]);
 
     emit(CanteenState(
-        cart_items: BlocProvider.of<CanteenCubit>(context).state.cart_items,
-        currentuser: currentuser));
+        cart_items: [],
+        currentuser: currentuser,
+        currentCanteenUser:
+            BlocProvider.of<CanteenCubit>(context).state.currentCanteenUser));
+  }
+
+  void getCanteenUserData(uid, context) async {
+    dynamic key =
+        await FirebaseFirestore.instance.collection("Canteens").doc(uid).get();
+
+    late canteenUser currentuser;
+
+    currentuser = canteenUser();
+    currentuser.setter(key.data()["Name"], key.data()["email"],
+        key.data()["phone"], uid, key.data()["College"]);
+
+    emit(CanteenState(
+        cart_items: [],
+        currentuser: BlocProvider.of<CanteenCubit>(context).state.currentuser,
+        currentCanteenUser: currentuser));
   }
 }
 
 //cart_item Widget!
+// ignore: must_be_immutable
 class _cartItem extends StatelessWidget {
   _cartItem(
       {required this.price,

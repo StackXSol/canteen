@@ -128,7 +128,7 @@ class _QRViewExampleState extends State<QRViewExample> {
       setState(() {
         result = scanData;
       });
-      Navigator.pop(context);
+      // Navigator.pop(context);
       // function on QR code which is scanned!
     });
   }
