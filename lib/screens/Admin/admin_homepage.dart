@@ -82,10 +82,10 @@ class AdminHomepage extends StatelessWidget {
 
                             if (snapshot.hasData) {
                               for (var i in snapshot.data.docs) {
-                                if (DateTime.parse(i.data()["DateTime"]).day ==
-                                    DateTime.now().day) {
-                                  total_revenue +=
-                                      int.parse(i.data()["Total_Price"]);
+                                if ("${DateTime.parse(i.data()["DateTime"]).day} + '/' + ${DateTime.parse(i.data()["DateTime"]).month} + '/' + ${DateTime.parse(i.data()["DateTime"]).year}" ==
+                                    "${DateTime.now().day} + '/' + ${DateTime.now().month} + '/' + ${DateTime.now().year}") {
+                                  total_revenue += int.parse(
+                                      i.data()["Total_Price"].toString());
                                 }
                               }
                             }
