@@ -138,7 +138,70 @@ class _AddFoodState extends State<AddFood> {
             ),
             GestureDetector(
               onTap: () async {
-                photo = await _picker.pickImage(source: ImageSource.gallery);
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Form(
+                          // key: _formKey,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: () async {
+                                  photo = await _picker.pickImage(
+                                      source: ImageSource.camera);
+                                },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.camera_alt_outlined,
+                                          color: orange_color,
+                                          size: getheight(context, 40),
+                                        )),
+                                    Text(
+                                      "Camera",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: getwidth(context, 20),
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  photo = await _picker.pickImage(
+                                      source: ImageSource.gallery);
+                                },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.folder_open_outlined,
+                                        color: orange_color,
+                                        size: getheight(context, 40),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Files",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
               },
               child: Container(
                 height: getheight(context, 42),
