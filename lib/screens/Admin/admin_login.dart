@@ -420,7 +420,8 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                               "College": dropdownValue,
                               "phone": phone,
                               "Name": _canteenName,
-                              "email": _email
+                              "email": _email,
+                              "Total_Revenue": 0,
                             }, SetOptions(merge: true));
 
                             List<String> _cat = [

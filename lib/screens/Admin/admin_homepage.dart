@@ -2,7 +2,7 @@ import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/screens/Admin/OrdersToday/ordersToday.dart';
 import 'package:canteen/screens/Admin/add_food.dart';
 import 'package:canteen/screens/Admin/my_menu.dart';
-import 'package:canteen/screens/Admin/orders_this_month.dart';
+import 'package:canteen/screens/Admin/MonthlyOrders/orders_this_month.dart';
 import 'package:canteen/screens/Admin/qrScanner.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -160,6 +160,7 @@ class AdminHomepage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CircleAvatar(
+                        backgroundColor: Colors.transparent,
                         radius: 45,
                         backgroundImage: NetworkImage(
                             'https://i.pinimg.com/564x/dd/9d/c9/dd9dc9d83423bc037b511d73b29e6b80.jpg'),

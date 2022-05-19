@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../widgets.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import '../../../widgets.dart';
 
 class OrdersOfMonth extends StatefulWidget {
   @override
@@ -12,11 +15,31 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
   late String _displayMonth;
   late String _displayYear;
 
+  List<Widget> _orders = [];
+
   @override
   void initState() {
     _displayMonth = DateFormat.MMMM().format(now);
     _displayYear = DateFormat.y().format(now);
+    get_orders();
     super.initState();
+  }
+
+  Future<void> get_orders() async {
+    _orders = [];
+    var key = await FirebaseFirestore.instance
+        .collection("Canteens")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Revenue")
+        .get();
+    for (var i in key.docs) {
+      if (_displayMonth ==
+          DateFormat.MMMM().format(DateTime.parse(i.data()["DateTime"])))
+        _orders.add(_Orders(
+            total_price: i.data()["Total_Price"],
+            oid: int.parse(i.id.toString())));
+    }
+    setState(() {});
   }
 
   @override
@@ -59,6 +82,7 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
                     lastDate: now.add(Duration(days: 3650 * 2)),
                   ).then((value) {
                     setState(() {
+                      print(value);
                       DateTime? now = value;
                       _displayYear = value!.year.toString();
                       _displayMonth = DateFormat.MMMM().format(value);
@@ -76,6 +100,7 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
                     setState(() {
                       now = now.subtract(Duration(days: 30));
                       _displayMonth = DateFormat.MMMM().format(now);
+                      get_orders();
                     });
                   },
                   child: Icon(Icons.keyboard_arrow_left)),
@@ -86,6 +111,7 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
                     setState(() {
                       now = now.add(Duration(days: 30));
                       _displayMonth = DateFormat.MMMM().format(now);
+                      get_orders();
                     });
                   },
                   child: Icon(Icons.keyboard_arrow_right))
@@ -94,10 +120,21 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
         ),
         Expanded(
           child: SingleChildScrollView(
-            child: Column(children: [_Orders(), _Orders(), _Orders()]
-                // widget.food_items
-
-                ),
+            child: Column(
+                children: _orders.length != 0
+                    ? _orders
+                    : [
+                        SizedBox(
+                          height: getheight(context, 180),
+                        ),
+                        Text(
+                          "No orders this Month!",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        )
+                      ]),
           ),
         ),
         SizedBox(
@@ -109,9 +146,9 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
 }
 
 class _Orders extends StatelessWidget {
-  // _Orders({required this.total_price, required this.oid});
+  _Orders({required this.total_price, required this.oid});
 
-  // int total_price, oid;
+  int total_price, oid;
 
   @override
   Widget build(BuildContext context) {
@@ -140,11 +177,9 @@ class _Orders extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: getheight(context, 10)),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 35,
-                    // backgroundImage: NetworkImage(image),
-                    backgroundImage: NetworkImage(
-                        "https://www.listchallenges.com/f/items/57fc372f-9ae7-44e7-b35d-68c8d5bd8df0.jpg"),
+                  QrImage(
+                    data: oid.toString(),
+                    size: 90,
                   ),
                   SizedBox(
                     width: 12,
@@ -154,7 +189,7 @@ class _Orders extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Order 1334",
+                          oid.toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 17),
                         ),
@@ -170,7 +205,7 @@ class _Orders extends StatelessWidget {
                   Spacer(),
                   Padding(
                     padding: EdgeInsets.only(top: getheight(context, 25)),
-                    child: Text("2000/-",
+                    child: Text("${total_price}/-",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
