@@ -1,3 +1,4 @@
+import 'package:canteen/screens/Admin/OrdersToday/todayOrderDetails.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,14 +7,12 @@ import 'package:canteen/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import 'OrdersToday/todayOrderDetails.dart';
-
-class AdminPendingOrders extends StatefulWidget {
+class OrdersToday extends StatefulWidget {
   @override
-  State<AdminPendingOrders> createState() => _AdminPendingOrdersState();
+  State<OrdersToday> createState() => _OrdersTodayState();
 }
 
-class _AdminPendingOrdersState extends State<AdminPendingOrders> {
+class _OrdersTodayState extends State<OrdersToday> {
   @override
   void initState() {
     super.initState();
@@ -37,7 +36,7 @@ class _AdminPendingOrdersState extends State<AdminPendingOrders> {
                       },
                       child: Icon(Icons.keyboard_arrow_left)),
                   Spacer(),
-                  Text("Pending Orders",
+                  Text("Orders Today",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                   Spacer(),
@@ -60,7 +59,8 @@ class _AdminPendingOrdersState extends State<AdminPendingOrders> {
                         if (snapshot.hasData) {
                           var odocs = snapshot.data.docs;
                           for (var i in odocs.reversed) {
-                            if (!i.data()["Status"]) {
+                            if ("${DateTime.parse(i.data()["DateTime"]).day} + '/' + ${DateTime.parse(i.data()["DateTime"]).month} + '/' + ${DateTime.parse(i.data()["DateTime"]).year}" ==
+                                "${DateTime.now().day} + '/' + ${DateTime.now().month} + '/' + ${DateTime.now().year}") {
                               _orders.add(_PendingItem(
                                   total_price: i.data()["Total_Price"],
                                   items: i.data()["Items"],

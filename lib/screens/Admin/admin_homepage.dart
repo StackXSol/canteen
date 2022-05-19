@@ -1,4 +1,5 @@
 import 'package:canteen/cubit/canteen_cubit.dart';
+import 'package:canteen/screens/Admin/OrdersToday/ordersToday.dart';
 import 'package:canteen/screens/Admin/add_food.dart';
 import 'package:canteen/screens/Admin/my_menu.dart';
 import 'package:canteen/screens/Admin/orders_this_month.dart';
@@ -219,7 +220,10 @@ class AdminHomepage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: (() {
-                  // Orders today
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => OrdersToday()),
+                  );
                 }),
                 child: Container(
                   height: getheight(context, 147),
