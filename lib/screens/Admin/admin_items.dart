@@ -91,7 +91,6 @@ class _Item extends StatefulWidget {
   late Function ontap;
 
   String name, image, docid, category;
-
   bool toggle;
 
   @override
@@ -99,6 +98,16 @@ class _Item extends StatefulWidget {
 }
 
 class _ItemState extends State<_Item> {
+  late String food_name, price;
+  String dropdownValue = 'BreakFast';
+  var items = [
+    'BreakFast',
+    'Lunch',
+    'Dinner',
+    "Snacks",
+    'Bakery',
+    'Bevrages',
+  ];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -140,11 +149,176 @@ class _ItemState extends State<_Item> {
                             fontWeight: FontWeight.w600, fontSize: 17),
                       ),
                       SizedBox(height: 10),
-                      Text("Edit",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              color: orange_color))
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Stack(
+                                    children: <Widget>[
+                                      Positioned(
+                                        right: -40.0,
+                                        top: -40.0,
+                                        child: InkResponse(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: CircleAvatar(
+                                            radius: 20,
+                                            child: Icon(Icons.close),
+                                            backgroundColor: orange_color,
+                                          ),
+                                        ),
+                                      ),
+                                      Form(
+                                        // key: _formKey,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text("Edit"),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                  validator: (value) {
+                                                    if (value
+                                                            .toString()
+                                                            .length <
+                                                        1) {
+                                                      return "Enter valid Name!";
+                                                    }
+                                                  },
+                                                  onChanged: ((value) {
+                                                    food_name = value;
+                                                  }),
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  decoration: InputDecoration(
+                                                      hintText: "Food Name",
+                                                      hintStyle: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.grey
+                                                              .withOpacity(
+                                                                  0.5)))),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: TextField(
+                                                  onChanged: (value) {
+                                                    price = value;
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  decoration: InputDecoration(
+                                                      hintText: "Enter price",
+                                                      hintStyle: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.grey
+                                                              .withOpacity(
+                                                                  0.5)))),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: DropdownButton<String>(
+                                                hint: Text("Select Category",
+                                                    style: TextStyle(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.5),
+                                                        fontSize: 16)),
+                                                isExpanded: true,
+                                                value: dropdownValue,
+                                                icon: const Icon(
+                                                    Icons.keyboard_arrow_down),
+                                                elevation: 16,
+                                                style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                underline: Container(
+                                                  height: 0.3,
+                                                  color: Colors.black,
+                                                ),
+                                                onChanged: (String? newValue) {
+                                                  setState(() {
+                                                    dropdownValue = newValue!;
+                                                  });
+                                                },
+                                                items:
+                                                    items.map((String items) {
+                                                  return DropdownMenuItem(
+                                                      value: items,
+                                                      child: Text(items));
+                                                }).toList(),
+                                              ),
+                                            ),
+                                            SizedBox(height: 20),
+                                            GestureDetector(
+                                              onTap: () {
+                                                //   if (_formKey.currentState!
+                                                //       .validate()) {
+                                                //     FirebaseFirestore.instance
+                                                //         .collection("Users")
+                                                //         .doc(BlocProvider.of<
+                                                //                     CanteenCubit>(
+                                                //                 context)
+                                                //             .state
+                                                //             .currentuser
+                                                //             .uid)
+                                                //         .set({
+                                                //       "Fullname": name,
+                                                //       "phone": phone
+                                                //     }, SetOptions(merge: true));
+                                                //     BlocProvider.of<CanteenCubit>(
+                                                //             context)
+                                                //         .get_user_data(
+                                                //             FirebaseAuth.instance
+                                                //                 .currentUser!.uid,
+                                                //             context);
+                                                //     Navigator.pop(context);
+                                                //     Fluttertoast.showToast(
+                                                //         msg: "Details Updated!");
+                                                //   }
+                                              },
+                                              child: Container(
+                                                height: getheight(context, 50),
+                                                width: getwidth(context, 100),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    color: orange_color),
+                                                child: Center(
+                                                  child: Text(
+                                                    "Done",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 17),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                        },
+                        child: Text("Edit",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                color: orange_color)),
+                      )
                     ]),
                 Spacer(),
                 Padding(
