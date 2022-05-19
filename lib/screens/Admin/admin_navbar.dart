@@ -1,5 +1,6 @@
 import 'package:canteen/main.dart';
 import 'package:canteen/screens/Admin/admin_homepage.dart';
+import 'package:canteen/screens/Admin/admin_pending_orders.dart';
 import 'package:canteen/screens/Admin/admin_profile.dart';
 import 'package:canteen/screens/Admin/orders_this_month.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +18,7 @@ class _AdminNavbarState extends State<AdminNavbar> {
   int _index = 0;
   final List<Widget> screens = [
     AdminHomepage(),
-    OrdersOfMonth(),
+    AdminPendingOrders(),
     AdminProfile()
   ];
 

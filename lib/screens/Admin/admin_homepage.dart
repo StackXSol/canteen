@@ -3,6 +3,8 @@ import 'package:canteen/screens/Admin/add_food.dart';
 import 'package:canteen/screens/Admin/my_menu.dart';
 import 'package:canteen/screens/Admin/orders_this_month.dart';
 import 'package:canteen/screens/Admin/qrScanner.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -69,9 +71,29 @@ class AdminHomepage extends StatelessWidget {
                       SizedBox(
                         height: 5,
                       ),
-                      Text("\u{20B9} 6000",
-                          style: TextStyle(
-                              fontSize: 26, fontWeight: FontWeight.bold))
+                      StreamBuilder<Object>(
+                          stream: FirebaseFirestore.instance
+                              .collection("Canteens")
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .collection("Revenue")
+                              .snapshots(),
+                          builder: (context, AsyncSnapshot snapshot) {
+                            int total_revenue = 0;
+
+                            if (snapshot.hasData) {
+                              for (var i in snapshot.data.docs) {
+                                if (DateTime.parse(i.data()["DateTime"]).day ==
+                                    DateTime.now().day) {
+                                  total_revenue +=
+                                      int.parse(i.data()["Total_Price"]);
+                                }
+                              }
+                            }
+
+                            return Text("\u{20B9} $total_revenue",
+                                style: TextStyle(
+                                    fontSize: 26, fontWeight: FontWeight.bold));
+                          })
                     ],
                   ),
                 ),

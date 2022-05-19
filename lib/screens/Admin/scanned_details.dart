@@ -9,22 +9,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class OrderDetails extends StatefulWidget {
-  OrderDetails(
+class QROrderDetails extends StatefulWidget {
+  QROrderDetails(
       {required this.oid,
       required this.paystatus,
       required this.items,
+      required this.uid,
       required this.datetime});
   bool paystatus;
   int oid;
   Map items;
+  String uid;
   DateTime datetime;
 
   @override
-  State<OrderDetails> createState() => _OrderDetailsState();
+  State<QROrderDetails> createState() => _QROrderDetailsState();
 }
 
-class _OrderDetailsState extends State<OrderDetails> {
+class _QROrderDetailsState extends State<QROrderDetails> {
   @override
   void initState() {
     get_items();
@@ -86,10 +88,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection("Users")
-                          .doc(BlocProvider.of<CanteenCubit>(context)
-                              .state
-                              .currentuser
-                              .uid)
+                          .doc(widget.uid)
                           .collection("Orders")
                           .where("OID", isEqualTo: widget.oid)
                           .snapshots(),
@@ -128,11 +127,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                               return Container(
                                 height: getheight(context, 274),
                                 width: getwidth(context, 272),
-                                child: QrImage(
-                                    data: [
-                                  widget.oid,
-                                  FirebaseAuth.instance.currentUser!.uid
-                                ].toString()),
+                                child: QrImage(data: widget.oid.toString()),
                               );
                             }
                           }
@@ -168,12 +163,55 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   fontWeight: FontWeight.w300,
                                   color: Colors.black))
                         ]),
-                  )
+                  ),
+                  SizedBox(
+                    height: getheight(context, 25),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      FirebaseFirestore.instance
+                          .collection("Canteens")
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .collection("Revenue")
+                          .doc(widget.oid.toString())
+                          .set({"Status": true}, SetOptions(merge: true));
+                      var key = await FirebaseFirestore.instance
+                          .collection("Users")
+                          .doc(widget.uid)
+                          .collection("Orders")
+                          .where("OID",
+                              isEqualTo: int.parse(widget.oid.toString()))
+                          .get();
+                      FirebaseFirestore.instance
+                          .collection("Users")
+                          .doc(widget.uid)
+                          .collection("Orders")
+                          .doc(key.docs.first.id)
+                          .set({"Status": true}, SetOptions(merge: true));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 80),
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Center(
+                        child: Text(
+                          "Complete Order",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xfff6f6f9)),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
             SizedBox(
-              height: getheight(context, 28),
+              height: getheight(context, 38),
             ),
             Padding(
               padding: EdgeInsets.only(

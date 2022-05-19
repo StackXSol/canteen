@@ -1,12 +1,19 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:canteen/screens/Admin/admin_navbar.dart';
+
+import 'package:canteen/screens/Admin/scanned_details.dart';
 import 'package:canteen/screens/Authentication/login_signup.dart';
+import 'package:canteen/screens/navbar.dart';
 import 'package:canteen/screens/profile.dart';
 import 'package:canteen/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRViewExample extends StatefulWidget {
@@ -124,12 +131,43 @@ class _QRViewExampleState extends State<QRViewExample> {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
       setState(() {
         result = scanData;
       });
-      // Navigator.pop(context);
+
       // function on QR code which is scanned!
+      var data = await result!.code!.replaceAll("[", "").replaceAll("]", "");
+      List<String> datalist = await data.split(',');
+
+      var key = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(datalist[1].toString().trim())
+          .collection("Orders")
+          .where("OID", isEqualTo: int.parse(datalist[0]))
+          .get();
+      var keyd = await key.docs.first;
+
+      if (!key.docs.first.id.isEmpty) {
+        if (!keyd.data()["Status"]) {
+          print(keyd.data()["DateTime"]);
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QROrderDetails(
+                uid: datalist[1].trim(),
+                oid: int.parse(datalist[0]),
+                paystatus: false,
+                items: keyd.data()["Items"],
+                datetime: DateTime.parse(keyd.data()["DateTime"]),
+              ),
+            ),
+          );
+        } else {
+          Fluttertoast.showToast(msg: "QR Scanned!");
+        }
+      }
     });
   }
 

@@ -1,25 +1,17 @@
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/main.dart';
-import 'package:canteen/screens/cart.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class PendingOrders extends StatefulWidget {
-  // PendingOrders({required this.food_items});
-  // List<Widget> food_items;
-
+class AdminPendingOrders extends StatefulWidget {
   @override
-  State<PendingOrders> createState() => _PendingOrdersState();
+  State<AdminPendingOrders> createState() => _AdminPendingOrdersState();
 }
 
-class _PendingOrdersState extends State<PendingOrders> {
+class _AdminPendingOrdersState extends State<AdminPendingOrders> {
   @override
   void initState() {
     super.initState();
@@ -43,7 +35,7 @@ class _PendingOrdersState extends State<PendingOrders> {
                       },
                       child: Icon(Icons.keyboard_arrow_left)),
                   Spacer(),
-                  Text("Orders",
+                  Text("Pending Orders",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                   Spacer(),
@@ -57,12 +49,9 @@ class _PendingOrdersState extends State<PendingOrders> {
               child: SingleChildScrollView(
                   child: StreamBuilder(
                       stream: FirebaseFirestore.instance
-                          .collection("Users")
-                          .doc(BlocProvider.of<CanteenCubit>(context)
-                              .state
-                              .currentuser
-                              .uid)
-                          .collection("Orders")
+                          .collection("Canteens")
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .collection("Revenue")
                           .snapshots(),
                       builder: (context, AsyncSnapshot snapshot) {
                         List<_PendingItem> _orders = [];
@@ -96,31 +85,6 @@ class _PendingOrdersState extends State<PendingOrders> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Text(
-                                    "Hit the orange button down\nbelow to Create an order",
-                                    style: TextStyle(fontSize: 16),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(
-                                    height: getheight(context, 235),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 15),
-                                    alignment: Alignment.center,
-                                    height: getheight(context, 70),
-                                    width: getwidth(context, 314),
-                                    decoration: BoxDecoration(
-                                        color: orange_color,
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    child: Text(
-                                      "Start odering",
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(0xfff6f6f9)),
-                                    ),
-                                  ),
                                 ],
                         );
                       })),
@@ -149,17 +113,7 @@ class _PendingItem extends StatelessWidget {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => OrderDetails(
-                          oid: oid,
-                          paystatus: false,
-                          items: items,
-                          datetime: datetime,
-                        )));
-          },
+          onTap: () {},
           child: Container(
             height: getheight(context, 102),
             width: getwidth(context, 325),
