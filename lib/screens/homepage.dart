@@ -888,18 +888,20 @@ class _Item extends StatelessWidget {
                         : null;
                   },
                   child: Container(
-                    margin: EdgeInsets.only(top: getheight(context, 30)),
-                    height: getheight(context, 23),
-                    width: getheight(context, 55),
-                    decoration: BoxDecoration(
-                        color: orange_color,
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: getheight(context, 14),
-                    ),
-                  ),
+                      margin: EdgeInsets.only(top: getheight(context, 30)),
+                      height: getheight(context, 23),
+                      width: getheight(context, 55),
+                      decoration: BoxDecoration(
+                          color: orange_color,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Center(
+                          child: Text(
+                        "Add",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12),
+                      ))),
                 ),
               ],
             ),
