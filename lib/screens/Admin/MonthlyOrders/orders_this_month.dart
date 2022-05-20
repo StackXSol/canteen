@@ -34,7 +34,9 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
         .get();
     for (var i in key.docs) {
       if (_displayMonth ==
-          DateFormat.MMMM().format(DateTime.parse(i.data()["DateTime"])))
+              DateFormat.MMMM().format(DateTime.parse(i.data()["DateTime"])) &&
+          (_displayYear ==
+              DateFormat.y().format(DateTime.parse(i.data()["DateTime"]))))
         _orders.add(_Orders(
             total_price: i.data()["Total_Price"],
             oid: int.parse(i.id.toString())));
@@ -50,7 +52,7 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
       children: [
         SizedBox(height: getheight(context, 60)),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: getwidth(context, 40)),
+          padding: EdgeInsets.symmetric(horizontal: getwidth(context, 25)),
           child: Row(
             children: [
               GestureDetector(
@@ -58,7 +60,9 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
                     Navigator.pop(context);
                   },
                   child: Icon(Icons.keyboard_arrow_left)),
-              Spacer(),
+              SizedBox(
+                width: getwidth(context, 80),
+              ),
               Text("Orders this month",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               Spacer(),
@@ -86,6 +90,7 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
                       DateTime? now = value;
                       _displayYear = value!.year.toString();
                       _displayMonth = DateFormat.MMMM().format(value);
+                      get_orders();
                     });
                   });
                 },
@@ -193,14 +198,6 @@ class _Orders extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 17),
                         ),
-                        SizedBox(height: 10),
-                        Text(
-                            // "Rs. $price",
-                            "Time",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                color: orange_color))
                       ]),
                   Spacer(),
                   Padding(

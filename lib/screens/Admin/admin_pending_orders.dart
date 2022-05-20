@@ -31,16 +31,9 @@ class _AdminPendingOrdersState extends State<AdminPendingOrders> {
               padding: EdgeInsets.symmetric(horizontal: getwidth(context, 40)),
               child: Row(
                 children: [
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(Icons.keyboard_arrow_left)),
-                  Spacer(),
                   Text("Pending Orders",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Spacer(),
                 ],
               ),
             ),

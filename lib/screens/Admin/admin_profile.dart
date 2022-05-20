@@ -14,70 +14,61 @@ class AdminProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(children: [
-      SizedBox(height: getheight(context, 60)),
+      SizedBox(height: getheight(context, 70)),
       Padding(
         padding: EdgeInsets.symmetric(horizontal: getwidth(context, 40)),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(Icons.keyboard_arrow_left)),
-              ],
-            ),
-            SizedBox(
-              height: getheight(context, 25),
-            ),
-            Text(
-              "My Profile",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-            )
-          ],
+        child: Text(
+          "My Profile",
+          style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
         ),
       ),
       SizedBox(
         height: getheight(context, getheight(context, 40)),
       ),
-      _profileFunctions(
-        title: "Revenue",
-        ontap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Revenue()),
-          );
-        },
-      ),
-      SizedBox(
-        height: getheight(context, 30),
-      ),
-      _profileFunctions(
-        title: "Faq",
-        ontap: () {
-          ///////// faq ///////
-        },
-      ),
-      SizedBox(
-        height: getheight(context, 30),
-      ),
-      _profileFunctions(
-        title: "Contact Us",
-        ontap: () {
-          ///////// contact us ///////
-        },
-      ),
-      SizedBox(
-        height: getheight(context, 30),
-      ),
-      _profileFunctions(
-        title: "Sign out",
-        ontap: () {
-          FirebaseAuth.instance.signOut();
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Login()));
-        },
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: getwidth(context, 30)),
+        child: Column(
+          children: [
+            _profileFunctions(
+              title: "Revenue",
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Revenue()),
+                );
+              },
+            ),
+            SizedBox(
+              height: getheight(context, 30),
+            ),
+            _profileFunctions(
+              title: "Faq",
+              ontap: () {
+                ///////// faq ///////
+              },
+            ),
+            SizedBox(
+              height: getheight(context, 30),
+            ),
+            _profileFunctions(
+              title: "Contact Us",
+              ontap: () {
+                ///////// contact us ///////
+              },
+            ),
+            SizedBox(
+              height: getheight(context, 30),
+            ),
+            _profileFunctions(
+              title: "Sign out",
+              ontap: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Login()));
+              },
+            ),
+          ],
+        ),
       ),
     ]));
   }

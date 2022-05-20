@@ -35,27 +35,25 @@ class _AddFoodState extends State<AddFood> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(children: [
-      SizedBox(height: getheight(context, 65)),
+      SizedBox(height: getheight(context, 55)),
       Padding(
-          padding: EdgeInsets.symmetric(horizontal: getwidth(context, 22)),
+          padding: EdgeInsets.symmetric(horizontal: getwidth(context, 25)),
           child: Row(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Add Food",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
-                  SizedBox(
-                    height: 13,
-                  ),
-                  Text("Canteen Address"),
-                ],
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.keyboard_arrow_left)),
+              SizedBox(
+                width: getwidth(context, 40),
               ),
+              Text("Add Food",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
             ],
           )),
       SizedBox(
-        height: getheight(context, 32),
+        height: getheight(context, 40),
       ),
       Container(
         padding: EdgeInsets.symmetric(horizontal: getwidth(context, 22)),

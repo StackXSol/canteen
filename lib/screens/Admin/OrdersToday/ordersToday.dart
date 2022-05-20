@@ -27,7 +27,7 @@ class _OrdersTodayState extends State<OrdersToday> {
           children: [
             SizedBox(height: getheight(context, 60)),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: getwidth(context, 40)),
+              padding: EdgeInsets.symmetric(horizontal: getwidth(context, 25)),
               child: Row(
                 children: [
                   GestureDetector(
@@ -35,7 +35,9 @@ class _OrdersTodayState extends State<OrdersToday> {
                         Navigator.pop(context);
                       },
                       child: Icon(Icons.keyboard_arrow_left)),
-                  Spacer(),
+                  SizedBox(
+                    width: getwidth(context, 80),
+                  ),
                   Text("Orders Today",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),

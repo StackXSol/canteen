@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/screens/Admin/admin_navbar.dart';
 
 import 'package:canteen/screens/Admin/scanned_details.dart';
@@ -10,9 +11,11 @@ import 'package:canteen/screens/navbar.dart';
 import 'package:canteen/screens/profile.dart';
 import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -146,26 +149,37 @@ class _QRViewExampleState extends State<QRViewExample> {
           .collection("Orders")
           .where("OID", isEqualTo: int.parse(datalist[0]))
           .get();
+      var key1 = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(datalist[1].toString().trim())
+          .get();
       var keyd = await key.docs.first;
 
       if (!key.docs.first.id.isEmpty) {
-        if (!keyd.data()["Status"]) {
-          print(keyd.data()["DateTime"]);
-
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => QROrderDetails(
-                uid: datalist[1].trim(),
-                oid: int.parse(datalist[0]),
-                paystatus: false,
-                items: keyd.data()["Items"],
-                datetime: DateTime.parse(keyd.data()["DateTime"]),
+        if ((key1.data() as dynamic)["College"] ==
+            BlocProvider.of<CanteenCubit>(context)
+                .state
+                .currentCanteenUser
+                .getter()[4]) {
+          if (!keyd.data()["Status"]) {
+            print(keyd.data()["DateTime"]);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QROrderDetails(
+                  uid: datalist[1].trim(),
+                  oid: int.parse(datalist[0]),
+                  paystatus: false,
+                  items: keyd.data()["Items"],
+                  datetime: DateTime.parse(keyd.data()["DateTime"]),
+                ),
               ),
-            ),
-          );
+            );
+          } else {
+            Fluttertoast.showToast(msg: "Already Scanned!");
+          }
         } else {
-          Fluttertoast.showToast(msg: "QR Scanned!");
+          Fluttertoast.showToast(msg: "College not matching!");
         }
       }
     });

@@ -15,35 +15,29 @@ class MyMenu extends StatelessWidget {
             body: Column(children: [
           SizedBox(height: getheight(context, 65)),
           Padding(
-              padding: EdgeInsets.symmetric(horizontal: getwidth(context, 22)),
+              padding: EdgeInsets.symmetric(horizontal: getwidth(context, 25)),
               child: Row(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                          "College " +
-                              BlocProvider.of<CanteenCubit>(context)
-                                  .state
-                                  .currentCanteenUser
-                                  .getter()[4],
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w900)),
-                      SizedBox(
-                        height: 13,
-                      ),
-                      Text(
-                        BlocProvider.of<CanteenCubit>(context)
-                            .state
-                            .currentCanteenUser
-                            .getter()[0],
-                      ),
-                    ],
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(Icons.keyboard_arrow_left)),
+                  SizedBox(
+                    width: getwidth(context, 42),
                   ),
+                  Text(
+                      "College " +
+                          BlocProvider.of<CanteenCubit>(context)
+                              .state
+                              .currentCanteenUser
+                              .getter()[4],
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
                 ],
               )),
           SizedBox(
-            height: getheight(context, 25),
+            height: getheight(context, 40),
           ),
           Expanded(
             child: SingleChildScrollView(

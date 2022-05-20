@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../widgets.dart';
@@ -15,31 +17,50 @@ class _RevenueState extends State<Revenue> {
   DateTime now = DateTime.now();
   late String _displayMonth;
   late String _displayYear;
+  int orders = 0;
+  int revenue = 0;
 
   @override
   void initState() {
     _displayMonth = DateFormat.MMMM().format(now);
     _displayYear = DateFormat.y().format(now);
+    get_revenue_details();
     super.initState();
+  }
+
+  List<ChartData> chartData = [];
+
+  Future<void> get_revenue_details() async {
+    orders = 0;
+    revenue = 0;
+    chartData = [];
+    var key = await FirebaseFirestore.instance
+        .collection("Canteens")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Revenue")
+        .get();
+    for (var i in key.docs) {
+      if (_displayMonth ==
+              DateFormat.MMMM().format(DateTime.parse(i.data()["DateTime"])) &&
+          _displayYear ==
+              DateFormat.y().format(
+                DateTime.parse(i.data()["DateTime"]),
+              )) {
+        orders += 1;
+        revenue += int.parse(i.data()["Total_Price"].toString());
+        chartData.add(ChartData(orders, revenue.toDouble()));
+      }
+    }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData(1, 35),
-      ChartData(5, 28),
-      ChartData(10, 34),
-      ChartData(15, 32),
-      ChartData(20, 40),
-      ChartData(25, 40),
-      ChartData(30, 100),
-    ];
-
     return Scaffold(
       body: Column(children: [
         SizedBox(height: getheight(context, 60)),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: getwidth(context, 40)),
+          padding: EdgeInsets.symmetric(horizontal: getwidth(context, 20)),
           child: Column(
             children: [
               Row(
@@ -49,20 +70,20 @@ class _RevenueState extends State<Revenue> {
                         Navigator.pop(context);
                       },
                       child: Icon(Icons.keyboard_arrow_left)),
+                  SizedBox(
+                    width: getwidth(context, 30),
+                  ),
+                  Text(
+                    "Revenue",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                  )
                 ],
               ),
-              SizedBox(
-                height: getheight(context, 10),
-              ),
-              Text(
-                "Revenue",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-              )
             ],
           ),
         ),
         SizedBox(
-          height: getheight(context, getheight(context, 25)),
+          height: getheight(context, 35),
         ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: getwidth(context, 40)),
@@ -80,6 +101,7 @@ class _RevenueState extends State<Revenue> {
                       DateTime? now = value;
                       _displayYear = value!.year.toString();
                       _displayMonth = DateFormat.MMMM().format(value);
+                      get_revenue_details();
                     });
                   });
                 },
@@ -94,6 +116,7 @@ class _RevenueState extends State<Revenue> {
                     setState(() {
                       now = now.subtract(Duration(days: 30));
                       _displayMonth = DateFormat.MMMM().format(now);
+                      get_revenue_details();
                     });
                   },
                   child: Icon(Icons.keyboard_arrow_left)),
@@ -104,6 +127,7 @@ class _RevenueState extends State<Revenue> {
                     setState(() {
                       now = now.add(Duration(days: 30));
                       _displayMonth = DateFormat.MMMM().format(now);
+                      get_revenue_details();
                     });
                   },
                   child: Icon(Icons.keyboard_arrow_right))
@@ -112,7 +136,7 @@ class _RevenueState extends State<Revenue> {
         ),
         SizedBox(height: getheight(context, 30)),
         Container(
-          height: getheight(context, 250),
+          height: getheight(context, 300),
           child: SfCartesianChart(
               crosshairBehavior: CrosshairBehavior(
                   shouldAlwaysShow: true,
@@ -120,8 +144,8 @@ class _RevenueState extends State<Revenue> {
                   activationMode: ActivationMode.singleTap),
               series: <ChartSeries>[
                 LineSeries<ChartData, int>(
-                    xAxisName: "Revenue",
-                    yAxisName: "Days",
+                    xAxisName: "Orders",
+                    yAxisName: "Revenue",
                     dataSource: chartData,
                     xValueMapper: (ChartData data, _) => data.x,
                     yValueMapper: (ChartData data, _) => data.y)
@@ -131,7 +155,7 @@ class _RevenueState extends State<Revenue> {
           height: getheight(context, 40),
         ),
         Container(
-          height: getheight(context, 70),
+          height: getheight(context, 90),
           width: getwidth(context, 315),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -148,15 +172,19 @@ class _RevenueState extends State<Revenue> {
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
                   "Your revenue",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
-                Spacer(),
                 Text(
-                  "1500/-",
-                  style: TextStyle(fontSize: 16, color: Colors.green),
+                  "${revenue.toString()}/-",
+                  style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -166,7 +194,7 @@ class _RevenueState extends State<Revenue> {
           height: getheight(context, 20),
         ),
         Container(
-          height: getheight(context, 70),
+          height: getheight(context, 90),
           width: getwidth(context, 315),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -183,15 +211,18 @@ class _RevenueState extends State<Revenue> {
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
                   "Total orders",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
-                Spacer(),
                 Text(
-                  "250",
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                  "$orders",
+                  style: TextStyle(
+                      fontSize: 22,
+                      color: orange_color,
+                      fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -199,38 +230,6 @@ class _RevenueState extends State<Revenue> {
         ),
         SizedBox(
           height: getheight(context, 20),
-        ),
-        Container(
-          height: getheight(context, 70),
-          width: getwidth(context, 315),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.01),
-                  spreadRadius: 3,
-                  blurRadius: 8,
-                  offset: Offset(0, 7), // changes position of shadow
-                ),
-              ]),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Settled on ",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                ),
-                Spacer(),
-                Text(
-                  "25 May 2011",
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-              ],
-            ),
-          ),
         ),
       ]),
     );

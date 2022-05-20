@@ -477,7 +477,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         BlocProvider.of<CanteenCubit>(context)
             .get_user_data(user?.uid, context);
 
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => Navbar(),

@@ -174,7 +174,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                             .getCanteenUserData(
                                 FirebaseAuth.instance.currentUser!.uid,
                                 context);
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => AdminNavbar()));
@@ -458,7 +458,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                                     FirebaseAuth.instance.currentUser!.uid,
                                     context);
 
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => AdminNavbar()),
