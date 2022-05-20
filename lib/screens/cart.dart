@@ -101,6 +101,7 @@ class _CartState extends State<Cart> {
                           "Image": i[1]
                         };
                       }
+
                       FirebaseFirestore.instance
                           .collection("Users")
                           .doc(FirebaseAuth.instance.currentUser!.uid)
