@@ -88,6 +88,7 @@ class _CartState extends State<Cart> {
                       int total_price = 0;
                       DateTime time = DateTime.now();
                       Map _orders = {};
+                      List<Widget> dialogitemsList = [];
                       int OID = Random().nextInt(100000000) +
                           Random().nextInt(1000000) +
                           Random().nextInt(10000) +
@@ -101,46 +102,145 @@ class _CartState extends State<Cart> {
                           "Image": i[1]
                         };
                       }
+                      for (var i in cart_list) {
+                        dialogitemsList.add(
+                            _ItemRow(item: i[0].toString(), quantity: i[3]));
+                      }
 
-                      FirebaseFirestore.instance
-                          .collection("Users")
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .collection("Orders")
-                          .doc(DateTime.now().toString())
-                          .set({
-                        "OID": OID,
-                        "DateTime": DateTime.now().toString(),
-                        "Total_Price": total_price,
-                        "Status": false,
-                        "Items": _orders
-                      }, SetOptions(merge: true));
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Form(
+                                // key: _formKey,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text(
+                                      "Details",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Text("Items",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold))
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text("Quantity",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold))
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Column(
+                                      children: dialogitemsList,
+                                    ),
+                                    SizedBox(height: 15),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Total:",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Spacer(),
+                                        Text(
+                                            "\u{20B9} ${total_price.toString()}/-",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold))
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    GestureDetector(
+                                      onTap: () {
+                                        ///// Colplete your order
+                                        FirebaseFirestore.instance
+                                            .collection("Users")
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser!.uid)
+                                            .collection("Orders")
+                                            .doc(DateTime.now().toString())
+                                            .set({
+                                          "OID": OID,
+                                          "DateTime": DateTime.now().toString(),
+                                          "Total_Price": total_price,
+                                          "Status": false,
+                                          "Items": _orders
+                                        }, SetOptions(merge: true));
 
-                      FirebaseFirestore.instance
-                          .collection("Canteens")
-                          .doc(canteenId)
-                          .collection("Revenue")
-                          .doc(OID.toString())
-                          .set({
-                        "OID": OID,
-                        "DateTime": DateTime.now().toString(),
-                        "Total_Price": total_price,
-                        "Status": false,
-                        "Items": _orders
-                      }, SetOptions(merge: true));
+                                        FirebaseFirestore.instance
+                                            .collection("Canteens")
+                                            .doc(canteenId)
+                                            .collection("Revenue")
+                                            .doc(OID.toString())
+                                            .set({
+                                          "OID": OID,
+                                          "DateTime": DateTime.now().toString(),
+                                          "Total_Price": total_price,
+                                          "Status": false,
+                                          "Items": _orders
+                                        }, SetOptions(merge: true));
 
-                      FirebaseFirestore.instance
-                          .collection("Canteens")
-                          .doc(canteenId)
-                          .set({
-                        "Total_Revenue": FieldValue.increment(total_price)
-                      }, SetOptions(merge: true));
+                                        FirebaseFirestore.instance
+                                            .collection("Canteens")
+                                            .doc(canteenId)
+                                            .set({
+                                          "Total_Revenue":
+                                              FieldValue.increment(total_price)
+                                        }, SetOptions(merge: true));
 
-                      print(total_price);
-                      print(OID);
-                      print(_orders);
-                      cart_list = [];
-                      BlocProvider.of<CanteenCubit>(context)
-                          .update_cart(cart_list, context);
+                                        print(total_price);
+                                        print(OID);
+                                        print(_orders);
+                                        cart_list = [];
+                                        BlocProvider.of<CanteenCubit>(context)
+                                            .update_cart(cart_list, context);
+                                      },
+                                      child: Container(
+                                        height: getheight(context, 50),
+                                        width: getwidth(context, 100),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            color: orange_color),
+                                        child: Center(
+                                          child: Text(
+                                            "Pay Now",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 17),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
                     },
                     child: Visibility(
                       visible: BlocProvider.of<CanteenCubit>(context)
@@ -172,6 +272,32 @@ class _CartState extends State<Cart> {
           ),
         );
       },
+    );
+  }
+}
+
+class _ItemRow extends StatelessWidget {
+  _ItemRow({required this.item, required this.quantity});
+
+  String item;
+  int quantity;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          children: [
+            Text(
+              item,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            )
+          ],
+        ),
+        Column(
+          children: [Text(quantity.toString())],
+        )
+      ],
     );
   }
 }
