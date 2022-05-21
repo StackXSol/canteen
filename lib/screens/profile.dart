@@ -19,11 +19,13 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-  String name = "";
-  String phone = "";
 
   @override
   Widget build(BuildContext context) {
+    String name =
+        BlocProvider.of<CanteenCubit>(context).state.currentuser.full_name;
+    String phone =
+        BlocProvider.of<CanteenCubit>(context).state.currentuser.phone;
     return BlocBuilder<CanteenCubit, CanteenState>(
       builder: (context, state) {
         return Scaffold(
@@ -93,6 +95,11 @@ class _ProfileState extends State<Profile> {
                                             Padding(
                                               padding: EdgeInsets.all(8.0),
                                               child: TextFormField(
+                                                  initialValue: BlocProvider.of<
+                                                          CanteenCubit>(context)
+                                                      .state
+                                                      .currentuser
+                                                      .full_name,
                                                   validator: (value) {
                                                     if (value
                                                             .toString()
@@ -119,6 +126,11 @@ class _ProfileState extends State<Profile> {
                                             Padding(
                                               padding: EdgeInsets.all(8.0),
                                               child: TextFormField(
+                                                  initialValue: BlocProvider.of<
+                                                          CanteenCubit>(context)
+                                                      .state
+                                                      .currentuser
+                                                      .phone,
                                                   validator: (value) {
                                                     if (value
                                                             .toString()

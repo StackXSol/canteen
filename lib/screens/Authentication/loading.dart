@@ -78,41 +78,33 @@ class _LoadingPageState extends State<LoadingPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Image(
-            image: AssetImage('images/Splashscreen.png'),
-            fit: BoxFit.cover,
+      backgroundColor: Colors.white,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            height: getheight(context, 245),
           ),
-        ),
-        Positioned(
-          top: getheight(context, 320),
-          left: getwidth(context, 80),
-          right: getwidth(context, 80),
-          child: Container(
-            height: getheight(context, 200),
-            width: getheight(context, 200),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100), color: Colors.white),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Food For everyone",
-                  style: TextStyle(color: Colors.red),
-                ),
-                SpinKitFadingCircle(
-                  color: Colors.red,
-                  size: 50.0,
-                ),
-              ],
-            ),
+          Image(
+              height: getheight(context, 225),
+              width: getheight(context, 225),
+              image: AssetImage("images/logo.png")),
+          SizedBox(
+            height: getheight(context, 182),
           ),
-        ),
-      ],
-    ));
+          SpinKitFadingCircle(
+            color: Colors.red,
+            size: 50.0,
+          ),
+          SizedBox(
+            height: getheight(context, 10),
+          ),
+          Center(
+              child: Image(
+                  width: getwidth(context, 247),
+                  image: AssetImage("images/logo2.png")))
+        ],
+      ),
+    );
   }
 }

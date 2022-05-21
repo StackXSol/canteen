@@ -63,10 +63,9 @@ class CanteenCubit extends Cubit<CanteenState> {
 
     emit(CanteenState(
         paymentstatus: false,
-        cart_items: [],
+        cart_items: CanteenCubit().state.cart_items,
         currentuser: currentuser,
-        currentCanteenUser:
-            BlocProvider.of<CanteenCubit>(context).state.currentCanteenUser));
+        currentCanteenUser: CanteenCubit().state.currentCanteenUser));
   }
 
   void getCanteenUserData(uid, context) async {
@@ -81,7 +80,7 @@ class CanteenCubit extends Cubit<CanteenState> {
 
     emit(CanteenState(
         paymentstatus: false,
-        cart_items: [],
+        cart_items: CanteenCubit().state.cart_items,
         currentuser: BlocProvider.of<CanteenCubit>(context).state.currentuser,
         currentCanteenUser: currentuser));
   }
@@ -89,7 +88,7 @@ class CanteenCubit extends Cubit<CanteenState> {
   void set_paystatus(context, status) {
     print("Payment Status is $status now");
     emit(CanteenState(
-        cart_items: [],
+        cart_items: CanteenCubit().state.cart_items,
         currentuser: BlocProvider.of<CanteenCubit>(context).state.currentuser,
         paymentstatus: status,
         currentCanteenUser:

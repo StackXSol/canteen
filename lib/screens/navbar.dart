@@ -3,6 +3,7 @@ import 'package:canteen/screens/Orders/pending_orders.dart';
 import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:canteen/screens/profile.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
@@ -19,22 +20,14 @@ class _NavbarState extends State<Navbar> {
   final List<Widget> screens = [HomePage(), PendingOrders(), Profile()];
 
   @override
-  void initState() {
-    // verify_mail();
-  }
-
-  // void verify_mail() {
-  //   FirebaseAuth.instance.sendSignInLinkToEmail(
-  //       email: currentUser.email,
-  //       actionCodeSettings: ActionCodeSettings(
-  //           url: "https://google.com", handleCodeInApp: true));
-  // }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF5F5F8),
-      body: screens[_index],
+      body: DoubleBackToCloseApp(
+          snackBar: const SnackBar(
+            content: Text('Tap back again to leave'),
+          ),
+          child: screens[_index]),
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         notchMargin: 6,
@@ -63,26 +56,6 @@ class _NavbarState extends State<Navbar> {
           currentIndex: _index,
         ),
       ),
-      // floatingActionButton: Container(
-      //   decoration: BoxDecoration(
-      //       boxShadow: [
-      //         BoxShadow(
-      //           color: Colors.black.withOpacity(0.2),
-      //           offset: Offset(0, 0.2),
-      //           blurRadius: 6,
-      //         ),
-      //       ],
-      //       borderRadius: BorderRadius.circular(50),
-      //       gradient:
-      //           LinearGradient(colors: [Color(0xFF92A3FD), Color(0xFF9DCEFF)])),
-      //   child: FloatingActionButton(
-      //     child: Icon(Icons.search),
-      //     elevation: 0,
-      //     backgroundColor: Colors.transparent,
-      //     onPressed: () {},
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
