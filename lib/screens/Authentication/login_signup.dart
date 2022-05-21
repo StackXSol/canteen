@@ -10,7 +10,7 @@ import 'package:canteen/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../cubit/canteen_cubit.dart';
 import 'forgotpassword.dart';
 
@@ -28,6 +28,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   late String fullname;
   late String phone;
   late String rollno;
+  bool showSpinner = false;
 
   List<String> collegelist = [];
 
@@ -97,342 +98,392 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           ),
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: <Widget>[
-          Container(
-              padding: EdgeInsets.only(
-                  top: getheight(context, 60),
-                  left: getwidth(context, 30),
-                  right: getwidth(context, 30)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Email address", style: TextStyle(color: Colors.black)),
-                  TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          _email = value;
-                        });
-                      },
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Enter Email",
-                          hintStyle: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey.withOpacity(0.5)))),
-                  Divider(
-                    height: 2,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    height: getheight(context, 40),
-                  ),
-                  Text("Password", style: TextStyle(color: Colors.black)),
-                  TextField(
-                      cursorColor: Colors.black,
-                      onChanged: (value) {
-                        setState(() {
-                          _pass = value;
-                        });
-                      },
-                      obscureText: _isObscure,
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                      decoration: InputDecoration(
-                          suffixIcon: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _isObscure = !_isObscure;
-                                });
-                              },
-                              child: Icon(
-                                Icons.remove_red_eye_outlined,
-                                color: Colors.grey,
-                              )),
-                          border: InputBorder.none,
-                          hintText: "Enter Password",
-                          hintStyle: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey.withOpacity(0.5)))),
-                  Divider(
-                    height: 2,
-                    color: Colors.black,
-                  ),
-                  SizedBox(height: getheight(context, 30)),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ResetPassword()),
-                      );
-                    },
-                    child: Text(
-                      "Forgot password?",
-                      style: TextStyle(
-                          color: orange_color,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  SizedBox(
-                    height: getheight(context, 40),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AdminLogin()),
-                      );
-                    },
-                    child: Text(
-                      "Admin login",
-                      style: TextStyle(
-                          color: orange_color,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      login();
-                    },
-                    child: Container(
-                      height: getheight(context, 70),
-                      width: getwidth(context, 310),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: orange_color),
-                      child: Center(
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: getheight(context, 25),
-                  ),
-                ],
-              )),
-          Container(
-              padding: EdgeInsets.only(
-                  top: getheight(context, 30),
-                  left: getwidth(context, 30),
-                  right: getwidth(context, 30)),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //////////////// full name
-                    Text("Full Name", style: TextStyle(color: Colors.black)),
-                    TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            fullname = value;
-                          });
-                        },
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Name",
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.5)))),
-                    Divider(
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      height: getheight(context, 15),
-                    ),
-
-                    ////////////// email address for signup
-                    Text("Email address",
-                        style: TextStyle(color: Colors.black)),
-                    TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            _email = value;
-                          });
-                        },
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Enter Email",
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.5)))),
-                    Divider(
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      height: getheight(context, 10),
-                    ),
-                    ////////////////// phone number
-
-                    Row(
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: Container(
+          child: TabBarView(
+            controller: _tabController,
+            children: <Widget>[
+              Container(
+                  padding: EdgeInsets.only(
+                      top: getheight(context, 60),
+                      left: getwidth(context, 30),
+                      right: getwidth(context, 30)),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "🇮🇳",
-                          style: TextStyle(fontSize: 20),
+                        Text("Email address",
+                            style: TextStyle(color: Colors.black)),
+                        TextField(
+                            onChanged: (value) {
+                              setState(() {
+                                _email = value;
+                              });
+                            },
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Enter Email",
+                                hintStyle: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey.withOpacity(0.5)))),
+                        Divider(
+                          height: 2,
+                          color: Colors.black,
                         ),
-                        Text(
-                          " +91",
+                        SizedBox(
+                          height: getheight(context, 40),
                         ),
-                        SizedBox(width: 10),
-                        Container(
-                          width: getwidth(context, 200),
-                          child: TextField(
-                              onChanged: (value) {
-                                phone = value;
-                              },
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Phone number",
-                                  hintStyle: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.grey.withOpacity(0.5)))),
+                        Text("Password", style: TextStyle(color: Colors.black)),
+                        TextField(
+                            cursorColor: Colors.black,
+                            onChanged: (value) {
+                              setState(() {
+                                _pass = value;
+                              });
+                            },
+                            obscureText: _isObscure,
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                                suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _isObscure = !_isObscure;
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.remove_red_eye_outlined,
+                                      color: Colors.grey,
+                                    )),
+                                border: InputBorder.none,
+                                hintText: "Enter Password",
+                                hintStyle: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey.withOpacity(0.5)))),
+                        Divider(
+                          height: 2,
+                          color: Colors.black,
+                        ),
+                        SizedBox(height: getheight(context, 30)),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ResetPassword()),
+                            );
+                          },
+                          child: Text(
+                            "Forgot password?",
+                            style: TextStyle(
+                                color: orange_color,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        SizedBox(
+                          height: getheight(context, 40),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdminLogin()),
+                            );
+                          },
+                          child: Text(
+                            "Admin login",
+                            style: TextStyle(
+                                color: orange_color,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        SizedBox(
+                          height: getheight(context, 210),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            setState(() {
+                              showSpinner = true;
+                              print("spinner true");
+                            });
+                            // login();
+                            try {
+                              auth
+                                  .signInWithEmailAndPassword(
+                                      email: _email, password: _pass)
+                                  .then((value) async {
+                                print("signin successful");
+                                User? user = FirebaseAuth.instance.currentUser;
+
+                                BlocProvider.of<CanteenCubit>(context)
+                                    .get_user_data(user?.uid, context);
+
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Navbar(),
+                                  ),
+                                );
+                              });
+                            } on FirebaseException catch (e) {
+                              Fluttertoast.showToast(msg: e.message.toString());
+                              print(e.message.toString());
+                            }
+                            setState(() {
+                              showSpinner = false;
+                              print("spinner false");
+                            });
+                          },
+                          child: Container(
+                            height: getheight(context, 70),
+                            width: getwidth(context, 310),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: orange_color),
+                            child: Center(
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: getheight(context, 25),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
-                    /////////////// college
-                    Text("College", style: TextStyle(color: Colors.black)),
-                    DropdownButton<String>(
-                      isExpanded: true,
-                      value: dropdownValue,
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      elevation: 16,
-                      style: const TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                      underline: Container(
-                        height: 0.5,
-                        color: Colors.black,
-                      ),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                        });
-                      },
-                      items: collegelist.map<DropdownMenuItem<String>>((value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-
-                    SizedBox(height: 15),
-
-                    ///// /////////roll number
-                    Text("Roll Number", style: TextStyle(color: Colors.black)),
-                    TextField(
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          rollno = value;
-                        },
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Enter Roll number",
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.5)))),
-                    Divider(
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                    SizedBox(height: getheight(context, 15)),
-
-                    ///////////////// password
-                    Text("Password", style: TextStyle(color: Colors.black)),
-                    TextField(
-                      cursorColor: Colors.black,
-                      onChanged: (value) {
-                        setState(() {
-                          _pass = value;
-                        });
-                      },
-                      obscureText: _isObscure,
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                            onPressed: () {
+                  )),
+              Container(
+                  padding: EdgeInsets.only(
+                      top: getheight(context, 30),
+                      left: getwidth(context, 30),
+                      right: getwidth(context, 30)),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //////////////// full name
+                        Text("Full Name",
+                            style: TextStyle(color: Colors.black)),
+                        TextField(
+                            onChanged: (value) {
                               setState(() {
-                                _isObscure = !_isObscure;
+                                fullname = value;
                               });
                             },
-                            icon: Icon(
-                              Icons.remove_red_eye,
-                              color: Colors.grey,
-                            )),
-                        border: InputBorder.none,
-                        hintText: "Enter Password",
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey.withOpacity(0.5),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                    SizedBox(height: getheight(context, 90)),
-
-                    InkWell(
-                      onTap: () {
-                        registration();
-                      },
-                      child: Container(
-                        height: getheight(context, 70),
-                        width: getwidth(context, 310),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: orange_color),
-                        child: Center(
-                          child: Text(
-                            "Sign Up",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17),
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Name",
+                                hintStyle: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey.withOpacity(0.5)))),
+                        Divider(
+                          height: 2,
+                          color: Colors.black,
+                        ),
+                        SizedBox(
+                          height: getheight(context, 15),
+                        ),
+
+                        ////////////// email address for signup
+                        Text("Email address",
+                            style: TextStyle(color: Colors.black)),
+                        TextField(
+                            onChanged: (value) {
+                              setState(() {
+                                _email = value;
+                              });
+                            },
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Enter Email",
+                                hintStyle: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey.withOpacity(0.5)))),
+                        Divider(
+                          height: 2,
+                          color: Colors.black,
+                        ),
+                        SizedBox(
+                          height: getheight(context, 10),
+                        ),
+                        ////////////////// phone number
+
+                        Row(
+                          children: [
+                            Text(
+                              "🇮🇳",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              " +91",
+                            ),
+                            SizedBox(width: 10),
+                            Container(
+                              width: getwidth(context, 200),
+                              child: TextField(
+                                  onChanged: (value) {
+                                    phone = value;
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Phone number",
+                                      hintStyle: TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Colors.grey.withOpacity(0.5)))),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        /////////////// college
+                        Text("College", style: TextStyle(color: Colors.black)),
+                        DropdownButton<String>(
+                          isExpanded: true,
+                          value: dropdownValue,
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          elevation: 16,
+                          style: const TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                          underline: Container(
+                            height: 0.5,
+                            color: Colors.black,
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                          items: collegelist
+                              .map<DropdownMenuItem<String>>((value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+
+                        SizedBox(height: 15),
+
+                        ///// /////////roll number
+                        Text("Roll Number",
+                            style: TextStyle(color: Colors.black)),
+                        TextField(
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              rollno = value;
+                            },
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Enter Roll number",
+                                hintStyle: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey.withOpacity(0.5)))),
+                        Divider(
+                          height: 2,
+                          color: Colors.black,
+                        ),
+                        SizedBox(height: getheight(context, 15)),
+
+                        ///////////////// password
+                        Text("Password", style: TextStyle(color: Colors.black)),
+                        TextField(
+                          cursorColor: Colors.black,
+                          onChanged: (value) {
+                            setState(() {
+                              _pass = value;
+                            });
+                          },
+                          obscureText: _isObscure,
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure = !_isObscure;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye,
+                                  color: Colors.grey,
+                                )),
+                            border: InputBorder.none,
+                            hintText: "Enter Password",
+                            hintStyle: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey.withOpacity(0.5),
+                            ),
                           ),
                         ),
-                      ),
+                        Divider(
+                          height: 2,
+                          color: Colors.black,
+                        ),
+                        SizedBox(height: getheight(context, 90)),
+
+                        InkWell(
+                          onTap: () {
+                            registration();
+                          },
+                          child: Container(
+                            height: getheight(context, 70),
+                            width: getwidth(context, 310),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: orange_color),
+                            child: Center(
+                              child: Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: getheight(context, 25),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: getheight(context, 25),
-                    ),
-                  ],
-                ),
-              )),
-        ],
+                  )),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Future registration() async {
+    setState(() {
+      showSpinner = true;
+      print("spinner true");
+    });
     Fluttertoast.showToast(msg: "Registering...");
     try {
       auth
@@ -469,33 +520,17 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           ),
         );
       });
-    } catch (e) {
-      print(e.toString());
+    } on FirebaseException catch (e) {
+      Fluttertoast.showToast(msg: e.message.toString());
     }
+    setState(() {
+      showSpinner = true;
+      print("spinner true");
+    });
   }
 
-  Future login() async {
-    Fluttertoast.showToast(msg: "Signing in...");
-    try {
-      auth
-          .signInWithEmailAndPassword(email: _email, password: _pass)
-          .then((value) async {
-        print("signin successful");
-        User? user = FirebaseAuth.instance.currentUser;
+//   Future login() async {
+//     Fluttertoast.showToast(msg: "Signing in...");
 
-        BlocProvider.of<CanteenCubit>(context)
-            .get_user_data(user?.uid, context);
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navbar(),
-          ),
-        );
-      });
-    } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
-      print(e.toString());
-    }
-  }
+//   }
 }
