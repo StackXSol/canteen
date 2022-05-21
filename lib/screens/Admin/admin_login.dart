@@ -111,7 +111,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                       TextField(
                           onChanged: (value) {
                             setState(() {
-                              _email = value;
+                              _email = value.replaceAll(" ", "");
                             });
                           },
                           style: TextStyle(
@@ -298,7 +298,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                             },
                             onChanged: (value) {
                               setState(() {
-                                _email = value;
+                                _email = value.replaceAll(" ", "");
                               });
                             },
                             style: TextStyle(

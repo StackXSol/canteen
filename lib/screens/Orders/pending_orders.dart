@@ -104,23 +104,6 @@ class _PendingOrdersState extends State<PendingOrders> {
                                   SizedBox(
                                     height: getheight(context, 235),
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 15),
-                                    alignment: Alignment.center,
-                                    height: getheight(context, 70),
-                                    width: getwidth(context, 314),
-                                    decoration: BoxDecoration(
-                                        color: orange_color,
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    child: Text(
-                                      "Start odering",
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(0xfff6f6f9)),
-                                    ),
-                                  ),
                                 ],
                         );
                       })),
