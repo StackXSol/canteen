@@ -4,9 +4,11 @@ class CanteenState {
   CanteenState(
       {required this.cart_items,
       required this.currentuser,
+      required this.paymentstatus,
       required this.currentCanteenUser});
 
   List<Widget> cart_items;
   appUser currentuser;
   canteenUser currentCanteenUser;
+  bool paymentstatus;
 }

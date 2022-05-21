@@ -14,6 +14,7 @@ class CanteenCubit extends Cubit<CanteenState> {
   CanteenCubit()
       : super(CanteenState(
             cart_items: [],
+            paymentstatus: false,
             currentCanteenUser: canteenUser(),
             currentuser: appUser(
                 College: "",
@@ -38,6 +39,7 @@ class CanteenCubit extends Cubit<CanteenState> {
       n += 1;
     }
     emit(CanteenState(
+        paymentstatus: false,
         cart_items: new_cart,
         currentCanteenUser:
             BlocProvider.of<CanteenCubit>(context).state.currentCanteenUser,
@@ -46,23 +48,6 @@ class CanteenCubit extends Cubit<CanteenState> {
 
   //Emiting user data
   void get_user_data(uid, context) async {
-    //Commented code is used if we want data as a stream! Was not working in this case!
-
-    // Stream user_data = await FirebaseFirestore.instance
-    //     .collection("Users")
-    //     .doc(uid)
-    //     .snapshots();
-
-    // user_data.forEach((element) async {
-    //   currentuser = await appUser(
-    //       College: element.data()["College"],
-    //       full_name: element.data()["Fullname"],
-    //       email: element.data()["email"],
-    //       phone: element.data()["phone"],
-    //       uid: uid,
-    //       Roll_no: element.data()["Rollno"]);
-    // });
-
     dynamic key =
         await FirebaseFirestore.instance.collection("Users").doc(uid).get();
 
@@ -77,6 +62,7 @@ class CanteenCubit extends Cubit<CanteenState> {
         Roll_no: key.data()["Rollno"]);
 
     emit(CanteenState(
+        paymentstatus: false,
         cart_items: [],
         currentuser: currentuser,
         currentCanteenUser:
@@ -94,9 +80,20 @@ class CanteenCubit extends Cubit<CanteenState> {
         key.data()["phone"], uid, key.data()["College"]);
 
     emit(CanteenState(
+        paymentstatus: false,
         cart_items: [],
         currentuser: BlocProvider.of<CanteenCubit>(context).state.currentuser,
         currentCanteenUser: currentuser));
+  }
+
+  void set_paystatus(context, status) {
+    print("Payment Status is $status now");
+    emit(CanteenState(
+        cart_items: [],
+        currentuser: BlocProvider.of<CanteenCubit>(context).state.currentuser,
+        paymentstatus: status,
+        currentCanteenUser:
+            BlocProvider.of<CanteenCubit>(context).state.currentCanteenUser));
   }
 }
 
@@ -217,3 +214,20 @@ class _cartItem extends StatelessWidget {
     );
   }
 }
+
+  //Commented code is used if we want data as a stream! Was not working in this case!
+
+    // Stream user_data = await FirebaseFirestore.instance
+    //     .collection("Users")
+    //     .doc(uid)
+    //     .snapshots();
+
+    // user_data.forEach((element) async {
+    //   currentuser = await appUser(
+    //       College: element.data()["College"],
+    //       full_name: element.data()["Fullname"],
+    //       email: element.data()["email"],
+    //       phone: element.data()["phone"],
+    //       uid: uid,
+    //       Roll_no: element.data()["Rollno"]);
+    // });
