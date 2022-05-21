@@ -189,8 +189,8 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => AdminNavbar()));
-                          } catch (e) {
-                            Fluttertoast.showToast(msg: e.toString());
+                          } on FirebaseException catch (e) {
+                            Fluttertoast.showToast(msg: e.message.toString());
                           }
                           setState(() {
                             showSpinner = false;

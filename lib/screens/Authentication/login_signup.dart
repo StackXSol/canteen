@@ -207,8 +207,38 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           height: getheight(context, 210),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            login();
+                          onTap: () async {
+                            setState(() {
+                              showSpinner = true;
+                              print("spinner true");
+                            });
+                            // login();
+                            try {
+                              auth
+                                  .signInWithEmailAndPassword(
+                                      email: _email, password: _pass)
+                                  .then((value) async {
+                                print("signin successful");
+                                User? user = FirebaseAuth.instance.currentUser;
+
+                                BlocProvider.of<CanteenCubit>(context)
+                                    .get_user_data(user?.uid, context);
+
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Navbar(),
+                                  ),
+                                );
+                              });
+                            } on FirebaseException catch (e) {
+                              Fluttertoast.showToast(msg: e.message.toString());
+                              print(e.message.toString());
+                            }
+                            setState(() {
+                              showSpinner = false;
+                              print("spinner false");
+                            });
                           },
                           child: Container(
                             height: getheight(context, 70),
@@ -490,45 +520,17 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           ),
         );
       });
-    } catch (e) {
-      print(e.toString());
-    }
-    setState(() {
-      showSpinner = true;
-      print("spinner true");
-    });
-  }
-
-  Future login() async {
-    setState(() {
-      showSpinner = true;
-      print("spinner true");
-    });
-    Fluttertoast.showToast(msg: "Signing in...");
-    try {
-      auth
-          .signInWithEmailAndPassword(email: _email, password: _pass)
-          .then((value) async {
-        print("signin successful");
-        User? user = FirebaseAuth.instance.currentUser;
-
-        BlocProvider.of<CanteenCubit>(context)
-            .get_user_data(user?.uid, context);
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navbar(),
-          ),
-        );
-      });
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       Fluttertoast.showToast(msg: e.message.toString());
-      print(e.message.toString());
     }
     setState(() {
-      showSpinner = false;
-      print("spinner false");
+      showSpinner = true;
+      print("spinner true");
     });
   }
+
+//   Future login() async {
+//     Fluttertoast.showToast(msg: "Signing in...");
+
+//   }
 }
