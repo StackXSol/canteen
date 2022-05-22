@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../widgets.dart';
 
 class AdminItems extends StatefulWidget {
@@ -221,6 +222,7 @@ class _ItemState extends State<_Item> {
                                             SizedBox(height: 20),
                                             GestureDetector(
                                               onTap: () async {
+                                                print(widget.docid);
                                                 try {
                                                   FirebaseFirestore.instance
                                                       .collection("Canteens")
@@ -238,6 +240,9 @@ class _ItemState extends State<_Item> {
                                                     "Name": widget.name,
                                                     "Price": price
                                                   }, SetOptions(merge: true));
+                                                  Fluttertoast.showToast(
+                                                      msg: "Price updated!");
+                                                  Navigator.pop(context);
                                                 } catch (e) {
                                                   print(await e);
                                                 }

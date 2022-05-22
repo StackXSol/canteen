@@ -153,6 +153,7 @@ class _AddFoodState extends State<AddFood> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () async {
+                                    Navigator.pop(context);
                                     photo = await _picker.pickImage(
                                         source: ImageSource.camera);
                                   },
@@ -179,6 +180,7 @@ class _AddFoodState extends State<AddFood> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
+                                    Navigator.pop(context);
                                     photo = await _picker.pickImage(
                                         source: ImageSource.gallery);
                                   },

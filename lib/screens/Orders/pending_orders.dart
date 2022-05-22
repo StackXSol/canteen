@@ -94,7 +94,7 @@ class _PendingOrdersState extends State<PendingOrders> {
                                     height: 10,
                                   ),
                                   Text(
-                                    "Hit the orange button down\nbelow to Create an order",
+                                    "Surf through main screen\nto Create an order",
                                     style: TextStyle(fontSize: 16),
                                     textAlign: TextAlign.center,
                                   ),

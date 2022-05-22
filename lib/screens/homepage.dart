@@ -693,7 +693,7 @@ class _HomePageState extends State<HomePage> {
                               .collection("Canteens")
                               .doc(key.docs.first.id)
                               .collection("Menu")
-                              .doc("Beverages")
+                              .doc("Bevrages")
                               .collection("Items")
                               .get();
 
