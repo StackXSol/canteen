@@ -118,7 +118,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         TextField(
                             onChanged: (value) {
                               setState(() {
-                                _email = value;
+                                _email = value.replaceAll(" ", "");
                               });
                             },
                             style: TextStyle(
@@ -214,7 +214,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             });
                             // login();
                             try {
-                              auth
+                              await auth
                                   .signInWithEmailAndPassword(
                                       email: _email, password: _pass)
                                   .then((value) async {
@@ -303,7 +303,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         TextField(
                             onChanged: (value) {
                               setState(() {
-                                _email = value;
+                                _email = value.replaceAll(" ", "");
                               });
                             },
                             style: TextStyle(

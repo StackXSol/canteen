@@ -58,7 +58,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 children: [
                   TextField(
                       onChanged: (val) {
-                        email = val;
+                        email = val.replaceAll(" ", "");
                       },
                       style: TextStyle(
                           fontSize: 17, fontWeight: FontWeight.normal),
