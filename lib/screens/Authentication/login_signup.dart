@@ -1,5 +1,3 @@
-import 'package:canteen/main.dart';
-import 'package:canteen/backend_data.dart';
 import 'package:canteen/screens/Admin/admin_login.dart';
 import 'package:canteen/screens/email_verify_screen.dart';
 import 'package:canteen/screens/navbar.dart';

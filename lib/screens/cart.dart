@@ -6,10 +6,8 @@ import 'package:canteen/main.dart';
 import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class Cart extends StatefulWidget {
   Cart({Key? key}) : super(key: key);

@@ -1,4 +1,3 @@
-import 'package:canteen/main.dart';
 import 'package:canteen/screens/Orders/previous.orders.dart';
 import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -110,6 +109,7 @@ class _ProfileState extends State<Profile> {
                                                             4) {
                                                           return "Enter valid Name!";
                                                         }
+                                                        return null;
                                                       },
                                                       onChanged: ((value) {
                                                         name = value;
@@ -138,6 +138,7 @@ class _ProfileState extends State<Profile> {
                                                             10) {
                                                           return "Enter valid Number!";
                                                         }
+                                                        return null;
                                                       },
                                                       onChanged: (value) {
                                                         phone = value;

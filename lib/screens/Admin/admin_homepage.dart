@@ -259,7 +259,7 @@ class AdminHomepage extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => QRViewExample()));
+                  MaterialPageRoute(builder: (context) => QrScanner()));
             },
             child: Container(
               height: getheight(context, 58),

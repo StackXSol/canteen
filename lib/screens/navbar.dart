@@ -1,10 +1,7 @@
-import 'package:canteen/main.dart';
 import 'package:canteen/screens/Orders/pending_orders.dart';
 import 'package:canteen/screens/homepage.dart';
-import 'package:canteen/screens/order_details.dart';
 import 'package:canteen/screens/profile.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 

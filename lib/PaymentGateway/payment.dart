@@ -1,11 +1,9 @@
 import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-import '../main.dart';
 
 class py_pg extends StatefulWidget {
   py_pg({required this.price});

@@ -1,11 +1,7 @@
 import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/main.dart';
-import 'package:canteen/screens/Admin/admin_homepage.dart';
 import 'package:canteen/screens/Admin/admin_navbar.dart';
-import 'package:canteen/screens/navbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter/services.dart';
@@ -31,22 +27,43 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
   final _gkey = GlobalKey<FormState>();
   bool showSpinner = false;
   late TabController _tabController;
+  String _accescode = "";
+  var items = [
+    'Select College',
+  ];
 
   @override
   void initState() {
     super.initState();
+    get_access_code();
+    fetch_colleges();
     _tabController = TabController(length: 2, vsync: this);
   }
 
+  Future<void> get_access_code() async {
+    dynamic key = await FirebaseFirestore.instance
+        .collection("AppData")
+        .doc("Access_Code")
+        .get();
+    _accescode = key.data()["code"].toString();
+  }
+
+  Future<void> fetch_colleges() async {
+    items = ["Select College"];
+
+    var key = await FirebaseFirestore.instance
+        .collection("CollegeList")
+        .doc("Colleges")
+        .get();
+
+    for (var i in (key.data() as dynamic)["CollegeList"]) {
+      items.add(i.toString());
+    }
+
+    setState(() {});
+  }
+
   String dropdownValue = 'Select College';
-  var items = [
-    'Select College',
-    'XYX',
-    'UIT',
-    'Orange',
-    'watermelon',
-    'Pineapple'
-  ];
 
   @override
   bool _isObscure = true;
@@ -56,9 +73,13 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100.0),
         child: AppBar(
-          title: Text(
-            "Admin",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          title: Padding(
+            padding: EdgeInsets.only(left: getwidth(context, 75), top: 5),
+            child: Text(
+              "Admin",
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
           ),
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
@@ -140,6 +161,16 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                           style: TextStyle(
                               fontSize: 17, fontWeight: FontWeight.bold),
                           decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _isObscure = !_isObscure;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.remove_red_eye,
+                                    color: Colors.grey,
+                                  )),
                               border: InputBorder.none,
                               hintText: "Enter Password",
                               hintStyle: TextStyle(
@@ -235,7 +266,14 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                         //////////////// full name
                         Text("Access Code",
                             style: TextStyle(color: Colors.black)),
-                        TextField(
+                        TextFormField(
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value.toString() != _accescode) {
+                                return "Enter valid code!";
+                              }
+                              return null;
+                            },
                             onChanged: (value) {
                               setState(() {
                                 _code = int.parse(value);
@@ -265,6 +303,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                               if (value.toString().length < 8) {
                                 return "Enter valid Name!";
                               }
+                              return null;
                             },
                             onChanged: (value) {
                               setState(() {
@@ -295,6 +334,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                               if (!(value!.contains("@"))) {
                                 return "Enter valid Email!";
                               }
+                              return null;
                             },
                             onChanged: (value) {
                               setState(() {
@@ -335,6 +375,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                                     if (value.toString().length != 10) {
                                       return "Enter valid Number!";
                                     }
+                                    return null;
                                   },
                                   onChanged: (value) {
                                     phone = value;
@@ -392,6 +433,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                             if (value.toString().length < 6) {
                               return "Enter valid Password!";
                             }
+                            return null;
                           },
                           onChanged: (value) {
                             setState(() {
@@ -408,7 +450,10 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                                     _isObscure = !_isObscure;
                                   });
                                 },
-                                icon: Icon(Icons.remove_red_eye)),
+                                icon: Icon(
+                                  Icons.remove_red_eye,
+                                  color: Colors.grey,
+                                )),
                             border: InputBorder.none,
                             hintText: "Enter Password",
                             hintStyle: TextStyle(
@@ -430,62 +475,71 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                               showSpinner = true;
                               print("spinner true");
                             });
-                            if (_gkey.currentState!.validate()) {
-                              await FirebaseAuth.instance
-                                  .createUserWithEmailAndPassword(
-                                      email: _email, password: _pass);
+                            try {
+                              if (_gkey.currentState!.validate()) {
+                                await FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                        email: _email, password: _pass);
 
-                              FirebaseFirestore.instance
-                                  .collection("Canteens")
-                                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                                  .set({
-                                "College": dropdownValue,
-                                "phone": phone,
-                                "Name": _canteenName,
-                                "email": _email,
-                                "Total_Revenue": 0,
-                              }, SetOptions(merge: true));
+                                FirebaseFirestore.instance
+                                    .collection("Canteens")
+                                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                                    .set({
+                                  "College": dropdownValue,
+                                  "phone": phone,
+                                  "Name": _canteenName,
+                                  "email": _email,
+                                  "Total_Revenue": 0,
+                                }, SetOptions(merge: true));
 
-                              List<String> _cat = [
-                                'BreakFast',
-                                'Lunch',
-                                'Dinner',
-                                'Snacks',
-                                'Bakery',
-                                'Bevrages'
-                              ];
+                                List<String> _cat = [
+                                  'BreakFast',
+                                  'Lunch',
+                                  'Dinner',
+                                  'Snacks',
+                                  'Bakery',
+                                  'Bevrages'
+                                ];
 
-                              for (var i in _cat) {
+                                for (var i in _cat) {
+                                  FirebaseFirestore.instance
+                                      .collection("Canteens")
+                                      .doc(FirebaseAuth
+                                          .instance.currentUser!.uid)
+                                      .collection("Menu")
+                                      .doc(i)
+                                      .set({}, SetOptions(merge: true));
+                                }
+
+                                FirebaseFirestore.instance
+                                    .collection("Canteens")
+                                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                                    .collection("Revenue");
+
                                 FirebaseFirestore.instance
                                     .collection("Canteens")
                                     .doc(FirebaseAuth.instance.currentUser!.uid)
                                     .collection("Menu")
-                                    .doc(i)
-                                    .set({}, SetOptions(merge: true));
+                                    .doc();
+
+                                BlocProvider.of<CanteenCubit>(context)
+                                    .getCanteenUserData(
+                                        FirebaseAuth.instance.currentUser!.uid,
+                                        context);
+
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AdminNavbar()),
+                                );
                               }
-
-                              FirebaseFirestore.instance
-                                  .collection("Canteens")
-                                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                                  .collection("Revenue");
-
-                              FirebaseFirestore.instance
-                                  .collection("Canteens")
-                                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                                  .collection("Menu")
-                                  .doc();
-
-                              BlocProvider.of<CanteenCubit>(context)
-                                  .getCanteenUserData(
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                      context);
-
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AdminNavbar()),
-                              );
+                            } catch (e) {
+                              setState(() {
+                                showSpinner = true;
+                                print("spinner true");
+                              });
                             }
+
                             setState(() {
                               showSpinner = false;
                               print("spinner false");

@@ -1,14 +1,6 @@
-import 'package:canteen/backend_data.dart';
 import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/screens/Authentication/login_signup.dart';
-import 'package:canteen/screens/Orders/pending_orders.dart';
-import 'package:canteen/screens/cart.dart';
-import 'package:canteen/screens/email_verify_screen.dart';
 import 'package:canteen/screens/homepage.dart';
 
-import 'package:canteen/screens/order_details.dart';
-import 'package:canteen/screens/profile.dart';
-import 'package:canteen/screens/Admin/scanned_details.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

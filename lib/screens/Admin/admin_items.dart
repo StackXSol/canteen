@@ -1,10 +1,9 @@
-import 'dart:ffi';
-
+import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-
 import '../../widgets.dart';
 
 class AdminItems extends StatefulWidget {
@@ -98,16 +97,8 @@ class _Item extends StatefulWidget {
 }
 
 class _ItemState extends State<_Item> {
-  late String food_name, price;
-  String dropdownValue = 'BreakFast';
-  var items = [
-    'BreakFast',
-    'Lunch',
-    'Dinner',
-    "Snacks",
-    'Bakery',
-    'Bevrages',
-  ];
+  int price = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -180,16 +171,18 @@ class _ItemState extends State<_Item> {
                                             Padding(
                                               padding: EdgeInsets.all(8.0),
                                               child: TextFormField(
+                                                  initialValue: widget.name,
                                                   validator: (value) {
                                                     if (value
                                                             .toString()
                                                             .length <
-                                                        1) {
+                                                        4) {
                                                       return "Enter valid Name!";
                                                     }
+                                                    return null;
                                                   },
                                                   onChanged: ((value) {
-                                                    food_name = value;
+                                                    widget.name = value;
                                                   }),
                                                   style: TextStyle(
                                                       fontSize: 17,
@@ -205,9 +198,11 @@ class _ItemState extends State<_Item> {
                                             ),
                                             Padding(
                                               padding: EdgeInsets.all(8.0),
-                                              child: TextField(
+                                              child: TextFormField(
+                                                  initialValue:
+                                                      price.toString(),
                                                   onChanged: (value) {
-                                                    price = value;
+                                                    price = int.parse(value);
                                                   },
                                                   keyboardType:
                                                       TextInputType.number,
@@ -223,67 +218,29 @@ class _ItemState extends State<_Item> {
                                                               .withOpacity(
                                                                   0.5)))),
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: DropdownButton<String>(
-                                                hint: Text("Select Category",
-                                                    style: TextStyle(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.5),
-                                                        fontSize: 16)),
-                                                isExpanded: true,
-                                                value: dropdownValue,
-                                                icon: const Icon(
-                                                    Icons.keyboard_arrow_down),
-                                                elevation: 16,
-                                                style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                underline: Container(
-                                                  height: 0.3,
-                                                  color: Colors.black,
-                                                ),
-                                                onChanged: (String? newValue) {
-                                                  setState(() {
-                                                    dropdownValue = newValue!;
-                                                  });
-                                                },
-                                                items:
-                                                    items.map((String items) {
-                                                  return DropdownMenuItem(
-                                                      value: items,
-                                                      child: Text(items));
-                                                }).toList(),
-                                              ),
-                                            ),
                                             SizedBox(height: 20),
                                             GestureDetector(
-                                              onTap: () {
-                                                //   if (_formKey.currentState!
-                                                //       .validate()) {
-                                                //     FirebaseFirestore.instance
-                                                //         .collection("Users")
-                                                //         .doc(BlocProvider.of<
-                                                //                     CanteenCubit>(
-                                                //                 context)
-                                                //             .state
-                                                //             .currentuser
-                                                //             .uid)
-                                                //         .set({
-                                                //       "Fullname": name,
-                                                //       "phone": phone
-                                                //     }, SetOptions(merge: true));
-                                                //     BlocProvider.of<CanteenCubit>(
-                                                //             context)
-                                                //         .get_user_data(
-                                                //             FirebaseAuth.instance
-                                                //                 .currentUser!.uid,
-                                                //             context);
-                                                //     Navigator.pop(context);
-                                                //     Fluttertoast.showToast(
-                                                //         msg: "Details Updated!");
-                                                //   }
+                                              onTap: () async {
+                                                try {
+                                                  FirebaseFirestore.instance
+                                                      .collection("Canteens")
+                                                      .doc(BlocProvider.of<
+                                                                  CanteenCubit>(
+                                                              context)
+                                                          .state
+                                                          .currentCanteenUser
+                                                          .getter()[3])
+                                                      .collection("Menu")
+                                                      .doc(widget.category)
+                                                      .collection("Items")
+                                                      .doc(widget.docid)
+                                                      .set({
+                                                    "Name": widget.name,
+                                                    "Price": price
+                                                  }, SetOptions(merge: true));
+                                                } catch (e) {
+                                                  print(await e);
+                                                }
                                               },
                                               child: Container(
                                                 height: getheight(context, 50),

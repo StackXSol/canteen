@@ -2,7 +2,6 @@ import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/screens/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Food_Items extends StatefulWidget {
