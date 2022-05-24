@@ -65,10 +65,31 @@ class _AdminItemsState extends State<AdminItems> {
                     name: i.data()["Name"],
                   ));
                 }
-                return Column(children: _itemlist);
+                return Column(
+                    children: _itemlist.length != 0
+                        ? _itemlist
+                        : [
+                            SizedBox(
+                              height: getheight(context, 250),
+                            ),
+                            Center(
+                              child: Text(
+                                "No Items",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22),
+                              ),
+                            )
+                          ]);
               } else {
                 return Column(
-                  children: [Text("No Items")],
+                  children: [
+                    SizedBox(
+                      height: getheight(context, 250),
+                    ),
+                    Text("Fetching...")
+                  ],
                 );
               }
             }),
@@ -146,131 +167,131 @@ class _ItemState extends State<_Item> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return AlertDialog(
-                                  content: Stack(
-                                    children: <Widget>[
-                                      Positioned(
-                                        right: -40.0,
-                                        top: -40.0,
-                                        child: InkResponse(
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: CircleAvatar(
-                                            radius: 20,
-                                            child: Icon(Icons.close),
-                                            backgroundColor: orange_color,
+                                return Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  child: Container(
+                                    padding: EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Form(
+                                      // key: _formKey,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Text(
+                                            "Edit",
+                                            style: TextStyle(fontSize: 20),
                                           ),
-                                        ),
-                                      ),
-                                      Form(
-                                        // key: _formKey,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Text("Edit"),
-                                            Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: TextFormField(
-                                                  initialValue: widget.name,
-                                                  validator: (value) {
-                                                    if (value
-                                                            .toString()
-                                                            .length <
-                                                        4) {
-                                                      return "Enter valid Name!";
-                                                    }
-                                                    return null;
-                                                  },
-                                                  onChanged: ((value) {
-                                                    widget.name = value;
-                                                  }),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                                initialValue: widget.name,
+                                                validator: (value) {
+                                                  if (value.toString().length <
+                                                      4) {
+                                                    return "Enter valid Name!";
+                                                  }
+                                                  return null;
+                                                },
+                                                onChanged: ((value) {
+                                                  widget.name = value;
+                                                }),
+                                                style: TextStyle(
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30)),
+                                                    hintText: "Food Name",
+                                                    hintStyle: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.grey
+                                                            .withOpacity(
+                                                                0.5)))),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                                initialValue: price.toString(),
+                                                onChanged: (value) {
+                                                  price = int.parse(value);
+                                                },
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                style: TextStyle(
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                decoration: InputDecoration(
+                                                    hintText: "Enter price",
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30)),
+                                                    hintStyle: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.grey
+                                                            .withOpacity(
+                                                                0.5)))),
+                                          ),
+                                          SizedBox(height: 20),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              print(widget.docid);
+                                              try {
+                                                FirebaseFirestore.instance
+                                                    .collection("Canteens")
+                                                    .doc(BlocProvider.of<
+                                                                CanteenCubit>(
+                                                            context)
+                                                        .state
+                                                        .currentCanteenUser
+                                                        .getter()[3])
+                                                    .collection("Menu")
+                                                    .doc(widget.category)
+                                                    .collection("Items")
+                                                    .doc(widget.docid)
+                                                    .set({
+                                                  "Name": widget.name,
+                                                  "Price": price
+                                                }, SetOptions(merge: true));
+                                                Fluttertoast.showToast(
+                                                    msg: "Price updated!");
+                                                Navigator.pop(context);
+                                              } catch (e) {
+                                                print(await e);
+                                              }
+                                            },
+                                            child: Container(
+                                              height: getheight(context, 50),
+                                              width: getwidth(context, 100),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  color: orange_color),
+                                              child: Center(
+                                                child: Text(
+                                                  "Done",
                                                   style: TextStyle(
-                                                      fontSize: 17,
+                                                      color: Colors.white,
                                                       fontWeight:
-                                                          FontWeight.bold),
-                                                  decoration: InputDecoration(
-                                                      hintText: "Food Name",
-                                                      hintStyle: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.grey
-                                                              .withOpacity(
-                                                                  0.5)))),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: TextFormField(
-                                                  initialValue:
-                                                      price.toString(),
-                                                  onChanged: (value) {
-                                                    price = int.parse(value);
-                                                  },
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  style: TextStyle(
-                                                      fontSize: 17,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  decoration: InputDecoration(
-                                                      hintText: "Enter price",
-                                                      hintStyle: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.grey
-                                                              .withOpacity(
-                                                                  0.5)))),
-                                            ),
-                                            SizedBox(height: 20),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                print(widget.docid);
-                                                try {
-                                                  FirebaseFirestore.instance
-                                                      .collection("Canteens")
-                                                      .doc(BlocProvider.of<
-                                                                  CanteenCubit>(
-                                                              context)
-                                                          .state
-                                                          .currentCanteenUser
-                                                          .getter()[3])
-                                                      .collection("Menu")
-                                                      .doc(widget.category)
-                                                      .collection("Items")
-                                                      .doc(widget.docid)
-                                                      .set({
-                                                    "Name": widget.name,
-                                                    "Price": price
-                                                  }, SetOptions(merge: true));
-                                                  Fluttertoast.showToast(
-                                                      msg: "Price updated!");
-                                                  Navigator.pop(context);
-                                                } catch (e) {
-                                                  print(await e);
-                                                }
-                                              },
-                                              child: Container(
-                                                height: getheight(context, 50),
-                                                width: getwidth(context, 100),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                    color: orange_color),
-                                                child: Center(
-                                                  child: Text(
-                                                    "Done",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 17),
-                                                  ),
+                                                          FontWeight.bold,
+                                                      fontSize: 17),
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 );
                               });

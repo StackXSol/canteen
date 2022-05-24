@@ -156,6 +156,10 @@ class _AddFoodState extends State<AddFood> {
                                     Navigator.pop(context);
                                     photo = await _picker.pickImage(
                                         source: ImageSource.camera);
+                                    if (photo != null) {
+                                      Fluttertoast.showToast(
+                                          msg: "Image Uploaded!");
+                                    }
                                   },
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -183,6 +187,10 @@ class _AddFoodState extends State<AddFood> {
                                     Navigator.pop(context);
                                     photo = await _picker.pickImage(
                                         source: ImageSource.gallery);
+                                    if (photo != null) {
+                                      Fluttertoast.showToast(
+                                          msg: "Image Uploaded!");
+                                    }
                                   },
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -232,36 +240,44 @@ class _AddFoodState extends State<AddFood> {
               showSpinner = true;
               print("spinner true");
             });
-            var uploadTask = FirebaseStorage.instance
-                .ref(FirebaseAuth.instance.currentUser!.uid)
-                .child(dropdownValue)
-                .child(_foodname)
-                .putFile(File(photo!.path));
+            try {
+              var uploadTask = FirebaseStorage.instance
+                  .ref(FirebaseAuth.instance.currentUser!.uid)
+                  .child(dropdownValue)
+                  .child(_foodname)
+                  .putFile(File(photo!.path));
 
-            _url = await (await uploadTask).ref.getDownloadURL();
+              _url = await (await uploadTask).ref.getDownloadURL();
 
-            print(_url);
+              print(_url);
 
-            FirebaseFirestore.instance
-                .collection("Canteens")
-                .doc(FirebaseAuth.instance.currentUser!.uid)
-                .collection("Menu")
-                .doc(dropdownValue)
-                .collection("Items")
-                .doc(DateTime.now().toString())
-                .set({
-              "Name": _foodname,
-              "Status": true,
-              "Photo": _url,
-              "Price": int.parse(_price)
-            }, SetOptions(merge: true));
-            Navigator.pop(context);
-            setState(() {
-              showSpinner = false;
-              print("spinner true");
-            });
+              FirebaseFirestore.instance
+                  .collection("Canteens")
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .collection("Menu")
+                  .doc(dropdownValue)
+                  .collection("Items")
+                  .doc(DateTime.now().toString())
+                  .set({
+                "Name": _foodname,
+                "Status": true,
+                "Photo": _url,
+                "Price": int.parse(_price)
+              }, SetOptions(merge: true));
+              Navigator.pop(context);
+              setState(() {
+                showSpinner = false;
+                print("spinner true");
+              });
 
-            Fluttertoast.showToast(msg: "Food Added!");
+              Fluttertoast.showToast(msg: "Food Added!");
+            } catch (e) {
+              Fluttertoast.showToast(msg: e.toString());
+              setState(() {
+                showSpinner = false;
+                print("spinner true");
+              });
+            }
           },
           child: Container(
             height: getheight(context, 51),

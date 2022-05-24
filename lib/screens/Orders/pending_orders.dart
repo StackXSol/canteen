@@ -39,11 +39,12 @@ class _PendingOrdersState extends State<PendingOrders> {
                         Navigator.pop(context);
                       },
                       child: Icon(Icons.keyboard_arrow_left)),
-                  Spacer(),
+                  SizedBox(
+                    width: getwidth(context, 90),
+                  ),
                   Text("Orders",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Spacer(),
                 ],
               ),
             ),

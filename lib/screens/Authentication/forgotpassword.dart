@@ -22,10 +22,15 @@ class _ResetPasswordState extends State<ResetPassword> {
               padding: EdgeInsets.symmetric(horizontal: getwidth(context, 26)),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.grey,
-                    size: getheight(context, 24),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.grey,
+                      size: getheight(context, 24),
+                    ),
                   ),
                   Spacer(),
                   const Text(

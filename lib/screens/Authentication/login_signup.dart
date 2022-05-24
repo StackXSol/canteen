@@ -21,8 +21,8 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> with TickerProviderStateMixin {
   final auth = FirebaseAuth.instance;
-  late String _email;
-  late String _pass;
+  late String _email = "";
+  late String _pass = "";
   late String fullname;
   late String phone;
   late String rollno;
@@ -62,9 +62,10 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: Color(0xffF5F5F8),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
+        preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          backgroundColor: Colors.white,
+          elevation: 0,
+          backgroundColor: Color(0xffF5F5F8),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(30),
@@ -146,16 +147,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             style: TextStyle(
                                 fontSize: 17, fontWeight: FontWeight.bold),
                             decoration: InputDecoration(
-                                suffixIcon: GestureDetector(
-                                    onTap: () {
+                                suffixIcon: IconButton(
+                                    onPressed: () {
                                       setState(() {
                                         _isObscure = !_isObscure;
                                       });
                                     },
-                                    child: Icon(
-                                      Icons.remove_red_eye_outlined,
-                                      color: Colors.grey,
-                                    )),
+                                    icon: Icon(Icons.remove_red_eye_rounded)),
                                 border: InputBorder.none,
                                 hintText: "Enter Password",
                                 hintStyle: TextStyle(
@@ -185,22 +183,6 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         SizedBox(
                           height: getheight(context, 40),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdminLogin()),
-                            );
-                          },
-                          child: Text(
-                            "Admin login",
-                            style: TextStyle(
-                                color: orange_color,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
                         SizedBox(
                           height: getheight(context, 210),
                         ),
@@ -210,7 +192,6 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                               showSpinner = true;
                               print("spinner true");
                             });
-                            // login();
                             try {
                               await auth
                                   .signInWithEmailAndPassword(
@@ -257,6 +238,24 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         ),
                         SizedBox(
                           height: getheight(context, 25),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdminLogin()),
+                            );
+                          },
+                          child: Center(
+                            child: Text(
+                              "Admin login",
+                              style: TextStyle(
+                                  color: orange_color,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -354,10 +353,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
-                        /////////////// college
-                        Text("College", style: TextStyle(color: Colors.black)),
                         DropdownButton<String>(
+                          menuMaxHeight: 260,
                           isExpanded: true,
                           value: dropdownValue,
                           icon: const Icon(Icons.keyboard_arrow_down),
@@ -441,7 +438,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           height: 2,
                           color: Colors.black,
                         ),
-                        SizedBox(height: getheight(context, 90)),
+                        SizedBox(height: getheight(context, 120)),
 
                         InkWell(
                           onTap: () {
@@ -489,12 +486,12 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           .then((value) async {
         User? user = FirebaseAuth.instance.currentUser;
 
-        user?.sendEmailVerification().then((value) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => EmailverificationScreen()));
-        });
+        // user?.sendEmailVerification().then((value) {
+        //   Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //           builder: (context) => EmailverificationScreen()));
+        // });
 
         final db = FirebaseFirestore.instance;
         db.collection("Users").doc(user!.uid).set({
@@ -520,9 +517,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       });
     } on FirebaseException catch (e) {
       Fluttertoast.showToast(msg: e.message.toString());
+      setState(() {
+        showSpinner = false;
+        print("spinner true");
+      });
     }
     setState(() {
-      showSpinner = true;
+      showSpinner = false;
       print("spinner true");
     });
   }
