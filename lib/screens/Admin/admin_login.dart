@@ -251,15 +251,15 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                     ],
                   )),
             ),
-            SingleChildScrollView(
-              child: Container(
-                  height: getheight(context, getheight(context, 612)),
-                  padding: EdgeInsets.only(
-                      top: getheight(context, 30),
-                      left: getwidth(context, 30),
-                      right: getwidth(context, 30)),
-                  child: Form(
-                    key: _gkey,
+            Container(
+                height: getheight(context, getheight(context, 612)),
+                padding: EdgeInsets.only(
+                    top: getheight(context, 30),
+                    left: getwidth(context, 30),
+                    right: getwidth(context, 30)),
+                child: Form(
+                  key: _gkey,
+                  child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -468,7 +468,8 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                         ),
                         SizedBox(height: getheight(context, 15)),
 
-                        Spacer(),
+                        SizedBox(height: getheight(context, 20)),
+
                         GestureDetector(
                           onTap: () async {
                             setState(() {
@@ -567,8 +568,8 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                         ),
                       ],
                     ),
-                  )),
-            ),
+                  ),
+                )),
           ],
         ),
       ),

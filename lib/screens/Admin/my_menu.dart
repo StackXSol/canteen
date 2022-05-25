@@ -84,7 +84,7 @@ class _MenuItems extends StatelessWidget {
               child: Row(children: [
                 SizedBox(width: getwidth(context, 17)),
                 CircleAvatar(
-                  radius: 35,
+                  radius: getheight(context, 35),
                   backgroundImage: AssetImage('images/$image.jpg'),
                 ),
                 SizedBox(

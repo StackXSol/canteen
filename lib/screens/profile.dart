@@ -258,7 +258,7 @@ class _ProfileState extends State<Profile> {
                     Container(
                       padding: EdgeInsets.all(20),
                       margin: EdgeInsets.only(left: getwidth(context, 27)),
-                      height: getheight(context, 197),
+                      // height: getheight(context, 197),
                       width: getwidth(context, 315),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
@@ -286,13 +286,16 @@ class _ProfileState extends State<Profile> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Text(
-                                BlocProvider.of<CanteenCubit>(context)
-                                    .state
-                                    .currentuser
-                                    .email,
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.w300),
+                              Expanded(
+                                child: Text(
+                                  BlocProvider.of<CanteenCubit>(context)
+                                      .state
+                                      .currentuser
+                                      .email,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w300),
+                                ),
                               ),
                             ],
                           ),
@@ -323,8 +326,7 @@ class _ProfileState extends State<Profile> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Container(
-                                width: getwidth(context, 285),
+                              Expanded(
                                 child: Text(
                                   "College: ${BlocProvider.of<CanteenCubit>(context).state.currentuser.College}",
                                   style: TextStyle(
