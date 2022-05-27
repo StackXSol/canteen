@@ -153,7 +153,10 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                         _isObscure = !_isObscure;
                                       });
                                     },
-                                    icon: Icon(Icons.remove_red_eye_rounded)),
+                                    icon: Icon(
+                                      Icons.remove_red_eye_rounded,
+                                      color: Colors.grey,
+                                    )),
                                 border: InputBorder.none,
                                 hintText: "Enter Password",
                                 hintStyle: TextStyle(
