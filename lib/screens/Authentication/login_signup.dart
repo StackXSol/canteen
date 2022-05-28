@@ -1,6 +1,7 @@
 import 'package:canteen/screens/Admin/admin_login.dart';
 import 'package:canteen/screens/email_verify_screen.dart';
 import 'package:canteen/screens/navbar.dart';
+import 'package:canteen/smtp.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -153,7 +154,10 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                         _isObscure = !_isObscure;
                                       });
                                     },
-                                    icon: Icon(Icons.remove_red_eye_rounded)),
+                                    icon: Icon(
+                                      Icons.remove_red_eye_rounded,
+                                      color: Colors.grey,
+                                    )),
                                 border: InputBorder.none,
                                 hintText: "Enter Password",
                                 hintStyle: TextStyle(
@@ -502,11 +506,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           "Rollno": rollno,
           "College": dropdownValue,
           "Verified": false
-        });
+        }, SetOptions(merge: true));
 
         BlocProvider.of<CanteenCubit>(context).get_user_data(
             FirebaseAuth.instance.currentUser!.uid,
             BlocProvider.of<CanteenCubit>(context).state.cart_items);
+
+        Register(_email);
 
         Navigator.push(
           context,
