@@ -26,6 +26,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   late String _pass = "";
   late String fullname;
   late String phone;
+  final _gkey = GlobalKey<FormState>();
   late String rollno;
   bool showSpinner = false;
 
@@ -270,6 +271,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       left: getwidth(context, 30),
                       right: getwidth(context, 30)),
                   child: Form(
+                    key: _gkey,
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,7 +281,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                               style: TextStyle(color: Colors.black)),
                           TextFormField(
                               validator: (value) {
-                                if (value.toString().length >= 3) {
+                                if (value.toString().length <= 3) {
                                   return "Enter Full name!";
                                 }
                                 return null;
@@ -469,11 +471,12 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             height: 2,
                             color: Colors.black,
                           ),
-                          SizedBox(height: getheight(context, 120)),
-
+                          SizedBox(height: getheight(context, 100)),
                           InkWell(
                             onTap: () {
-                              registration();
+                              if (_gkey.currentState!.validate()) {
+                                registration();
+                              }
                             },
                             child: Container(
                               height: getheight(context, 70),
@@ -561,9 +564,4 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       print("spinner true");
     });
   }
-
-//   Future login() async {
-//     Fluttertoast.showToast(msg: "Signing in...");
-
-//   }
 }
