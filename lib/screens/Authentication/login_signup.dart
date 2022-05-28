@@ -269,206 +269,234 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       top: getheight(context, 30),
                       left: getwidth(context, 30),
                       right: getwidth(context, 30)),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //////////////// full name
-                        Text("Full Name",
-                            style: TextStyle(color: Colors.black)),
-                        TextField(
-                            onChanged: (value) {
-                              setState(() {
-                                fullname = value;
-                              });
-                            },
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Name",
-                                hintStyle: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey.withOpacity(0.5)))),
-                        Divider(
-                          height: 2,
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          height: getheight(context, 15),
-                        ),
-
-                        ////////////// email address for signup
-                        Text("Email address",
-                            style: TextStyle(color: Colors.black)),
-                        TextField(
-                            onChanged: (value) {
-                              setState(() {
-                                _email = value.replaceAll(" ", "");
-                              });
-                            },
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Enter Email",
-                                hintStyle: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey.withOpacity(0.5)))),
-                        Divider(
-                          height: 2,
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          height: getheight(context, 10),
-                        ),
-                        ////////////////// phone number
-
-                        Row(
-                          children: [
-                            Text(
-                              "🇮🇳",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            Text(
-                              " +91",
-                            ),
-                            SizedBox(width: 10),
-                            Container(
-                              width: getwidth(context, 200),
-                              child: TextField(
-                                  onChanged: (value) {
-                                    phone = value;
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold),
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: "Phone number",
-                                      hintStyle: TextStyle(
-                                          fontSize: 16,
-                                          color:
-                                              Colors.grey.withOpacity(0.5)))),
-                            ),
-                          ],
-                        ),
-                        DropdownButton<String>(
-                          menuMaxHeight: 260,
-                          isExpanded: true,
-                          value: dropdownValue,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          elevation: 16,
-                          style: const TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                          underline: Container(
-                            height: 0.5,
+                  child: Form(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //////////////// full name
+                          Text("Full Name",
+                              style: TextStyle(color: Colors.black)),
+                          TextFormField(
+                              validator: (value) {
+                                if (value.toString().length >= 3) {
+                                  return "Enter Full name!";
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  fullname = value;
+                                });
+                              },
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Name",
+                                  hintStyle: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey.withOpacity(0.5)))),
+                          Divider(
+                            height: 2,
                             color: Colors.black,
                           ),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                            });
-                          },
-                          items: collegelist
-                              .map<DropdownMenuItem<String>>((value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
+                          SizedBox(
+                            height: getheight(context, 15),
+                          ),
 
-                        SizedBox(height: 15),
+                          ////////////// email address for signup
+                          Text("Email address",
+                              style: TextStyle(color: Colors.black)),
+                          TextFormField(
+                              validator: (value) {
+                                if (!(value!.contains("@"))) {
+                                  return "Enter valid Email!";
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  _email = value.replaceAll(" ", "");
+                                });
+                              },
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Enter Email",
+                                  hintStyle: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey.withOpacity(0.5)))),
+                          Divider(
+                            height: 2,
+                            color: Colors.black,
+                          ),
+                          SizedBox(
+                            height: getheight(context, 10),
+                          ),
+                          ////////////////// phone number
 
-                        ///// /////////roll number
-                        Text("Roll Number",
-                            style: TextStyle(color: Colors.black)),
-                        TextField(
-                            keyboardType: TextInputType.number,
-                            onChanged: (value) {
-                              rollno = value;
+                          Row(
+                            children: [
+                              Text(
+                                "🇮🇳",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                " +91",
+                              ),
+                              SizedBox(width: 10),
+                              Container(
+                                width: getwidth(context, 200),
+                                child: TextFormField(
+                                    validator: (value) {
+                                      if (value.toString().length != 10) {
+                                        return "Enter valid Number!";
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      phone = value;
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Phone number",
+                                        hintStyle: TextStyle(
+                                            fontSize: 16,
+                                            color:
+                                                Colors.grey.withOpacity(0.5)))),
+                              ),
+                            ],
+                          ),
+                          DropdownButton<String>(
+                            menuMaxHeight: 260,
+                            isExpanded: true,
+                            value: dropdownValue,
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            elevation: 16,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            underline: Container(
+                              height: 0.5,
+                              color: Colors.black,
+                            ),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                dropdownValue = newValue!;
+                              });
                             },
+                            items: collegelist
+                                .map<DropdownMenuItem<String>>((value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+
+                          SizedBox(height: 15),
+
+                          ///// /////////roll number
+                          Text("Roll Number",
+                              style: TextStyle(color: Colors.black)),
+                          TextField(
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                rollno = value;
+                              },
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Enter Roll number",
+                                  hintStyle: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey.withOpacity(0.5)))),
+                          Divider(
+                            height: 2,
+                            color: Colors.black,
+                          ),
+                          SizedBox(height: getheight(context, 15)),
+
+                          ///////////////// password
+                          Text("Password",
+                              style: TextStyle(color: Colors.black)),
+                          TextFormField(
+                            cursorColor: Colors.black,
+                            validator: (value) {
+                              if (value.toString().length < 6) {
+                                return "Password must be atleast 6 character long!";
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                _pass = value;
+                              });
+                            },
+                            obscureText: _isObscure,
                             style: TextStyle(
                                 fontSize: 17, fontWeight: FontWeight.bold),
                             decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Enter Roll number",
-                                hintStyle: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey.withOpacity(0.5)))),
-                        Divider(
-                          height: 2,
-                          color: Colors.black,
-                        ),
-                        SizedBox(height: getheight(context, 15)),
-
-                        ///////////////// password
-                        Text("Password", style: TextStyle(color: Colors.black)),
-                        TextField(
-                          cursorColor: Colors.black,
-                          onChanged: (value) {
-                            setState(() {
-                              _pass = value;
-                            });
-                          },
-                          obscureText: _isObscure,
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isObscure = !_isObscure;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.remove_red_eye,
-                                  color: Colors.grey,
-                                )),
-                            border: InputBorder.none,
-                            hintText: "Enter Password",
-                            hintStyle: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          height: 2,
-                          color: Colors.black,
-                        ),
-                        SizedBox(height: getheight(context, 120)),
-
-                        InkWell(
-                          onTap: () {
-                            registration();
-                          },
-                          child: Container(
-                            height: getheight(context, 70),
-                            width: getwidth(context, 310),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: orange_color),
-                            child: Center(
-                              child: Text(
-                                "Sign Up",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17),
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _isObscure = !_isObscure;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.remove_red_eye,
+                                    color: Colors.grey,
+                                  )),
+                              border: InputBorder.none,
+                              hintText: "Enter Password",
+                              hintStyle: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey.withOpacity(0.5),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: getheight(context, 25),
-                        ),
-                      ],
+                          Divider(
+                            height: 2,
+                            color: Colors.black,
+                          ),
+                          SizedBox(height: getheight(context, 120)),
+
+                          InkWell(
+                            onTap: () {
+                              registration();
+                            },
+                            child: Container(
+                              height: getheight(context, 70),
+                              width: getwidth(context, 310),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: orange_color),
+                              child: Center(
+                                child: Text(
+                                  "Sign Up",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: getheight(context, 25),
+                          ),
+                        ],
+                      ),
                     ),
                   )),
             ],

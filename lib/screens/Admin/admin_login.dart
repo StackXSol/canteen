@@ -431,7 +431,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                         TextFormField(
                           validator: (value) {
                             if (value.toString().length < 6) {
-                              return "Enter valid Password!";
+                              return "Password must be atleast 6 character long!";
                             }
                             return null;
                           },
