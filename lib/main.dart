@@ -1,3 +1,4 @@
+import 'package:canteen/backend_data.dart';
 import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/screens/homepage.dart';
 
@@ -18,6 +19,7 @@ void main() async {
 
 List<List> cart_list = [];
 String canteenId = "";
+appData app_data = appData(fee: 0, key: "");
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

@@ -273,7 +273,8 @@ class _CartState extends State<Cart> {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           py_pg(
-                                                            price: total_price,
+                                                            price:
+                                                                total_price + 2,
                                                           ))).then((value) {
                                                 print(BlocProvider.of<
                                                                 CanteenCubit>(

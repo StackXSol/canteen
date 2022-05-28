@@ -34,3 +34,9 @@ class canteenUser {
     return [_canteenName, _email, _phone, _uid, _college];
   }
 }
+
+class appData {
+  int fee;
+  String key;
+  appData({required this.fee, required this.key});
+}
