@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:canteen/PaymentGateway/payment.dart';
 import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/main.dart';
+import 'package:canteen/smtp.dart';
 import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -207,7 +208,7 @@ class _CartState extends State<Cart> {
                                               ),
                                               Spacer(),
                                               Text(
-                                                  "\u{20B9} ${(total_price + 2).toString()}/-",
+                                                  "\u{20B9} ${(total_price + app_data.fee).toString()}/-",
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       fontWeight:
@@ -236,6 +237,15 @@ class _CartState extends State<Cart> {
                                                   "Status": false,
                                                   "Items": _orders
                                                 }, SetOptions(merge: true));
+
+                                                orderNotifyUser(
+                                                    BlocProvider.of<
+                                                                CanteenCubit>(
+                                                            context)
+                                                        .state
+                                                        .currentuser
+                                                        .email,
+                                                    OID);
 
                                                 FirebaseFirestore.instance
                                                     .collection("Canteens")
@@ -273,16 +283,9 @@ class _CartState extends State<Cart> {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           py_pg(
-                                                            price:
-                                                                total_price + 2,
+                                                            price: total_price +
+                                                                app_data.fee,
                                                           ))).then((value) {
-                                                print(BlocProvider.of<
-                                                                CanteenCubit>(
-                                                            context)
-                                                        .state
-                                                        .paymentstatus
-                                                        .toString() +
-                                                    "hellogdfdsf");
                                                 if (BlocProvider.of<
                                                         CanteenCubit>(context)
                                                     .state

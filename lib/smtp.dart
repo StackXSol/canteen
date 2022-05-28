@@ -3,8 +3,8 @@ import 'package:mailer/smtp_server.dart';
 
 // Use the SmtpServer class to configure an SMTP server:
 
-String username = "info@stackx.online";
-final smtpServer = SmtpServer("stackx.online",
+String username = "init@stackxsolutions.in";
+final smtpServer = SmtpServer("stackxsolutions.in",
     ignoreBadCertificate: true,
     username: username,
     password: "StackX@123",
@@ -33,11 +33,9 @@ void orderNotifyUser(email, orderid) async {
 }
 
 void orderNotifyAdmin(email, orderid) async {
-  // Create our message.
-
   final order_up = Message()
-    ..from = Address(username, "StackX-AstroDrishti")
-    ..recipients.add('StackX1617@gmail.com')
+    ..from = Address(username, "InIt")
+    ..recipients.add(email)
     ..subject = 'New Order With with id $orderid'
     ..text =
         "Please ensure scanning QR code before providing the order and check the items in it.";
@@ -62,7 +60,7 @@ void Register(email) async {
     ..recipients.add(email)
     ..subject = 'Welcome to init'
     ..text =
-        "We are happy to wecome you on our platform. This brings your local canteen into your device,\nsaving all the time from queue's, now you can\norder your favourite ";
+        "We are happy to wecome you on our platform. This brings your local canteen into your device, saving all the time from queue's, now you can order your favourite using this app and take away the order using the QR code of that order!\n Do rate us\nThankyou";
 
   try {
     final sendReport = await send(message, smtpServer);

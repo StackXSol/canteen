@@ -1,6 +1,9 @@
+import 'package:canteen/backend_data.dart';
+import 'package:canteen/main.dart';
 import 'package:canteen/screens/Orders/pending_orders.dart';
 import 'package:canteen/screens/homepage.dart';
 import 'package:canteen/screens/profile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
@@ -15,6 +18,27 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   int _index = 0;
   final List<Widget> screens = [HomePage(), PendingOrders(), Profile()];
+
+  @override
+  void initState() {
+    setAppData();
+    super.initState();
+  }
+
+  Future<void> setAppData() async {
+    var key1 =
+        await FirebaseFirestore.instance.collection("AppData").doc("Fee").get();
+
+    var key2 = await FirebaseFirestore.instance
+        .collection("AppData")
+        .doc("Razorpay_Keys")
+        .get();
+
+    app_data = appData(
+      fee: (key1.data() as dynamic)["charge"],
+      key: (key2.data() as dynamic)["Live"],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

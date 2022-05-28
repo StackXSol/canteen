@@ -1,9 +1,10 @@
+import 'package:canteen/backend_data.dart';
 import 'package:canteen/cubit/canteen_cubit.dart';
+import 'package:canteen/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-
 
 class py_pg extends StatefulWidget {
   py_pg({required this.price});
@@ -25,7 +26,7 @@ class _py_pgState extends State<py_pg> {
 
   void oC() async {
     var options = {
-      'key': 'rzp_test_AJKHfMYpz8OXtU',
+      'key': app_data.key,
       'amount': widget.price * 100,
       'name': 'InIt',
       'description': 'Init Payment',
