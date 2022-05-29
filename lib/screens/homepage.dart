@@ -8,6 +8,7 @@ import 'package:canteen/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -89,23 +90,35 @@ class _HomePageState extends State<HomePage> {
                           return MyImageView(listPaths[index]);
                         },
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: listPaths.map((url) {
-                          int index = listPaths.indexOf(url);
-                          return Container(
-                            width: 6.0,
-                            height: 6.0,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 12.0, horizontal: 11.0),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: currentPos == index
-                                    ? Color(0xFFA06784).withOpacity(0.15)
-                                    : Color(0xFFA06784)),
-                          );
-                        }).toList(),
-                      )
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: listPaths.map((url) {
+                      //     int index = listPaths.indexOf(url);
+                      //     return Container(
+                      //       width: 6.0,
+                      //       height: 6.0,
+                      //       margin: EdgeInsets.symmetric(
+                      //           vertical: 12.0, horizontal: 11.0),
+                      //       decoration: BoxDecoration(
+                      //           shape: BoxShape.circle,
+                      //           color: currentPos == index
+                      //               ? Color(0xFFA06784).withOpacity(0.15)
+                      //               : Color(0xFFA06784)),
+                      //     );
+                      //   }).toList(),
+                      // )
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 2.0),
+                        child: AnimatedSmoothIndicator(
+                          activeIndex: currentPos,
+                          count: listPaths.length,
+                          effect: ExpandingDotsEffect(
+                              activeDotColor: Color(0xFFA06784),
+                              dotWidth: 8,
+                              dotHeight: 8),
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(
