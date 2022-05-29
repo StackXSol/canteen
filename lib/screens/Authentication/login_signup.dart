@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:canteen/screens/Admin/admin_login.dart';
 import 'package:canteen/screens/email_verify_screen.dart';
 import 'package:canteen/screens/navbar.dart';
@@ -61,47 +63,51 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   bool _isObscure = true;
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffF5F5F8),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0),
-        child: AppBar(
-          elevation: 0,
-          backgroundColor: Color(0xffF5F5F8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(30),
-            ),
-          ),
-          bottom: TabBar(
-            indicator: UnderlineTabIndicator(
-              borderSide: BorderSide(width: 5.0, color: orange_color),
-              insets: EdgeInsets.symmetric(horizontal: 35.0),
-            ),
-            labelPadding: EdgeInsets.all(15),
-            controller: _tabController,
-            tabs: <Widget>[
-              Text(
-                "Login",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+    return ModalProgressHUD(
+      inAsyncCall: showSpinner,
+      opacity: 0.2,
+      progressIndicator: CircularProgressIndicator(
+        color: orange_color,
+      ),
+      child: Scaffold(
+        backgroundColor: Color(0xffF5F5F8),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.0),
+          child: AppBar(
+            elevation: 0,
+            backgroundColor: Color(0xffF5F5F8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(30),
               ),
-              Text(
-                "Sign-up",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+            ),
+            bottom: TabBar(
+              indicator: UnderlineTabIndicator(
+                borderSide: BorderSide(width: 5.0, color: orange_color),
+                insets: EdgeInsets.symmetric(horizontal: 35.0),
               ),
-            ],
+              labelPadding: EdgeInsets.all(15),
+              controller: _tabController,
+              tabs: <Widget>[
+                Text(
+                  "Login",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "Sign-up",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
-        child: Container(
+        body: Container(
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[
@@ -473,9 +479,63 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           ),
                           SizedBox(height: getheight(context, 100)),
                           InkWell(
-                            onTap: () {
+                            onTap: () async {
                               if (_gkey.currentState!.validate()) {
-                                registration();
+                                setState(() {
+                                  showSpinner = true;
+                                });
+                                Fluttertoast.showToast(msg: "Registering...");
+                                try {
+                                  await auth
+                                      .createUserWithEmailAndPassword(
+                                          email: _email, password: _pass)
+                                      .then((value) async {
+                                    User? user =
+                                        FirebaseAuth.instance.currentUser;
+
+                                    final db = FirebaseFirestore.instance;
+                                    await db
+                                        .collection("Users")
+                                        .doc(user!.uid)
+                                        .set({
+                                      "Fullname": fullname,
+                                      "email": _email,
+                                      "phone": phone,
+                                      "uid": user.uid,
+                                      "Rollno": rollno,
+                                      "College": dropdownValue,
+                                      "Verified": false
+                                    }, SetOptions(merge: true));
+
+                                    BlocProvider.of<CanteenCubit>(context)
+                                        .get_user_data(
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            BlocProvider.of<CanteenCubit>(
+                                                    context)
+                                                .state
+                                                .cart_items);
+
+                                    Register(_email);
+
+                                    await Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Navbar(),
+                                      ),
+                                    ).then((value) {
+                                      setState(() {
+                                        showSpinner = false;
+                                      });
+                                    });
+                                  });
+                                } on FirebaseException catch (e) {
+                                  await Fluttertoast.showToast(
+                                      msg: e.message.toString());
+                                }
+                                setState(() {
+                                  showSpinner = false;
+                                });
                               }
                             },
                             child: Container(
@@ -509,59 +569,5 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     );
   }
 
-  Future registration() async {
-    setState(() {
-      showSpinner = true;
-      print("spinner true");
-    });
-    Fluttertoast.showToast(msg: "Registering...");
-    try {
-      auth
-          .createUserWithEmailAndPassword(email: _email, password: _pass)
-          .then((value) async {
-        User? user = FirebaseAuth.instance.currentUser;
-
-        // user?.sendEmailVerification().then((value) {
-        //   Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //           builder: (context) => EmailverificationScreen()));
-        // });
-
-        final db = FirebaseFirestore.instance;
-        db.collection("Users").doc(user!.uid).set({
-          "Fullname": fullname,
-          "email": _email,
-          "phone": phone,
-          "uid": user.uid,
-          "Rollno": rollno,
-          "College": dropdownValue,
-          "Verified": false
-        }, SetOptions(merge: true));
-
-        BlocProvider.of<CanteenCubit>(context).get_user_data(
-            FirebaseAuth.instance.currentUser!.uid,
-            BlocProvider.of<CanteenCubit>(context).state.cart_items);
-
-        Register(_email);
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navbar(),
-          ),
-        );
-      });
-    } on FirebaseException catch (e) {
-      Fluttertoast.showToast(msg: e.message.toString());
-      setState(() {
-        showSpinner = false;
-        print("spinner true");
-      });
-    }
-    setState(() {
-      showSpinner = false;
-      print("spinner true");
-    });
-  }
+  // Future registration() async {}
 }
