@@ -41,16 +41,19 @@ class AdminHomepage extends StatelessWidget {
                         SizedBox(
                           height: 13,
                         ),
-                        Text(BlocProvider.of<CanteenCubit>(context)
-                            .state
-                            .currentCanteenUser
-                            .getter()[0]),
+                        Text(
+                          BlocProvider.of<CanteenCubit>(context)
+                              .state
+                              .currentCanteenUser
+                              .getter()[0],
+                          style: TextStyle(fontSize: 20),
+                        ),
                       ],
                     ),
                   ],
                 )),
             SizedBox(
-              height: getheight(context, 25),
+              height: getheight(context, 45),
             ),
             Container(
               width: getwidth(context, 300),

@@ -60,7 +60,7 @@ void Register(email) async {
     ..recipients.add(email)
     ..subject = 'Welcome to init'
     ..text =
-        "We are happy to wecome you on our platform. This brings your local canteen into your device, saving all the time from queue's, now you can order your favourite using this app and take away the order using the QR code of that order!\n Do rate us\nThankyou";
+        "We are happy to wecome you on our platform. This brings your local canteen into your device, saving all the time from queue's, now you can order your favourite using this app and take away the order using the QR code of that order!\nDo rate us\nThankyou";
 
   try {
     final sendReport = await send(message, smtpServer);

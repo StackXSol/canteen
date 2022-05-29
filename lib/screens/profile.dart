@@ -351,10 +351,76 @@ class _ProfileState extends State<Profile> {
                     info_containers("About Us", () {}),
                     info_containers("Report Bug", () {}),
                     info_containers("Logout", () {
-                      FirebaseAuth.instance.signOut();
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => Login()));
-                    })
+                      showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                                backgroundColor: Colors.transparent,
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  height: getheight(context, 180),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.white,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Alert!",
+                                        style: TextStyle(
+                                            color: orange_color,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 22),
+                                      ),
+                                      SizedBox(
+                                        height: getheight(context, 22),
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          "Are you sure you want to log out the app!",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: getheight(context, 22),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          FirebaseAuth.instance.signOut();
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Login()));
+                                        },
+                                        child: Container(
+                                          height: getheight(context, 40),
+                                          width: getwidth(context, 130),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              color: orange_color),
+                                          child: Center(
+                                            child: Text(
+                                              "Log out",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ));
+                    }),
                   ],
                 ),
               ),

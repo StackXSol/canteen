@@ -157,6 +157,7 @@ class _AddFoodState extends State<AddFood> {
                                     onTap: () async {
                                       Navigator.pop(context);
                                       photo = await _picker.pickImage(
+                                          imageQuality: 1,
                                           source: ImageSource.camera);
                                       if (photo != null) {
                                         Fluttertoast.showToast(
@@ -188,6 +189,7 @@ class _AddFoodState extends State<AddFood> {
                                     onTap: () async {
                                       Navigator.pop(context);
                                       photo = await _picker.pickImage(
+                                          imageQuality: 45,
                                           source: ImageSource.gallery);
                                       if (photo != null) {
                                         Fluttertoast.showToast(
@@ -245,7 +247,8 @@ class _AddFoodState extends State<AddFood> {
                 print("spinner true");
               });
               try {
-                var uploadTask = FirebaseStorage.instance
+                print(File(photo!.path).lengthSync());
+                var uploadTask = await FirebaseStorage.instance
                     .ref(FirebaseAuth.instance.currentUser!.uid)
                     .child(dropdownValue)
                     .child(_foodname)
@@ -255,7 +258,7 @@ class _AddFoodState extends State<AddFood> {
 
                 print(_url);
 
-                FirebaseFirestore.instance
+                await FirebaseFirestore.instance
                     .collection("Canteens")
                     .doc(FirebaseAuth.instance.currentUser!.uid)
                     .collection("Menu")
