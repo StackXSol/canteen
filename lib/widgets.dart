@@ -1,3 +1,4 @@
+import 'package:canteen/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +35,7 @@ class CartWid extends StatelessWidget {
           left: getwidth(context, 25),
           top: getheight(context, 14),
           child: CircleAvatar(
-            radius: 15,
+            radius: getheight(context, 15),
             backgroundColor: Colors.transparent,
             child: Text(
               BlocProvider.of<CanteenCubit>(context)
@@ -51,12 +52,20 @@ class CartWid extends StatelessWidget {
                   : "",
               style: TextStyle(
                   color: orange_color,
-                  fontSize: 16,
+                  fontSize: textSize.getadaptiveTextSize(context, 16),
                   fontWeight: FontWeight.bold),
             ),
           ),
         ),
       ],
     );
+  }
+}
+
+class AdaptiveTextSize {
+  const AdaptiveTextSize();
+
+  getadaptiveTextSize(BuildContext context, dynamic value) {
+    return (value / 812) * MediaQuery.of(context).size.height;
   }
 }

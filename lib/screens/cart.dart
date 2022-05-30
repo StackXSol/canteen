@@ -40,7 +40,9 @@ class _CartState extends State<Cart> {
                     Spacer(),
                     Text("Cart",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18)),
+                            fontWeight: FontWeight.bold,
+                            fontSize:
+                                textSize.getadaptiveTextSize(context, 18))),
                     Spacer(),
                     CartWid()
                   ]),
@@ -68,14 +70,17 @@ class _CartState extends State<Cart> {
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w800,
-                                      fontSize: 24),
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 24)),
                                 ),
                                 SizedBox(
                                   height: 10,
                                 ),
                                 Text(
                                   "Add delicious food to your cart and\nenjoy your meal on order completion!",
-                                  style: TextStyle(fontSize: 16),
+                                  style: TextStyle(
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 16)),
                                   textAlign: TextAlign.center,
                                 )
                               ]),
@@ -127,12 +132,14 @@ class _CartState extends State<Cart> {
                                           Text(
                                             "Bill Details",
                                             style: TextStyle(
-                                                fontSize: 19,
+                                                fontSize: textSize
+                                                    .getadaptiveTextSize(
+                                                        context, 19),
                                                 color: orange_color,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           SizedBox(
-                                            height: 16,
+                                            height: getheight(context, 16),
                                           ),
                                           Row(
                                             mainAxisAlignment:
@@ -142,7 +149,9 @@ class _CartState extends State<Cart> {
                                                 children: [
                                                   Text("Items",
                                                       style: TextStyle(
-                                                          fontSize: 16,
+                                                          fontSize: textSize
+                                                              .getadaptiveTextSize(
+                                                                  context, 16),
                                                           fontWeight:
                                                               FontWeight.bold))
                                                 ],
@@ -151,7 +160,9 @@ class _CartState extends State<Cart> {
                                                 children: [
                                                   Text("Quantity",
                                                       style: TextStyle(
-                                                          fontSize: 16,
+                                                          fontSize: textSize
+                                                              .getadaptiveTextSize(
+                                                                  context, 16),
                                                           fontWeight:
                                                               FontWeight.bold))
                                                 ],
@@ -159,7 +170,7 @@ class _CartState extends State<Cart> {
                                             ],
                                           ),
                                           SizedBox(
-                                            height: 15,
+                                            height: getheight(context, 15),
                                           ),
                                           Column(
                                             children: dialogitemsList,
@@ -176,7 +187,9 @@ class _CartState extends State<Cart> {
                                                 children: [
                                                   Text("Convenience Fee",
                                                       style: TextStyle(
-                                                          fontSize: 16,
+                                                          fontSize: textSize
+                                                              .getadaptiveTextSize(
+                                                                  context, 16),
                                                           fontWeight: FontWeight
                                                               .normal))
                                                 ],
@@ -185,7 +198,9 @@ class _CartState extends State<Cart> {
                                                 children: [
                                                   Text("₹2",
                                                       style: TextStyle(
-                                                          fontSize: 16,
+                                                          fontSize: textSize
+                                                              .getadaptiveTextSize(
+                                                                  context, 16),
                                                           fontWeight: FontWeight
                                                               .normal))
                                                 ],
@@ -196,13 +211,16 @@ class _CartState extends State<Cart> {
                                             color:
                                                 Colors.black.withOpacity(0.1),
                                           ),
-                                          SizedBox(height: 25),
+                                          SizedBox(
+                                              height: getheight(context, 25)),
                                           Row(
                                             children: [
                                               Text(
                                                 "To Pay",
                                                 style: TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 16),
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
@@ -210,12 +228,15 @@ class _CartState extends State<Cart> {
                                               Text(
                                                   "\u{20B9} ${(total_price + app_data.fee).toString()}/-",
                                                   style: TextStyle(
-                                                      fontSize: 16,
+                                                      fontSize: textSize
+                                                          .getadaptiveTextSize(
+                                                              context, 16),
                                                       fontWeight:
                                                           FontWeight.bold))
                                             ],
                                           ),
-                                          SizedBox(height: 15),
+                                          SizedBox(
+                                              height: getheight(context, 15)),
                                           GestureDetector(
                                             onTap: () async {
                                               ///// Complete your order
@@ -308,7 +329,9 @@ class _CartState extends State<Cart> {
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      fontSize: 17),
+                                                      fontSize: textSize
+                                                          .getadaptiveTextSize(
+                                                              context, 17)),
                                                 ),
                                               ),
                                             ),
@@ -339,7 +362,8 @@ class _CartState extends State<Cart> {
                         child: Text(
                           "Complete Order",
                           style: TextStyle(
-                              fontSize: 17,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 18),
                               fontWeight: FontWeight.w800,
                               color: Color(0xfff6f6f9)),
                         ),
@@ -373,7 +397,7 @@ class _ItemRow extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.normal),
             ),
             SizedBox(
-              height: 10,
+              height: getheight(context, 10),
             )
           ],
         ),

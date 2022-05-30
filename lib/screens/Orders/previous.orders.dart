@@ -1,3 +1,4 @@
+import 'package:canteen/main.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -42,8 +43,9 @@ class _PreviousOrdersState extends State<PreviousOrders> {
                       child: Icon(Icons.keyboard_arrow_left)),
                   Spacer(),
                   Text("Orders",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: textSize.getadaptiveTextSize(context, 18))),
                   Spacer(),
                 ],
               ),
@@ -137,13 +139,13 @@ class _PrevItem extends StatelessWidget {
               child: Row(
                 children: [
                   CircleAvatar(
-                    radius: 35,
+                    radius: getheight(context, 35),
                     backgroundColor: Colors.green,
                     child: Center(
                       child: Icon(
                         Icons.done,
                         color: Colors.white,
-                        size: 30,
+                        size: getheight(context, 30),
                       ),
                     ),
                   ),
@@ -157,15 +159,18 @@ class _PrevItem extends StatelessWidget {
                         Text(
                           oid.toString(),
                           style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 17),
+                              fontWeight: FontWeight.w600,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 17)),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: getheight(context, 10)),
                         Text(
                             // "Rs. $price",
                             DateFormat.jm().format(datetime),
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                fontSize: 15,
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 15),
                                 color: orange_color))
                       ]),
                   Spacer(),
@@ -174,7 +179,7 @@ class _PrevItem extends StatelessWidget {
                     child: Text("$total_price/-",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: textSize.getadaptiveTextSize(context, 15),
                             color: orange_color)),
                   ),
                 ],

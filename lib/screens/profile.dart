@@ -19,6 +19,8 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
+  AdaptiveTextSize textSize = AdaptiveTextSize();
+
   String name = "";
   String phone = "";
   bool showSpinner = false;
@@ -41,7 +43,7 @@ class _ProfileState extends State<Profile> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: getheight(context, 60)),
+                    SizedBox(height: getheight(context, 55)),
                     Row(
                       children: [
                         SizedBox(
@@ -50,13 +52,15 @@ class _ProfileState extends State<Profile> {
                         Text(
                           "My Profile",
                           style: TextStyle(
-                              fontSize: 26, fontWeight: FontWeight.w600),
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 26),
+                              fontWeight: FontWeight.w600),
                         ),
                         Spacer()
                       ],
                     ),
                     SizedBox(
-                      height: getheight(context, 42),
+                      height: getheight(context, 40),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -65,10 +69,12 @@ class _ProfileState extends State<Profile> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             "Personal Details",
                             style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600),
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 16),
+                                fontWeight: FontWeight.w600),
                           ),
                           GestureDetector(
                             onTap: () {
@@ -92,12 +98,14 @@ class _ProfileState extends State<Profile> {
                                               Text(
                                                 "Edit Details",
                                                 style: TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 16),
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                               SizedBox(
-                                                height: 10,
+                                                height: getheight(context, 10),
                                               ),
                                               Padding(
                                                 padding: EdgeInsets.all(8.0),
@@ -116,7 +124,9 @@ class _ProfileState extends State<Profile> {
                                                       name = value;
                                                     }),
                                                     style: TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize: textSize
+                                                          .getadaptiveTextSize(
+                                                              context, 14),
                                                     ),
                                                     decoration: InputDecoration(
                                                         contentPadding:
@@ -129,7 +139,10 @@ class _ProfileState extends State<Profile> {
                                                                         30)),
                                                         hintText: "Enter name",
                                                         hintStyle: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize: textSize
+                                                                .getadaptiveTextSize(
+                                                                    context,
+                                                                    14),
                                                             color: Colors.grey
                                                                 .withOpacity(
                                                                     0.5)))),
@@ -150,30 +163,35 @@ class _ProfileState extends State<Profile> {
                                                     onChanged: (value) {
                                                       phone = value;
                                                     },
-                                                    keyboardType: TextInputType
-                                                        .number,
+                                                    keyboardType:
+                                                        TextInputType.number,
                                                     style: TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize: textSize
+                                                          .getadaptiveTextSize(
+                                                              context, 14),
                                                     ),
                                                     decoration: InputDecoration(
                                                         contentPadding:
-                                                            const EdgeInsets
-                                                                .all(10),
-                                                        border:
-                                                            OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30)),
+                                                            const EdgeInsets.all(
+                                                                10),
+                                                        border: OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    30)),
                                                         hintText:
                                                             "Phone number",
                                                         hintStyle: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize: textSize
+                                                                .getadaptiveTextSize(
+                                                                    context,
+                                                                    14),
                                                             color: Colors.grey
                                                                 .withOpacity(
                                                                     0.5)))),
                                               ),
-                                              SizedBox(height: 20),
+                                              SizedBox(
+                                                  height:
+                                                      getheight(context, 20)),
                                               GestureDetector(
                                                 onTap: () async {
                                                   setState(() {
@@ -229,7 +247,9 @@ class _ProfileState extends State<Profile> {
                                                           color: Colors.white,
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          fontSize: 17),
+                                                          fontSize: textSize
+                                                              .getadaptiveTextSize(
+                                                                  context, 17)),
                                                     ),
                                                   ),
                                                 ),
@@ -244,7 +264,8 @@ class _ProfileState extends State<Profile> {
                             child: Text(
                               "edit",
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 15),
                                 color: orange_color,
                               ),
                             ),
@@ -273,7 +294,8 @@ class _ProfileState extends State<Profile> {
                                 .currentuser
                                 .full_name,
                             style: TextStyle(
-                                fontSize: 25,
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 25),
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xff000000)),
                           ),
@@ -284,7 +306,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Icon(Icons.email),
                               SizedBox(
-                                width: 5,
+                                width: getwidth(context, 5),
                               ),
                               Expanded(
                                 child: Text(
@@ -293,7 +315,8 @@ class _ProfileState extends State<Profile> {
                                       .currentuser
                                       .email,
                                   style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 15),
                                       fontWeight: FontWeight.w300),
                                 ),
                               ),
@@ -307,7 +330,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Icon(Icons.phone),
                               SizedBox(
-                                width: 5,
+                                width: getwidth(context, 5),
                               ),
                               Text(
                                 BlocProvider.of<CanteenCubit>(context)
@@ -315,7 +338,9 @@ class _ProfileState extends State<Profile> {
                                     .currentuser
                                     .phone,
                                 style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.w300),
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 15),
+                                    fontWeight: FontWeight.w300),
                               ),
                             ],
                           ),
@@ -324,13 +349,14 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Icon(Icons.school),
                               SizedBox(
-                                width: 5,
+                                width: getwidth(context, 5),
                               ),
                               Expanded(
                                 child: Text(
                                   "College: ${BlocProvider.of<CanteenCubit>(context).state.currentuser.College}",
                                   style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 15),
                                       fontWeight: FontWeight.w300),
                                 ),
                               ),
@@ -340,7 +366,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     SizedBox(
-                      height: 22,
+                      height: getheight(context, 22),
                     ),
                     info_containers("Previous Orders", () {
                       Navigator.push(
@@ -356,7 +382,8 @@ class _ProfileState extends State<Profile> {
                           builder: (context) => Dialog(
                                 backgroundColor: Colors.transparent,
                                 child: Container(
-                                  padding: EdgeInsets.all(10),
+                                  padding:
+                                      EdgeInsets.all(getwidth(context, 10)),
                                   height: getheight(context, 180),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
@@ -371,7 +398,9 @@ class _ProfileState extends State<Profile> {
                                         style: TextStyle(
                                             color: orange_color,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 22),
+                                            fontSize:
+                                                textSize.getadaptiveTextSize(
+                                                    context, 22)),
                                       ),
                                       SizedBox(
                                         height: getheight(context, 22),
@@ -382,7 +411,9 @@ class _ProfileState extends State<Profile> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: 18),
+                                              fontSize:
+                                                  textSize.getadaptiveTextSize(
+                                                      context, 18)),
                                         ),
                                       ),
                                       SizedBox(
@@ -411,7 +442,9 @@ class _ProfileState extends State<Profile> {
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 17),
+                                                  fontSize: textSize
+                                                      .getadaptiveTextSize(
+                                                          context, 17)),
                                             ),
                                           ),
                                         ),
@@ -452,14 +485,14 @@ class _ProfileState extends State<Profile> {
               Text(
                 function_name,
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: textSize.getadaptiveTextSize(context, 18),
                     color: Color(0xff000000),
                     fontWeight: FontWeight.w800),
               ),
               Spacer(),
               Icon(
                 Icons.arrow_forward_ios,
-                size: 18,
+                size: textSize.getadaptiveTextSize(context, 18),
               ),
               SizedBox(
                 width: getwidth(context, 22),

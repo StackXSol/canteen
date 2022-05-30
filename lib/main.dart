@@ -1,6 +1,7 @@
 import 'package:canteen/backend_data.dart';
 import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/screens/homepage.dart';
+import 'package:canteen/widgets.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +18,12 @@ void main() async {
   ));
 }
 
+AdaptiveTextSize textSize = AdaptiveTextSize();
 List<List> cart_list = [];
 String canteenId = "";
 appData app_data = appData(fee: 0, key: "");
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -1,3 +1,4 @@
+import 'package:canteen/main.dart';
 import 'package:canteen/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +34,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                     ),
                   ),
                   Spacer(),
-                  const Text(
+                  Text(
                     "Reset Password",
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        fontSize: textSize.getadaptiveTextSize(context, 25),
+                        fontWeight: FontWeight.w600),
                   ),
                   Spacer(),
                 ],
@@ -51,11 +54,13 @@ class _ResetPasswordState extends State<ResetPassword> {
               ),
             ),
             SizedBox(
-              height: 15,
+              height: getheight(context, 15),
             ),
             Text(
               "Enter your registerd email address!",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: textSize.getadaptiveTextSize(context, 18),
+                  fontWeight: FontWeight.bold),
             ),
             Padding(
               padding: EdgeInsets.all(35),
@@ -66,12 +71,14 @@ class _ResetPasswordState extends State<ResetPassword> {
                         email = val.replaceAll(" ", "");
                       },
                       style: TextStyle(
-                          fontSize: 17, fontWeight: FontWeight.normal),
+                          fontSize: textSize.getadaptiveTextSize(context, 17),
+                          fontWeight: FontWeight.normal),
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Enter Email",
                           hintStyle: TextStyle(
-                              fontSize: 16,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 16),
                               color: Colors.grey.withOpacity(0.5)))),
                   Divider(
                     height: 2,
@@ -97,7 +104,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 17),
+                        fontSize: textSize.getadaptiveTextSize(context, 17)),
                   ),
                 ),
               ),
@@ -115,7 +122,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               child: Text("Register",
                   style: TextStyle(
                       color: orange_color,
-                      fontSize: 18,
+                      fontSize: textSize.getadaptiveTextSize(context, 18),
                       fontWeight: FontWeight.bold)),
             ),
             SizedBox(

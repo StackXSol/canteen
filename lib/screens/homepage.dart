@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: getheight(context, 65)),
+                  SizedBox(height: getheight(context, 55)),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: getwidth(context, 22)),
@@ -49,11 +49,17 @@ class _HomePageState extends State<HomePage> {
                             Text(
                                 "Hey ${BlocProvider.of<CanteenCubit>(context).state.currentuser.full_name}",
                                 style: TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.w900)),
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 22),
+                                    fontWeight: FontWeight.w900)),
                             SizedBox(
-                              height: 12,
+                              height: getheight(context, 12),
                             ),
-                            Text("What are you craving for today?")
+                            Text("What are you craving for today?",
+                                style: TextStyle(
+                                  fontSize:
+                                      textSize.getadaptiveTextSize(context, 14),
+                                ))
                           ],
                         ),
                         Spacer(),
@@ -115,8 +121,8 @@ class _HomePageState extends State<HomePage> {
                           count: listPaths.length,
                           effect: ExpandingDotsEffect(
                               activeDotColor: Color(0xFFA06784),
-                              dotWidth: 8,
-                              dotHeight: 8),
+                              dotWidth: getheight(context, 8),
+                              dotHeight: getheight(context, 8)),
                         ),
                       ),
                     ],
@@ -169,14 +175,17 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w800,
-                                    fontSize: 24),
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 24)),
                               ),
                               SizedBox(
-                                height: 15,
+                                height: getheight(context, 15),
                               ),
                               Text(
                                 "We are expanding and will let\nyou know when we will be in your college!",
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16)),
                                 textAlign: TextAlign.center,
                               )
                             ];
@@ -199,14 +208,19 @@ class _HomePageState extends State<HomePage> {
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w800,
-                                                    fontSize: 24),
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 24)),
                                               ),
                                               SizedBox(
-                                                height: 10,
+                                                height: getheight(context, 10),
                                               ),
                                               Text(
                                                 "Your college canteen has not\nadded any item yet!",
-                                                style: TextStyle(fontSize: 16),
+                                                style: TextStyle(
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 16)),
                                                 textAlign: TextAlign.center,
                                               )
                                             ],
@@ -223,16 +237,19 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircleAvatar(
-                                radius: 45,
+                                radius: getheight(context, 45),
                                 backgroundImage:
                                     AssetImage('images/breakfast.jpg'),
                               ),
                               SizedBox(
-                                height: 5,
+                                height: getheight(context, 5),
                               ),
                               Text(
                                 "Breakfast",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16)),
                               )
                             ],
                           ),
@@ -280,14 +297,17 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w800,
-                                    fontSize: 24),
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 24)),
                               ),
                               SizedBox(
-                                height: 15,
+                                height: getheight(context, 15),
                               ),
                               Text(
                                 "We are expanding and will let\nyou know when we will be in your college!",
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16)),
                                 textAlign: TextAlign.center,
                               )
                             ];
@@ -310,14 +330,19 @@ class _HomePageState extends State<HomePage> {
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w800,
-                                                    fontSize: 24),
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 24)),
                                               ),
                                               SizedBox(
-                                                height: 10,
+                                                height: getheight(context, 10),
                                               ),
                                               Text(
                                                 "Your college canteen has not\nadded any item yet!",
-                                                style: TextStyle(fontSize: 16),
+                                                style: TextStyle(
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 16)),
                                                 textAlign: TextAlign.center,
                                               )
                                             ],
@@ -334,16 +359,18 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircleAvatar(
-                                radius: 45,
+                                radius: getheight(context, 45),
                                 backgroundImage: AssetImage('images/lunch.jpg'),
                               ),
                               SizedBox(
-                                height: 5,
+                                height: getheight(context, 5),
                               ),
-                              Text(
-                                "Lunch",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              )
+                              Text("Lunch",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16),
+                                  ))
                             ],
                           ),
                         ),
@@ -390,14 +417,17 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w800,
-                                    fontSize: 24),
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 24)),
                               ),
                               SizedBox(
-                                height: 15,
+                                height: getheight(context, 15),
                               ),
                               Text(
                                 "We are expanding and will let\nyou know when we will be in your college!",
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16)),
                                 textAlign: TextAlign.center,
                               )
                             ];
@@ -420,14 +450,19 @@ class _HomePageState extends State<HomePage> {
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w800,
-                                                    fontSize: 24),
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 24)),
                                               ),
                                               SizedBox(
-                                                height: 10,
+                                                height: getheight(context, 10),
                                               ),
                                               Text(
                                                 "Your college canteen has not\nadded any item yet!",
-                                                style: TextStyle(fontSize: 16),
+                                                style: TextStyle(
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 16)),
                                                 textAlign: TextAlign.center,
                                               )
                                             ],
@@ -444,16 +479,19 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircleAvatar(
-                                radius: 45,
+                                radius: getheight(context, 45),
                                 backgroundImage:
                                     AssetImage('images/dinner.jpg'),
                               ),
                               SizedBox(
-                                height: 5,
+                                height: getheight(context, 5),
                               ),
                               Text(
                                 "Dinner",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16)),
                               )
                             ],
                           ),
@@ -508,14 +546,17 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w800,
-                                    fontSize: 24),
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 24)),
                               ),
                               SizedBox(
-                                height: 15,
+                                height: getheight(context, 15),
                               ),
                               Text(
                                 "We are expanding and will let\nyou know when we will be in your college!",
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16)),
                                 textAlign: TextAlign.center,
                               )
                             ];
@@ -538,14 +579,19 @@ class _HomePageState extends State<HomePage> {
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w800,
-                                                    fontSize: 24),
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 24)),
                                               ),
                                               SizedBox(
-                                                height: 10,
+                                                height: getheight(context, 10),
                                               ),
                                               Text(
                                                 "Your college canteen has not\nadded any item yet!",
-                                                style: TextStyle(fontSize: 16),
+                                                style: TextStyle(
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 16)),
                                                 textAlign: TextAlign.center,
                                               )
                                             ],
@@ -563,16 +609,19 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircleAvatar(
-                                radius: 45,
+                                radius: getheight(context, 45),
                                 backgroundImage:
                                     AssetImage('images/snacks.jpg'),
                               ),
                               SizedBox(
-                                height: 5,
+                                height: getheight(context, 5),
                               ),
                               Text(
                                 "Snacks",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16)),
                               )
                             ],
                           ),
@@ -620,14 +669,17 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w800,
-                                    fontSize: 24),
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 24)),
                               ),
                               SizedBox(
-                                height: 15,
+                                height: getheight(context, 15),
                               ),
                               Text(
                                 "We are expanding and will let\nyou know when we will be in your college!",
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16)),
                                 textAlign: TextAlign.center,
                               )
                             ];
@@ -650,14 +702,19 @@ class _HomePageState extends State<HomePage> {
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w800,
-                                                    fontSize: 24),
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 24)),
                                               ),
                                               SizedBox(
-                                                height: 10,
+                                                height: getheight(context, 10),
                                               ),
                                               Text(
                                                 "Your college canteen has not\nadded any item yet!",
-                                                style: TextStyle(fontSize: 16),
+                                                style: TextStyle(
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 16)),
                                                 textAlign: TextAlign.center,
                                               )
                                             ],
@@ -675,16 +732,19 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircleAvatar(
-                                radius: 45,
+                                radius: getheight(context, 45),
                                 backgroundImage:
                                     AssetImage('images/bakery.jpg'),
                               ),
                               SizedBox(
-                                height: 5,
+                                height: getheight(context, 5),
                               ),
                               Text(
                                 "Bakery",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16)),
                               )
                             ],
                           ),
@@ -732,14 +792,17 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w800,
-                                    fontSize: 24),
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 24)),
                               ),
                               SizedBox(
-                                height: 15,
+                                height: getheight(context, 15),
                               ),
                               Text(
                                 "We are expanding and will let\nyou know when we will be in your college!",
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16)),
                                 textAlign: TextAlign.center,
                               )
                             ];
@@ -762,14 +825,19 @@ class _HomePageState extends State<HomePage> {
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w800,
-                                                    fontSize: 24),
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 24)),
                                               ),
                                               SizedBox(
-                                                height: 10,
+                                                height: getheight(context, 10),
                                               ),
                                               Text(
                                                 "Your college canteen has not\nadded any item yet!",
-                                                style: TextStyle(fontSize: 16),
+                                                style: TextStyle(
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 16)),
                                                 textAlign: TextAlign.center,
                                               )
                                             ],
@@ -787,16 +855,19 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircleAvatar(
-                                radius: 45,
+                                radius: getheight(context, 45),
                                 backgroundImage:
                                     AssetImage('images/bevrages.jpg'),
                               ),
                               SizedBox(
-                                height: 5,
+                                height: getheight(context, 5),
                               ),
                               Text(
                                 "Beverages",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16)),
                               )
                             ],
                           ),
@@ -865,11 +936,11 @@ class _Item extends StatelessWidget {
             child: Row(
               children: [
                 CircleAvatar(
-                  radius: 35,
+                  radius: getheight(context, 35),
                   backgroundImage: NetworkImage(image),
                 ),
                 SizedBox(
-                  width: 12,
+                  width: getwidth(context, 12),
                 ),
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -878,13 +949,16 @@ class _Item extends StatelessWidget {
                       Text(
                         name,
                         style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 17),
+                            fontWeight: FontWeight.w600,
+                            fontSize:
+                                textSize.getadaptiveTextSize(context, 17)),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: getheight(context, 10)),
                       Text("Rs. $price",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: 15,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 16),
                               color: orange_color))
                     ]),
                 Spacer(),
@@ -910,7 +984,7 @@ class _Item extends StatelessWidget {
                   child: Container(
                       margin: EdgeInsets.only(top: getheight(context, 30)),
                       height: getheight(context, 23),
-                      width: getheight(context, 55),
+                      width: getwidth(context, 55),
                       decoration: BoxDecoration(
                           color: orange_color,
                           borderRadius: BorderRadius.circular(30)),
@@ -920,7 +994,8 @@ class _Item extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 12),
+                            fontSize:
+                                textSize.getadaptiveTextSize(context, 14)),
                       ))),
                 ),
               ],

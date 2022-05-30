@@ -130,7 +130,7 @@ class _cartItem extends StatelessWidget {
               children: [
                 CircleAvatar(
                   backgroundImage: NetworkImage(photo),
-                  radius: 35,
+                  radius: getheight(context, 35),
                 ),
                 SizedBox(
                   width: 10,
@@ -142,13 +142,16 @@ class _cartItem extends StatelessWidget {
                       Text(
                         name,
                         style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 17),
+                            fontWeight: FontWeight.w600,
+                            fontSize:
+                                textSize.getadaptiveTextSize(context, 17)),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: getheight(context, 10)),
                       Text("Rs. ${price * quantity}/",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: 15,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 15),
                               color: orange_color))
                     ]),
                 Spacer(),

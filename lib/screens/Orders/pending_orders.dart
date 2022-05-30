@@ -1,4 +1,5 @@
 import 'package:canteen/cubit/canteen_cubit.dart';
+import 'package:canteen/main.dart';
 import 'package:canteen/screens/order_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,14 +90,17 @@ class _PendingOrdersState extends State<PendingOrders> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w800,
-                                        fontSize: 24),
+                                        fontSize: textSize.getadaptiveTextSize(
+                                            context, 24)),
                                   ),
                                   SizedBox(
-                                    height: 10,
+                                    height: getheight(context, 10),
                                   ),
                                   Text(
                                     "Surf through main screen\nto Create an order",
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(
+                                        fontSize: textSize.getadaptiveTextSize(
+                                            context, 16)),
                                     textAlign: TextAlign.center,
                                   ),
                                   SizedBox(
@@ -163,7 +167,7 @@ class _PendingItem extends StatelessWidget {
                   QrImage(
                     data: [oid, FirebaseAuth.instance.currentUser!.uid]
                         .toString(),
-                    size: 90,
+                    size: getheight(context, 90),
                   ),
                   SizedBox(
                     width: 12,
@@ -175,7 +179,9 @@ class _PendingItem extends StatelessWidget {
                         Text(
                           oid.toString(),
                           style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 17),
+                              fontWeight: FontWeight.w600,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 16)),
                         ),
                         SizedBox(height: 10),
                         Text(
@@ -183,7 +189,8 @@ class _PendingItem extends StatelessWidget {
                             DateFormat.jm().format(datetime),
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                fontSize: 15,
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 15),
                                 color: orange_color))
                       ]),
                   Spacer(),
@@ -192,7 +199,7 @@ class _PendingItem extends StatelessWidget {
                     child: Text("$total_price/-",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: textSize.getadaptiveTextSize(context, 15),
                             color: orange_color)),
                   ),
                 ],

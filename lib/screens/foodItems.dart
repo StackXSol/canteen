@@ -1,11 +1,15 @@
 import 'package:canteen/cubit/canteen_cubit.dart';
+import 'package:canteen/main.dart';
 import 'package:canteen/screens/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Food_Items extends StatefulWidget {
-  Food_Items({required this.food_type, required this.food_items, required this.canteenid});
+  Food_Items(
+      {required this.food_type,
+      required this.food_items,
+      required this.canteenid});
   String food_type;
   String canteenid;
   List<Widget> food_items;
@@ -38,7 +42,9 @@ class _Food_ItemsState extends State<Food_Items> {
                       Spacer(),
                       Text(widget.food_type,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 18))),
                       Spacer(),
                       GestureDetector(
                           onTap: () {
