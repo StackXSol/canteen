@@ -1,9 +1,16 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/screens/homepage.dart';
+import 'package:canteen/screens/navbar.dart';
+import 'package:canteen/smtp.dart';
 import 'package:canteen/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class EmailverificationScreen extends StatefulWidget {
   EmailverificationScreen({Key? key}) : super(key: key);
@@ -17,8 +24,27 @@ class _EmailverificationScreenState extends State<EmailverificationScreen> {
   bool isemailverified = false;
   bool wait = true;
   int start = 30;
-
   Timer? timer;
+  int _sentOtp = 0;
+  int _otp = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    starttimer();
+    send_otp();
+  }
+
+  void send_otp() {
+    Fluttertoast.showToast(msg: "Sending OTP!");
+    String email =
+        BlocProvider.of<CanteenCubit>(context).state.currentuser.email;
+    Fluttertoast.showToast(msg: email);
+    _sentOtp = Random().nextInt(1000000) +
+        Random().nextInt(10000) +
+        Random().nextInt(100);
+    verify_email(email, _sentOtp);
+  }
 
   void starttimer() {
     const onsec = Duration(seconds: 1);
@@ -37,33 +63,9 @@ class _EmailverificationScreenState extends State<EmailverificationScreen> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    starttimer();
-
-    isemailverified = FirebaseAuth.instance.currentUser!.emailVerified;
-
-    timer = Timer.periodic(Duration(seconds: 2), (_) => checkemailverified());
-  }
-
-  @override
   dispose() {
     timer?.cancel();
     super.dispose();
-  }
-
-  Future checkemailverified() async {
-    await FirebaseAuth.instance.currentUser!.reload();
-    setState(() {
-      isemailverified = FirebaseAuth.instance.currentUser!.emailVerified;
-    });
-    if (isemailverified) {
-      timer?.cancel();
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
-    }
   }
 
   @override
@@ -73,37 +75,88 @@ class _EmailverificationScreenState extends State<EmailverificationScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image(
+              image: AssetImage("images/otp.png"),
+              height: getheight(context, 340),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 80, vertical: 20),
+              child: TextFormField(
+                  textAlign: TextAlign.center,
+                  validator: (value) {
+                    if (value.toString().length < 4) {
+                      return "Enter valid Name!";
+                    }
+                    return null;
+                  },
+                  onChanged: ((value) {
+                    _otp = int.parse(value);
+                  }),
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                  decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(10),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      hintText: "Enter OTP sent on email",
+                      hintStyle: TextStyle(fontSize: 14, color: Colors.black))),
+            ),
             RichText(
-                text: TextSpan(children: [
-              TextSpan(
-                  text: "Haven't recieved email? Send again in ",
-                  style: TextStyle(color: Colors.black)),
-              TextSpan(text: "00:$start ", style: TextStyle(color: orange_color)),
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                      text: "Haven't recieved email?\nSend again in ",
+                      style: TextStyle(color: Colors.black, fontSize: 16)),
+                  TextSpan(
+                      text: "00:$start ",
+                      style: TextStyle(
+                          color: orange_color, fontWeight: FontWeight.bold)),
                   TextSpan(
                       text: "sec",
-                      style: TextStyle(color: Colors.black)),
-            ])),
+                      style: TextStyle(color: Colors.black, fontSize: 16)),
+                ],
+              ),
+            ),
             SizedBox(
               height: getheight(context, 30),
             ),
             wait
-                ? Container(
-                    alignment: Alignment.center,
-                    height: 50,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.grey.shade800,
-                    ),
-                    child: Text(
-                      "Resend",
-                      style: TextStyle(color: Colors.white),
+                ? GestureDetector(
+                    onTap: () {
+                      if (_otp == _sentOtp) {
+                        Fluttertoast.showToast(msg: "email verified!");
+                        FirebaseFirestore.instance
+                            .collection("Users")
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
+                            .update({"Verified": true});
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => Navbar()));
+                      } else {
+                        Fluttertoast.showToast(msg: "OTP not correct!");
+                      }
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 50,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.green,
+                      ),
+                      child: Text(
+                        "verify",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 18),
+                      ),
                     ),
                   )
                 : InkWell(
                     onTap: () {
-                      FirebaseAuth.instance.currentUser!.sendEmailVerification;
                       starttimer();
+                      send_otp();
                       setState(() {
                         wait = true;
                         start = 30;

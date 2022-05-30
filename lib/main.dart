@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
       ),
       // home: EmailverificationScreen(),
       routes: {
-        '/homepage': (context) => const HomePage(),
         '/loadingscreen': (context) => const LoadingPage(),
       },
       initialRoute: '/loadingscreen',

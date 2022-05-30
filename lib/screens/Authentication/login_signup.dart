@@ -521,7 +521,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                     await Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => Navbar(),
+                                        builder: (context) =>
+                                            EmailverificationScreen(),
                                       ),
                                     ).then((value) {
                                       setState(() {
