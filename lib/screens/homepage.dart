@@ -11,7 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage();
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -20,13 +20,28 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentPos = 0;
   int pvindex = 0;
-  List<String> listPaths = [
-    "images/Splashscreen.png",
-    "images/Splashscreen.png",
-    "images/Splashscreen.png",
-    "images/Splashscreen.png",
-    "images/Splashscreen.png",
-  ];
+  List images = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getCaroselImages();
+  }
+
+  Future<void> getCaroselImages() async {
+    images.clear();
+
+    var key = await FirebaseFirestore.instance
+        .collection("AppData")
+        .doc("Images")
+        .get();
+
+    for (var element in (key.data() as dynamic)["images"]) {
+      images.add(element);
+    }
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     children: [
                       CarouselSlider.builder(
-                        itemCount: listPaths.length,
+                        itemCount: images.length,
                         options: CarouselOptions(
                             autoPlayCurve: Curves.fastOutSlowIn,
                             viewportFraction: 1,
@@ -93,34 +108,17 @@ class _HomePageState extends State<HomePage> {
                               });
                             }),
                         itemBuilder: (context, index, pvindex) {
-                          return MyImageView(listPaths[index]);
+                          return MyImageView(images[index]);
                         },
                       ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: listPaths.map((url) {
-                      //     int index = listPaths.indexOf(url);
-                      //     return Container(
-                      //       width: 6.0,
-                      //       height: 6.0,
-                      //       margin: EdgeInsets.symmetric(
-                      //           vertical: 12.0, horizontal: 11.0),
-                      //       decoration: BoxDecoration(
-                      //           shape: BoxShape.circle,
-                      //           color: currentPos == index
-                      //               ? Color(0xFFA06784).withOpacity(0.15)
-                      //               : Color(0xFFA06784)),
-                      //     );
-                      //   }).toList(),
-                      // )
                       Container(
                         margin: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 2.0),
                         child: AnimatedSmoothIndicator(
                           activeIndex: currentPos,
-                          count: listPaths.length,
+                          count: images.length,
                           effect: ExpandingDotsEffect(
-                              activeDotColor: Color(0xFFA06784),
+                              activeDotColor: orange_color,
                               dotWidth: getheight(context, 8),
                               dotHeight: getheight(context, 8)),
                         ),
@@ -895,14 +893,11 @@ class MyImageView extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-        height: getheight(context, 188),
-        width: getwidth(context, 321),
+        height: getheight(context, 195),
+        width: getwidth(context, 335),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
-          child: FittedBox(
-            fit: BoxFit.cover,
-            child: Image.asset(imgPath),
-          ),
+          child: FittedBox(fit: BoxFit.cover, child: Image.network(imgPath)),
         ));
   }
 }

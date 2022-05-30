@@ -74,3 +74,25 @@ void Register(email) async {
     }
   }
 }
+
+void verify_email(email, OTP) async {
+  // Create our message.
+  final message = Message()
+    ..from = Address(username, "InIt")
+    ..recipients.add(email)
+    ..subject = 'Verification code for InIt'
+    ..text =
+        "OTP for verification on the app is: $OTP\nEnter this otp in verification screen to verify.\nDo rate us\nThankyou";
+
+  try {
+    final sendReport = await send(message, smtpServer);
+
+    print('Message sent: ' + sendReport.toString());
+  } on MailerException catch (e) {
+    print(e);
+    print('Message not sent.');
+    for (var p in e.problems) {
+      print('Problem: ${p.code}: ${p.msg}');
+    }
+  }
+}

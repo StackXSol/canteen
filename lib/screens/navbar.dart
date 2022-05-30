@@ -17,11 +17,15 @@ class Navbar extends StatefulWidget {
 
 class _NavbarState extends State<Navbar> {
   int _index = 0;
-  final List<Widget> screens = [HomePage(), PendingOrders(), Profile()];
+  List<String> listPaths = [
+    'https://img.freepik.com/free-psd/asian-food-restaurant-banner-template_23-2148912535.jpg?w=2000'
+  ];
+  List<Widget> screens = [];
 
   @override
   void initState() {
     setAppData();
+    screens = [HomePage(), PendingOrders(), Profile()];
     super.initState();
   }
 

@@ -1,5 +1,6 @@
 import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/screens/Admin/admin_navbar.dart';
+import 'package:canteen/screens/email_verify_screen.dart';
 import 'package:canteen/screens/navbar.dart';
 import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,12 +54,29 @@ class _LoadingPageState extends State<LoadingPage> {
       BlocProvider.of<CanteenCubit>(context)
           .get_user_data(FirebaseAuth.instance.currentUser!.uid, context);
 
-      Future.delayed(
-          const Duration(seconds: 1),
-          () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const Navbar()),
-              ));
+      var key = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+
+      print((key.data() as dynamic)["Verified"]);
+
+      if ((key.data() as dynamic)["Verified"]) {
+        Future.delayed(
+            const Duration(seconds: 1),
+            () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Navbar()),
+                ));
+      } else {
+        Future.delayed(
+            const Duration(seconds: 1),
+            () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EmailverificationScreen()),
+                ));
+      }
     } catch (e) {
       print(e);
       Future.delayed(
