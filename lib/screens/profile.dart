@@ -384,12 +384,13 @@ class _ProfileState extends State<Profile> {
                                 child: Container(
                                   padding:
                                       EdgeInsets.all(getwidth(context, 10)),
-                                  height: getheight(context, 180),
+                                  // height: getheight(context, 180),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
                                     color: Colors.white,
                                   ),
                                   child: Column(
+                                    mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
