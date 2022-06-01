@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:canteen/main.dart';
 import 'package:canteen/screens/Admin/admin_login.dart';
 import 'package:canteen/screens/email_verify_screen.dart';
 import 'package:canteen/screens/navbar.dart';
@@ -93,14 +94,14 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   "Login",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: textSize.getadaptiveTextSize(context, 18),
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "Sign-up",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: textSize.getadaptiveTextSize(context, 18),
                       fontWeight: FontWeight.bold),
                 ),
               ],
@@ -116,160 +117,171 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       top: getheight(context, 60),
                       left: getwidth(context, 30),
                       right: getwidth(context, 30)),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Email address",
-                            style: TextStyle(color: Colors.black)),
-                        TextField(
-                            onChanged: (value) {
-                              setState(() {
-                                _email = value.replaceAll(" ", "");
-                              });
-                            },
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Enter Email",
-                                hintStyle: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey.withOpacity(0.5)))),
-                        Divider(
-                          height: 2,
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          height: getheight(context, 40),
-                        ),
-                        Text("Password", style: TextStyle(color: Colors.black)),
-                        TextField(
-                            cursorColor: Colors.black,
-                            onChanged: (value) {
-                              setState(() {
-                                _pass = value;
-                              });
-                            },
-                            obscureText: _isObscure,
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
-                            decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _isObscure = !_isObscure;
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.remove_red_eye_rounded,
-                                      color: Colors.grey,
-                                    )),
-                                border: InputBorder.none,
-                                hintText: "Enter Password",
-                                hintStyle: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey.withOpacity(0.5)))),
-                        Divider(
-                          height: 2,
-                          color: Colors.black,
-                        ),
-                        SizedBox(height: getheight(context, 30)),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ResetPassword()),
-                            );
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Email address",
+                          style: TextStyle(color: Colors.black)),
+                      TextField(
+                          onChanged: (value) {
+                            setState(() {
+                              _email = value.replaceAll(" ", "");
+                            });
                           },
+                          style: TextStyle(
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 17),
+                              fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Enter Email",
+                              hintStyle: TextStyle(
+                                  fontSize:
+                                      textSize.getadaptiveTextSize(context, 16),
+                                  color: Colors.grey.withOpacity(0.5)))),
+                      Divider(
+                        height: 2,
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        height: getheight(context, 40),
+                      ),
+                      Text("Password", style: TextStyle(color: Colors.black)),
+                      TextField(
+                          cursorColor: Colors.black,
+                          onChanged: (value) {
+                            setState(() {
+                              _pass = value;
+                            });
+                          },
+                          obscureText: _isObscure,
+                          style: TextStyle(
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 17),
+                              fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _isObscure = !_isObscure;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.remove_red_eye_rounded,
+                                    color: Colors.grey,
+                                  )),
+                              border: InputBorder.none,
+                              hintText: "Enter Password",
+                              hintStyle: TextStyle(
+                                  fontSize:
+                                      textSize.getadaptiveTextSize(context, 16),
+                                  color: Colors.grey.withOpacity(0.5)))),
+                      Divider(
+                        height: 2,
+                        color: Colors.black,
+                      ),
+                      SizedBox(height: getheight(context, 30)),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResetPassword()),
+                          );
+                        },
+                        child: Text(
+                          "Forgot password?",
+                          style: TextStyle(
+                              color: orange_color,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 17),
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      // SizedBox(
+                      //   height: getheight(context, 40),
+                      // ),
+                      // SizedBox(
+                      //   height: getheight(context, 200),
+                      // ),
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () async {
+                          setState(() {
+                            showSpinner = true;
+                            print("spinner true");
+                          });
+                          try {
+                            await auth
+                                .signInWithEmailAndPassword(
+                                    email: _email, password: _pass)
+                                .then((value) async {
+                              print("signin successful");
+                              User? user = FirebaseAuth.instance.currentUser;
+
+                              BlocProvider.of<CanteenCubit>(context)
+                                  .get_user_data(user?.uid, context);
+
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Navbar(),
+                                ),
+                              );
+                            });
+                          } on FirebaseException catch (e) {
+                            Fluttertoast.showToast(msg: e.message.toString());
+                            print(e.message.toString());
+                          }
+                          setState(() {
+                            showSpinner = false;
+                            print("spinner false");
+                          });
+                        },
+                        child: Container(
+                          height: getheight(context, 70),
+                          width: getwidth(context, 310),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: orange_color),
+                          child: Center(
+                            child: Text(
+                              "Login",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: textSize.getadaptiveTextSize(
+                                      context, 17)),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: getheight(context, 25),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AdminLogin()),
+                          );
+                        },
+                        child: Center(
                           child: Text(
-                            "Forgot password?",
+                            "Admin login",
                             style: TextStyle(
                                 color: orange_color,
-                                fontSize: 17,
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 17),
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
-                        SizedBox(
-                          height: getheight(context, 40),
-                        ),
-                        SizedBox(
-                          height: getheight(context, 210),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            setState(() {
-                              showSpinner = true;
-                              print("spinner true");
-                            });
-                            try {
-                              await auth
-                                  .signInWithEmailAndPassword(
-                                      email: _email, password: _pass)
-                                  .then((value) async {
-                                print("signin successful");
-                                User? user = FirebaseAuth.instance.currentUser;
-
-                                BlocProvider.of<CanteenCubit>(context)
-                                    .get_user_data(user?.uid, context);
-
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Navbar(),
-                                  ),
-                                );
-                              });
-                            } on FirebaseException catch (e) {
-                              Fluttertoast.showToast(msg: e.message.toString());
-                              print(e.message.toString());
-                            }
-                            setState(() {
-                              showSpinner = false;
-                              print("spinner false");
-                            });
-                          },
-                          child: Container(
-                            height: getheight(context, 70),
-                            width: getwidth(context, 310),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: orange_color),
-                            child: Center(
-                              child: Text(
-                                "Login",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: getheight(context, 25),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdminLogin()),
-                            );
-                          },
-                          child: Center(
-                            child: Text(
-                              "Admin login",
-                              style: TextStyle(
-                                  color: orange_color,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: getheight(context, 25),
+                      ),
+                    ],
                   )),
               Container(
                   padding: EdgeInsets.only(
@@ -298,12 +310,15 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                 });
                               },
                               style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
+                                  fontSize:
+                                      textSize.getadaptiveTextSize(context, 17),
+                                  fontWeight: FontWeight.bold),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Name",
                                   hintStyle: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 16),
                                       color: Colors.grey.withOpacity(0.5)))),
                           Divider(
                             height: 2,
@@ -329,12 +344,15 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                 });
                               },
                               style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
+                                  fontSize:
+                                      textSize.getadaptiveTextSize(context, 17),
+                                  fontWeight: FontWeight.bold),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter Email",
                                   hintStyle: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 16),
                                       color: Colors.grey.withOpacity(0.5)))),
                           Divider(
                             height: 2,
@@ -349,7 +367,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             children: [
                               Text(
                                 "🇮🇳",
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 20)),
                               ),
                               Text(
                                 " +91",
@@ -372,13 +392,16 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                       FilteringTextInputFormatter.digitsOnly
                                     ],
                                     style: TextStyle(
-                                        fontSize: 17,
+                                        fontSize: textSize.getadaptiveTextSize(
+                                            context, 17),
                                         fontWeight: FontWeight.bold),
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Phone number",
                                         hintStyle: TextStyle(
-                                            fontSize: 16,
+                                            fontSize:
+                                                textSize.getadaptiveTextSize(
+                                                    context, 16),
                                             color:
                                                 Colors.grey.withOpacity(0.5)))),
                               ),
@@ -411,7 +434,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             }).toList(),
                           ),
 
-                          SizedBox(height: 15),
+                          SizedBox(height: getheight(context, 15)),
 
                           ///// /////////roll number
                           Text("Roll Number",
@@ -422,12 +445,15 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                 rollno = value;
                               },
                               style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
+                                  fontSize:
+                                      textSize.getadaptiveTextSize(context, 17),
+                                  fontWeight: FontWeight.bold),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter Roll number",
                                   hintStyle: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 16),
                                       color: Colors.grey.withOpacity(0.5)))),
                           Divider(
                             height: 2,
@@ -453,7 +479,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             },
                             obscureText: _isObscure,
                             style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 17),
+                                fontWeight: FontWeight.bold),
                             decoration: InputDecoration(
                               suffixIcon: IconButton(
                                   onPressed: () {
@@ -468,7 +496,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                               border: InputBorder.none,
                               hintText: "Enter Password",
                               hintStyle: TextStyle(
-                                fontSize: 16,
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 16),
                                 color: Colors.grey.withOpacity(0.5),
                               ),
                             ),
@@ -477,7 +506,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             height: 2,
                             color: Colors.black,
                           ),
-                          SizedBox(height: getheight(context, 100)),
+                          SizedBox(height: getheight(context, 50)),
+                          // Spacer(),
                           InkWell(
                             onTap: () async {
                               if (_gkey.currentState!.validate()) {
@@ -551,13 +581,14 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 17),
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 17)),
                                 ),
                               ),
                             ),
                           ),
                           SizedBox(
-                            height: getheight(context, 25),
+                            height: getheight(context, 20),
                           ),
                         ],
                       ),

@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   SizedBox(
-                    height: getheight(context, 35),
+                    height: getheight(context, 25),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
