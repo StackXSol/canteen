@@ -23,7 +23,7 @@ class EmailverificationScreen extends StatefulWidget {
 class _EmailverificationScreenState extends State<EmailverificationScreen> {
   bool isemailverified = false;
   bool wait = true;
-  int start = 30;
+  int start = 60;
   Timer? timer;
   int _sentOtp = 0;
   int _otp = 0;
