@@ -47,6 +47,10 @@ class CanteenCubit extends Cubit<CanteenState> {
     dynamic key =
         await FirebaseFirestore.instance.collection("Users").doc(uid).get();
 
+    print(uid);
+
+    print(key.data());
+
     late appUser currentuser;
 
     currentuser = await appUser(

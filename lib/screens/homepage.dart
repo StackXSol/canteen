@@ -20,12 +20,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentPos = 0;
   int pvindex = 0;
-  List images = [];
 
   @override
   void initState() {
     super.initState();
-    getCaroselImages();
+    if (!carousel) {
+      getCaroselImages();
+    }
   }
 
   Future<void> getCaroselImages() async {
@@ -39,6 +40,8 @@ class _HomePageState extends State<HomePage> {
     for (var element in (key.data() as dynamic)["images"]) {
       images.add(element);
     }
+
+    carousel = true;
 
     setState(() {});
   }

@@ -22,6 +22,8 @@ AdaptiveTextSize textSize = AdaptiveTextSize();
 List<List> cart_list = [];
 String canteenId = "";
 appData app_data = appData(fee: 0, key: "");
+bool carousel = false;
+List images = [];
 
 class MyApp extends StatelessWidget {
   @override

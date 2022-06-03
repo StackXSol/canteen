@@ -23,7 +23,7 @@ class EmailverificationScreen extends StatefulWidget {
 class _EmailverificationScreenState extends State<EmailverificationScreen> {
   bool isemailverified = false;
   bool wait = true;
-  int start = 60;
+  int start = 30;
   Timer? timer;
   int _sentOtp = 0;
   int _otp = 0;
@@ -119,62 +119,61 @@ class _EmailverificationScreenState extends State<EmailverificationScreen> {
               ),
             ),
             SizedBox(
-              height: getheight(context, 30),
+              height: getheight(context, 8),
             ),
-            wait
-                ? GestureDetector(
-                    onTap: () {
-                      if (_otp == _sentOtp) {
-                        Fluttertoast.showToast(msg: "email verified!");
-                        FirebaseFirestore.instance
-                            .collection("Users")
-                            .doc(FirebaseAuth.instance.currentUser!.uid)
-                            .update({"Verified": true});
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => Navbar()));
-                      } else {
-                        Fluttertoast.showToast(msg: "OTP not correct!");
-                      }
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 50,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.green,
-                      ),
-                      child: Text(
-                        "verify",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 18),
-                      ),
-                    ),
-                  )
-                : InkWell(
-                    onTap: () {
-                      starttimer();
-                      send_otp();
-                      setState(() {
-                        wait = true;
-                        start = 30;
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 50,
-                      width: 120,
-                      decoration: BoxDecoration(
-                          color: orange_color,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Text(
-                        "Resend",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  )
+            Visibility(
+                visible: !wait,
+                child: InkWell(
+                  onTap: () {
+                    starttimer();
+                    send_otp();
+                    setState(() {
+                      wait = true;
+                      start = 30;
+                    });
+                  },
+                  child: Text(
+                    "Resend",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: orange_color,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )),
+            SizedBox(
+              height: getheight(context, 26),
+            ),
+            GestureDetector(
+              onTap: () {
+                if (_otp == _sentOtp) {
+                  Fluttertoast.showToast(msg: "email verified!");
+                  FirebaseFirestore.instance
+                      .collection("Users")
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .update({"Verified": true});
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Navbar()));
+                } else {
+                  Fluttertoast.showToast(msg: "OTP not correct!");
+                }
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: 50,
+                width: 120,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.green,
+                ),
+                child: Text(
+                  "verify",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 18),
+                ),
+              ),
+            )
           ],
         ),
       ),
