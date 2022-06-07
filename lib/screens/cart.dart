@@ -104,7 +104,8 @@ class _CartState extends State<Cart> {
                         _orders[i[0]] = {
                           "Price": i[2] * i[3],
                           "Quantity": i[3],
-                          "Image": i[1]
+                          "Image": i[1],
+                          "status": false
                         };
                       }
                       for (var i in cart_list) {

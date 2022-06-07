@@ -79,10 +79,17 @@ class CanteenCubit extends Cubit<CanteenState> {
         key.data()["phone"], uid, key.data()["College"]);
 
     emit(CanteenState(
-        paymentstatus: false,
-        cart_items: CanteenCubit().state.cart_items,
-        currentuser: BlocProvider.of<CanteenCubit>(context).state.currentuser,
-        currentCanteenUser: currentuser));
+      paymentstatus: false,
+      cart_items: CanteenCubit().state.cart_items,
+      currentCanteenUser: currentuser,
+      currentuser: appUser(
+          College: "",
+          full_name: "",
+          email: "",
+          phone: "",
+          uid: uid,
+          Roll_no: ""),
+    ));
   }
 
   void set_paystatus(context, status) {

@@ -141,7 +141,7 @@ class _RevenueState extends State<Revenue> {
             child: SfCartesianChart(
                 crosshairBehavior: CrosshairBehavior(
                     shouldAlwaysShow: true,
-                    enable: true,
+                    enable: false,
                     activationMode: ActivationMode.singleTap),
                 series: <ChartSeries>[
                   LineSeries<ChartData, int>(

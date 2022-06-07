@@ -532,7 +532,13 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => AdminNavbar()),
-                                );
+                                ).then((value) {
+                                  BlocProvider.of<CanteenCubit>(context)
+                                      .getCanteenUserData(
+                                          FirebaseAuth
+                                              .instance.currentUser!.uid,
+                                          context);
+                                });
                               }
                             } catch (e) {
                               setState(() {

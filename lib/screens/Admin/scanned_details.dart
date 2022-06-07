@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,9 +36,12 @@ class _QROrderDetailsState extends State<QROrderDetails> {
   void get_items() {
     widget.items.forEach((k, v) => _order_items.add(_Items(
           name: k,
+          oid: widget.oid,
           price: v["Price"],
+          uid: widget.uid,
           quantity: v["Quantity"],
           image: v["Image"],
+          status: v["status"],
         )));
     setState(() {});
   }
@@ -96,8 +101,8 @@ class _QROrderDetailsState extends State<QROrderDetails> {
                                 children: [
                                   Container(
                                     alignment: Alignment.center,
-                                    height: getheight(context, 174),
-                                    width: getwidth(context, 172),
+                                    height: getheight(context, 194),
+                                    width: getwidth(context, 194),
                                     decoration: BoxDecoration(
                                         color: Color(0xff1A9F0B),
                                         shape: BoxShape.circle),
@@ -163,51 +168,51 @@ class _QROrderDetailsState extends State<QROrderDetails> {
                   SizedBox(
                     height: getheight(context, 25),
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      FirebaseFirestore.instance
-                          .collection("Canteens")
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .collection("Revenue")
-                          .doc(widget.oid.toString())
-                          .set({"Status": true}, SetOptions(merge: true));
-                      var key = await FirebaseFirestore.instance
-                          .collection("Users")
-                          .doc(widget.uid)
-                          .collection("Orders")
-                          .where("OID",
-                              isEqualTo: int.parse(widget.oid.toString()))
-                          .get();
-                      FirebaseFirestore.instance
-                          .collection("Users")
-                          .doc(widget.uid)
-                          .collection("Orders")
-                          .doc(key.docs.first.id)
-                          .set({"Status": true}, SetOptions(merge: true));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.symmetric(horizontal: 80),
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: Text(
-                          "Complete Order",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xfff6f6f9)),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: () async {
+                  //     FirebaseFirestore.instance
+                  //         .collection("Canteens")
+                  //         .doc(FirebaseAuth.instance.currentUser!.uid)
+                  //         .collection("Revenue")
+                  //         .doc(widget.oid.toString())
+                  //         .set({"Status": true}, SetOptions(merge: true));
+                  //     var key = await FirebaseFirestore.instance
+                  //         .collection("Users")
+                  //         .doc(widget.uid)
+                  //         .collection("Orders")
+                  //         .where("OID",
+                  //             isEqualTo: int.parse(widget.oid.toString()))
+                  //         .get();
+                  //     FirebaseFirestore.instance
+                  //         .collection("Users")
+                  //         .doc(widget.uid)
+                  //         .collection("Orders")
+                  //         .doc(key.docs.first.id)
+                  //         .set({"Status": true}, SetOptions(merge: true));
+                  //   },
+                  //   child: Container(
+                  //     padding: EdgeInsets.all(10),
+                  //     alignment: Alignment.center,
+                  //     margin: EdgeInsets.symmetric(horizontal: 80),
+                  //     decoration: BoxDecoration(
+                  //         color: Colors.green,
+                  //         borderRadius: BorderRadius.circular(30)),
+                  //     child: Center(
+                  //       child: Text(
+                  //         "Complete Order",
+                  //         style: TextStyle(
+                  //             fontSize: 16,
+                  //             fontWeight: FontWeight.w800,
+                  //             color: Color(0xfff6f6f9)),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
             SizedBox(
-              height: getheight(context, 38),
+              height: getheight(context, 10),
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -245,11 +250,15 @@ class _QROrderDetailsState extends State<QROrderDetails> {
 class _Items extends StatelessWidget {
   _Items(
       {required this.name,
+      required this.status,
+      required this.uid,
       required this.price,
+      required this.oid,
       required this.quantity,
       required this.image});
-  String name, image;
-  int price, quantity;
+  String name, image, uid;
+  int price, quantity, oid;
+  bool status;
 
   @override
   Widget build(BuildContext context) {
@@ -300,20 +309,116 @@ class _Items extends StatelessWidget {
                             fontWeight: FontWeight.w600, fontSize: 17),
                       ),
                       SizedBox(height: 10),
-                      Text("₹$price",
+                      Text("₹$price - ${quantity.toString()}",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
                               color: orange_color))
                     ]),
                 Spacer(),
-                Text(
-                  quantity.toString(),
-                  style: TextStyle(
-                      color: orange_color,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
-                ),
+                StreamBuilder<Object>(
+                    stream: FirebaseFirestore.instance
+                        .collection("Users")
+                        .doc(uid)
+                        .collection("Orders")
+                        .where("OID", isEqualTo: oid)
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      bool st = false;
+                      if (snapshot.hasData) {
+                        for (var element in snapshot.data.docs) {
+                          st = element.data()["Items"][name]["status"];
+                        }
+                      }
+                      return Checkbox(
+                          checkColor: Colors.green,
+                          activeColor: Colors.white,
+                          value: st,
+                          onChanged: (val) async {
+                            if (st != true) {
+                              FirebaseFirestore.instance
+                                  .collection("Canteens")
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .collection("Revenue")
+                                  .doc(oid.toString())
+                                  .set({
+                                "Items": {
+                                  name: {"status": true}
+                                }
+                              }, SetOptions(merge: true));
+                              var key = await FirebaseFirestore.instance
+                                  .collection("Users")
+                                  .doc(uid)
+                                  .collection("Orders")
+                                  .where("OID",
+                                      isEqualTo: int.parse(oid.toString()))
+                                  .get();
+                              FirebaseFirestore.instance
+                                  .collection("Users")
+                                  .doc(uid)
+                                  .collection("Orders")
+                                  .doc(key.docs.first.id)
+                                  .set({
+                                "Items": {
+                                  name: {"status": true}
+                                }
+                              }, SetOptions(merge: true));
+
+                              //checking completion of order
+
+                              dynamic cmp_key = await FirebaseFirestore.instance
+                                  .collection("Canteens")
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .collection("Revenue")
+                                  .doc(oid.toString())
+                                  .get();
+
+                              Map _items = cmp_key.data()["Items"];
+
+                              bool _pending = false;
+
+                              try {
+                                _items.forEach((k, v) {
+                                  if (!v['status']) {
+                                    _pending = true;
+                                    throw Exception();
+                                  }
+                                });
+                              } catch (e) {}
+
+                              if (!_pending) {
+                                FirebaseFirestore.instance
+                                    .collection("Canteens")
+                                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                                    .collection("Revenue")
+                                    .doc(oid.toString())
+                                    .set({"Status": true},
+                                        SetOptions(merge: true));
+                                var key = await FirebaseFirestore.instance
+                                    .collection("Users")
+                                    .doc(uid)
+                                    .collection("Orders")
+                                    .where("OID",
+                                        isEqualTo: int.parse(oid.toString()))
+                                    .get();
+                                FirebaseFirestore.instance
+                                    .collection("Users")
+                                    .doc(uid)
+                                    .collection("Orders")
+                                    .doc(key.docs.first.id)
+                                    .set({"Status": true},
+                                        SetOptions(merge: true));
+                              }
+                            }
+                          });
+                    }),
+                // Text(
+                //   quantity.toString(),
+                //   style: TextStyle(
+                //       color: orange_color,
+                //       fontSize: 16,
+                //       fontWeight: FontWeight.w600),
+                // ),
                 SizedBox(
                   width: 6,
                 )
