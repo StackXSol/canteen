@@ -38,6 +38,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           price: v["Price"],
           quantity: v["Quantity"],
           image: v["Image"],
+          oid: widget.oid,
         )));
     setState(() {});
   }
@@ -215,9 +216,10 @@ class _Items extends StatelessWidget {
       {required this.name,
       required this.price,
       required this.quantity,
+      required this.oid,
       required this.image});
   String name, image;
-  int price, quantity;
+  int price, quantity, oid;
 
   @override
   Widget build(BuildContext context) {
@@ -270,7 +272,7 @@ class _Items extends StatelessWidget {
                                 textSize.getadaptiveTextSize(context, 17)),
                       ),
                       SizedBox(height: 10),
-                      Text("₹$price",
+                      Text("₹$price - ${quantity.toString()}",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize:
@@ -278,13 +280,26 @@ class _Items extends StatelessWidget {
                               color: orange_color))
                     ]),
                 Spacer(),
-                Text(
-                  quantity.toString(),
-                  style: TextStyle(
-                      color: orange_color,
-                      fontSize: textSize.getadaptiveTextSize(context, 16),
-                      fontWeight: FontWeight.w600),
-                ),
+                StreamBuilder<Object>(
+                    stream: FirebaseFirestore.instance
+                        .collection("Users")
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .collection("Orders")
+                        .where("OID", isEqualTo: oid)
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      bool st = false;
+                      if (snapshot.hasData) {
+                        for (var element in snapshot.data.docs) {
+                          st = element.data()["Items"][name]["status"];
+                        }
+                      }
+                      return Checkbox(
+                          checkColor: Colors.green,
+                          activeColor: Colors.white,
+                          value: st,
+                          onChanged: (val) async {});
+                    }),
                 SizedBox(
                   width: 6,
                 )

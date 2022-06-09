@@ -4,8 +4,11 @@ import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import '../../main.dart';
 
 class QROrderDetails extends StatefulWidget {
   QROrderDetails(
@@ -336,79 +339,180 @@ class _Items extends StatelessWidget {
                           value: st,
                           onChanged: (val) async {
                             if (st != true) {
-                              FirebaseFirestore.instance
-                                  .collection("Canteens")
-                                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                                  .collection("Revenue")
-                                  .doc(oid.toString())
-                                  .set({
-                                "Items": {
-                                  name: {"status": true}
-                                }
-                              }, SetOptions(merge: true));
-                              var key = await FirebaseFirestore.instance
-                                  .collection("Users")
-                                  .doc(uid)
-                                  .collection("Orders")
-                                  .where("OID",
-                                      isEqualTo: int.parse(oid.toString()))
-                                  .get();
-                              FirebaseFirestore.instance
-                                  .collection("Users")
-                                  .doc(uid)
-                                  .collection("Orders")
-                                  .doc(key.docs.first.id)
-                                  .set({
-                                "Items": {
-                                  name: {"status": true}
-                                }
-                              }, SetOptions(merge: true));
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => Dialog(
+                                        backgroundColor: Colors.transparent,
+                                        child: Container(
+                                          padding: EdgeInsets.all(
+                                              getwidth(context, 10)),
+                                          // height: getheight(context, 180),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Colors.white,
+                                          ),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Alert!",
+                                                style: TextStyle(
+                                                    color: orange_color,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 22)),
+                                              ),
+                                              SizedBox(
+                                                height: getheight(context, 16),
+                                              ),
+                                              Center(
+                                                child: Text(
+                                                  "Are you sure you want confirm the item in the order?",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: textSize
+                                                          .getadaptiveTextSize(
+                                                              context, 18)),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: getheight(context, 22),
+                                              ),
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  Navigator.pop(context);
+                                                  FirebaseFirestore.instance
+                                                      .collection("Canteens")
+                                                      .doc(FirebaseAuth.instance
+                                                          .currentUser!.uid)
+                                                      .collection("Revenue")
+                                                      .doc(oid.toString())
+                                                      .set({
+                                                    "Items": {
+                                                      name: {"status": true}
+                                                    }
+                                                  }, SetOptions(merge: true));
+                                                  var key = await FirebaseFirestore
+                                                      .instance
+                                                      .collection("Users")
+                                                      .doc(uid)
+                                                      .collection("Orders")
+                                                      .where("OID",
+                                                          isEqualTo: int.parse(
+                                                              oid.toString()))
+                                                      .get();
+                                                  FirebaseFirestore.instance
+                                                      .collection("Users")
+                                                      .doc(uid)
+                                                      .collection("Orders")
+                                                      .doc(key.docs.first.id)
+                                                      .set({
+                                                    "Items": {
+                                                      name: {"status": true}
+                                                    }
+                                                  }, SetOptions(merge: true));
 
-                              //checking completion of order
+                                                  //checking completion of order
 
-                              dynamic cmp_key = await FirebaseFirestore.instance
-                                  .collection("Canteens")
-                                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                                  .collection("Revenue")
-                                  .doc(oid.toString())
-                                  .get();
+                                                  dynamic cmp_key =
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              "Canteens")
+                                                          .doc(FirebaseAuth
+                                                              .instance
+                                                              .currentUser!
+                                                              .uid)
+                                                          .collection("Revenue")
+                                                          .doc(oid.toString())
+                                                          .get();
 
-                              Map _items = cmp_key.data()["Items"];
+                                                  Map _items =
+                                                      cmp_key.data()["Items"];
 
-                              bool _pending = false;
+                                                  bool _pending = false;
 
-                              try {
-                                _items.forEach((k, v) {
-                                  if (!v['status']) {
-                                    _pending = true;
-                                    throw Exception();
-                                  }
-                                });
-                              } catch (e) {}
+                                                  try {
+                                                    _items.forEach((k, v) {
+                                                      if (!v['status']) {
+                                                        _pending = true;
+                                                        throw Exception();
+                                                      }
+                                                    });
+                                                  } catch (e) {}
 
-                              if (!_pending) {
-                                FirebaseFirestore.instance
-                                    .collection("Canteens")
-                                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                                    .collection("Revenue")
-                                    .doc(oid.toString())
-                                    .set({"Status": true},
-                                        SetOptions(merge: true));
-                                var key = await FirebaseFirestore.instance
-                                    .collection("Users")
-                                    .doc(uid)
-                                    .collection("Orders")
-                                    .where("OID",
-                                        isEqualTo: int.parse(oid.toString()))
-                                    .get();
-                                FirebaseFirestore.instance
-                                    .collection("Users")
-                                    .doc(uid)
-                                    .collection("Orders")
-                                    .doc(key.docs.first.id)
-                                    .set({"Status": true},
-                                        SetOptions(merge: true));
-                              }
+                                                  if (!_pending) {
+                                                    FirebaseFirestore.instance
+                                                        .collection("Canteens")
+                                                        .doc(FirebaseAuth
+                                                            .instance
+                                                            .currentUser!
+                                                            .uid)
+                                                        .collection("Revenue")
+                                                        .doc(oid.toString())
+                                                        .set({
+                                                      "Status": true
+                                                    }, SetOptions(merge: true));
+                                                    var key =
+                                                        await FirebaseFirestore
+                                                            .instance
+                                                            .collection("Users")
+                                                            .doc(uid)
+                                                            .collection(
+                                                                "Orders")
+                                                            .where("OID",
+                                                                isEqualTo: int
+                                                                    .parse(oid
+                                                                        .toString()))
+                                                            .get();
+                                                    FirebaseFirestore.instance
+                                                        .collection("Users")
+                                                        .doc(uid)
+                                                        .collection("Orders")
+                                                        .doc(key.docs.first.id)
+                                                        .set({
+                                                      "Status": true
+                                                    }, SetOptions(merge: true));
+                                                  }
+                                                },
+                                                child: Container(
+                                                  height:
+                                                      getheight(context, 40),
+                                                  width: getwidth(context, 130),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      color: orange_color),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "confirm",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: textSize
+                                                              .getadaptiveTextSize(
+                                                                  context, 17)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 8,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ));
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "Status can't be changed!");
                             }
                           });
                     }),
