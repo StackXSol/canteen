@@ -25,12 +25,40 @@ class _ProfileState extends State<Profile> {
   String phone = "";
   bool showSpinner = false;
 
+  var collegelist = ["Select College"];
+
+  // @override
+  // void initState() {
+  //   fetch_colleges();
+  //   super.initState();
+  // }
+
+  Future<void> fetch_colleges() async {
+    collegelist = ["Select College"];
+
+    var key = await FirebaseFirestore.instance
+        .collection("CollegeList")
+        .doc("Colleges")
+        .get();
+
+    for (var i in (key.data() as dynamic)["CollegeList"]) {
+      collegelist.add(i.toString());
+    }
+
+    print(collegelist);
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     String name =
         BlocProvider.of<CanteenCubit>(context).state.currentuser.full_name;
     String phone =
         BlocProvider.of<CanteenCubit>(context).state.currentuser.phone;
+    String dropdownValue =
+        BlocProvider.of<CanteenCubit>(context).state.currentuser.College;
+
     return BlocBuilder<CanteenCubit, CanteenState>(
       builder: (context, state) {
         return Scaffold(
@@ -77,188 +105,253 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.w600),
                           ),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              await fetch_colleges();
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return Dialog(
-                                      backgroundColor: Colors.transparent,
-                                      child: Container(
-                                        padding: EdgeInsets.all(18),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        child: Form(
-                                          key: _formKey,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Text(
-                                                "Edit Details",
-                                                style: TextStyle(
-                                                    fontSize: textSize
-                                                        .getadaptiveTextSize(
-                                                            context, 16),
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                height: getheight(context, 10),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: TextFormField(
-                                                    initialValue: name,
-                                                    validator: (value) {
-                                                      if (value
-                                                              .toString()
-                                                              .length <
-                                                          4) {
-                                                        return "Enter valid Name!";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    onChanged: ((value) {
-                                                      name = value;
-                                                    }),
-                                                    style: TextStyle(
+                                    return StatefulBuilder(
+                                        builder: (context, setState) {
+                                      return Dialog(
+                                        backgroundColor: Colors.transparent,
+                                        child: Container(
+                                          padding: EdgeInsets.all(18),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Form(
+                                            key: _formKey,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Text(
+                                                  "Edit Details",
+                                                  style: TextStyle(
                                                       fontSize: textSize
                                                           .getadaptiveTextSize(
-                                                              context, 14),
-                                                    ),
-                                                    decoration: InputDecoration(
-                                                        contentPadding:
-                                                            const EdgeInsets
-                                                                .all(10),
-                                                        border: OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30)),
-                                                        hintText: "Enter name",
-                                                        hintStyle: TextStyle(
-                                                            fontSize: textSize
-                                                                .getadaptiveTextSize(
-                                                                    context,
-                                                                    14),
-                                                            color: Colors.grey
-                                                                .withOpacity(
-                                                                    0.5)))),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: TextFormField(
-                                                    initialValue: phone,
-                                                    validator: (value) {
-                                                      if (value
-                                                              .toString()
-                                                              .length !=
-                                                          10) {
-                                                        return "Enter valid Number!";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    onChanged: (value) {
-                                                      phone = value;
-                                                    },
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    style: TextStyle(
-                                                      fontSize: textSize
-                                                          .getadaptiveTextSize(
-                                                              context, 14),
-                                                    ),
-                                                    decoration: InputDecoration(
-                                                        contentPadding:
-                                                            const EdgeInsets.all(
-                                                                10),
-                                                        border: OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius.circular(
-                                                                    30)),
-                                                        hintText:
-                                                            "Phone number",
-                                                        hintStyle: TextStyle(
-                                                            fontSize: textSize
-                                                                .getadaptiveTextSize(
-                                                                    context,
-                                                                    14),
-                                                            color: Colors.grey
-                                                                .withOpacity(
-                                                                    0.5)))),
-                                              ),
-                                              SizedBox(
+                                                              context, 16),
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                SizedBox(
                                                   height:
-                                                      getheight(context, 20)),
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  setState(() {
-                                                    showSpinner = true;
-                                                    print("spinner true");
-                                                  });
-                                                  if (_formKey.currentState!
-                                                      .validate()) {
-                                                    FirebaseFirestore.instance
-                                                        .collection("Users")
-                                                        .doc(BlocProvider.of<
-                                                                    CanteenCubit>(
-                                                                context)
-                                                            .state
-                                                            .currentuser
-                                                            .uid)
-                                                        .set({
-                                                      "Fullname": name,
-                                                      "phone": phone
-                                                    }, SetOptions(merge: true));
-                                                    BlocProvider.of<
-                                                                CanteenCubit>(
-                                                            context)
-                                                        .get_user_data(
-                                                            FirebaseAuth
-                                                                .instance
-                                                                .currentUser!
-                                                                .uid,
-                                                            context);
-                                                    Navigator.pop(context);
-                                                    setState(() {
-                                                      showSpinner = false;
-                                                      print("spinner true");
-                                                    });
-                                                    Fluttertoast.showToast(
-                                                        msg:
-                                                            "Details Updated!");
-                                                  }
-                                                },
-                                                child: Container(
+                                                      getheight(context, 10),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: TextFormField(
+                                                      initialValue: name,
+                                                      validator: (value) {
+                                                        if (value
+                                                                .toString()
+                                                                .length <
+                                                            4) {
+                                                          return "Enter valid Name!";
+                                                        }
+                                                        return null;
+                                                      },
+                                                      onChanged: ((value) {
+                                                        name = value;
+                                                      }),
+                                                      style: TextStyle(
+                                                        fontSize: textSize
+                                                            .getadaptiveTextSize(
+                                                                context, 14),
+                                                      ),
+                                                      decoration: InputDecoration(
+                                                          contentPadding:
+                                                              const EdgeInsets.all(
+                                                                  10),
+                                                          border: OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30)),
+                                                          hintText:
+                                                              "Enter name",
+                                                          hintStyle: TextStyle(
+                                                              fontSize: textSize
+                                                                  .getadaptiveTextSize(
+                                                                      context,
+                                                                      14),
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.5)))),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: TextFormField(
+                                                      initialValue: phone,
+                                                      validator: (value) {
+                                                        if (value
+                                                                .toString()
+                                                                .length !=
+                                                            10) {
+                                                          return "Enter valid Number!";
+                                                        }
+                                                        return null;
+                                                      },
+                                                      onChanged: (value) {
+                                                        phone = value;
+                                                      },
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      style: TextStyle(
+                                                        fontSize: textSize
+                                                            .getadaptiveTextSize(
+                                                                context, 14),
+                                                      ),
+                                                      decoration: InputDecoration(
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                  .all(10),
+                                                          border: OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30)),
+                                                          hintText:
+                                                              "Phone number",
+                                                          hintStyle: TextStyle(
+                                                              fontSize: textSize
+                                                                  .getadaptiveTextSize(
+                                                                      context,
+                                                                      14),
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.5)))),
+                                                ),
+                                                SizedBox(
+                                                  height:
+                                                      getheight(context, 10),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 8),
+                                                  padding: EdgeInsets.all(10),
                                                   height:
                                                       getheight(context, 50),
-                                                  width: getwidth(context, 100),
                                                   decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(
+                                                                  0.9)),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              30),
-                                                      color: orange_color),
-                                                  child: Center(
-                                                    child: Text(
-                                                      "Done",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: textSize
-                                                              .getadaptiveTextSize(
-                                                                  context, 17)),
+                                                              25)),
+                                                  child: DropdownButton<String>(
+                                                    menuMaxHeight: 260,
+                                                    isExpanded: true,
+                                                    value: dropdownValue,
+                                                    icon: const Icon(Icons
+                                                        .keyboard_arrow_down),
+                                                    elevation: 16,
+                                                    style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                    underline: Container(
+                                                      height: 0.0,
+                                                      color: Colors.black,
+                                                    ),
+                                                    onChanged:
+                                                        (String? newValue) {
+                                                      setState(() {
+                                                        dropdownValue =
+                                                            newValue!;
+                                                      });
+                                                    },
+                                                    items: collegelist.map<
+                                                        DropdownMenuItem<
+                                                            String>>((value) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: value,
+                                                        child: Text(value),
+                                                      );
+                                                    }).toList(),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                    height:
+                                                        getheight(context, 20)),
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    setState(() {
+                                                      showSpinner = true;
+                                                      print("spinner true");
+                                                    });
+                                                    if (_formKey.currentState!
+                                                        .validate()) {
+                                                      FirebaseFirestore.instance
+                                                          .collection("Users")
+                                                          .doc(BlocProvider.of<
+                                                                      CanteenCubit>(
+                                                                  context)
+                                                              .state
+                                                              .currentuser
+                                                              .uid)
+                                                          .set(
+                                                              {
+                                                            "Fullname": name,
+                                                            "phone": phone,
+                                                            "College":
+                                                                dropdownValue,
+                                                          },
+                                                              SetOptions(
+                                                                  merge: true));
+                                                      BlocProvider.of<
+                                                                  CanteenCubit>(
+                                                              context)
+                                                          .get_user_data(
+                                                              FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser!
+                                                                  .uid,
+                                                              context);
+                                                      Navigator.pop(context);
+                                                      setState(() {
+                                                        showSpinner = false;
+                                                        print("spinner true");
+                                                      });
+                                                      Fluttertoast.showToast(
+                                                          msg:
+                                                              "Details Updated!");
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    height:
+                                                        getheight(context, 50),
+                                                    width:
+                                                        getwidth(context, 100),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30),
+                                                        color: orange_color),
+                                                    child: Center(
+                                                      child: Text(
+                                                        "Done",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: textSize
+                                                                .getadaptiveTextSize(
+                                                                    context,
+                                                                    17)),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
+                                      );
+                                    });
                                   });
                             },
                             child: Text(

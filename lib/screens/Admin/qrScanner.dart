@@ -53,7 +53,7 @@ class _QrScannerState extends State<QrScanner> {
                         .currentCanteenUser
                         .getter()[4]) {
                   if (!keyd.data()["Status"]) {
-                    print(keyd.data()["DateTime"]);
+                    //change here!
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

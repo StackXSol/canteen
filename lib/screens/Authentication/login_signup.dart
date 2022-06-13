@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:canteen/main.dart';
 import 'package:canteen/screens/Admin/admin_login.dart';
+import 'package:canteen/screens/Admin/admin_navbar.dart';
 import 'package:canteen/screens/email_verify_screen.dart';
 import 'package:canteen/screens/navbar.dart';
 import 'package:canteen/smtp.dart';
@@ -219,15 +220,41 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                               print("signin successful");
                               User? user = FirebaseAuth.instance.currentUser;
 
-                              BlocProvider.of<CanteenCubit>(context)
-                                  .get_user_data(user?.uid, context);
+                              var key = await FirebaseFirestore.instance
+                                  .collection("Users")
+                                  .get();
 
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Navbar(),
-                                ),
-                              );
+                              bool _user = false;
+
+                              for (var element in key.docs) {
+                                if (element.id == user!.uid) {
+                                  _user = await true;
+                                  break;
+                                }
+                              }
+
+                              if (_user) {
+                                BlocProvider.of<CanteenCubit>(context)
+                                    .get_user_data(user!.uid, context);
+
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Navbar(),
+                                  ),
+                                );
+                              } else {
+                                {
+                                  BlocProvider.of<CanteenCubit>(context)
+                                      .getCanteenUserData(user!.uid, context);
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AdminNavbar(),
+                                    ),
+                                  );
+                                }
+                              }
                             });
                           } on FirebaseException catch (e) {
                             Fluttertoast.showToast(msg: e.message.toString());
@@ -269,7 +296,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         },
                         child: Center(
                           child: Text(
-                            "Admin login",
+                            "Join Us",
                             style: TextStyle(
                                 color: orange_color,
                                 fontSize:

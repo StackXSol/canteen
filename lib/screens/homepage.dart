@@ -1,5 +1,6 @@
 import 'package:canteen/cubit/canteen_cubit.dart';
 import 'package:canteen/main.dart';
+import 'package:canteen/screens/canteens.dart';
 import 'package:canteen/screens/cart.dart';
 import 'package:canteen/screens/foodItems.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,12 +21,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentPos = 0;
   int pvindex = 0;
+  List canteens = [];
 
   @override
   void initState() {
     super.initState();
     if (!carousel) {
       getCaroselImages();
+    }
+    if (!canteen_bool) {
+      get_canteens();
     }
   }
 
@@ -44,6 +49,28 @@ class _HomePageState extends State<HomePage> {
     carousel = true;
 
     setState(() {});
+  }
+
+  Future<void> get_canteens() async {
+    canteens.clear();
+    var key = await FirebaseFirestore.instance.collection("Canteens").get();
+    for (var element in key.docs) {
+      if (element.data()["College"] ==
+          BlocProvider.of<CanteenCubit>(context).state.currentuser.College) {
+        canteens.add(element);
+      }
+    }
+
+    if (canteens.length == 0) {
+      setState(() {
+        canteen = "No canteen found!";
+      });
+    } else if (canteens.length == 1) {
+      setState(() {
+        canteen = canteens[0].data()["Name"];
+      });
+    }
+    canteen_bool = true;
   }
 
   @override
@@ -73,11 +100,41 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(
                               height: getheight(context, 12),
                             ),
-                            Text("What are you craving for today?",
-                                style: TextStyle(
-                                  fontSize:
-                                      textSize.getadaptiveTextSize(context, 14),
-                                ))
+                            GestureDetector(
+                              onTap: () {
+                                if (canteens.length == 0) {
+                                  Fluttertoast.showToast(msg: "No canteens!");
+                                } else if (canteens.length == 1) {
+                                  Fluttertoast.showToast(
+                                      msg: "There is only one canteen!");
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SelectCanteen(
+                                                canteens: canteens,
+                                              )));
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  Text(
+                                    canteen,
+                                    style: TextStyle(
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 16),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Icon(
+                                    Icons.food_bank,
+                                    color: orange_color,
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                         Spacer(),
@@ -141,12 +198,7 @@ class _HomePageState extends State<HomePage> {
                           try {
                             var key = await FirebaseFirestore.instance
                                 .collection("Canteens")
-                                .where("College",
-                                    isEqualTo:
-                                        BlocProvider.of<CanteenCubit>(context)
-                                            .state
-                                            .currentuser
-                                            .College)
+                                .where("Name", isEqualTo: canteen)
                                 .get();
                             canteenId = key.docs.first.id;
                             var key2 = await FirebaseFirestore.instance
@@ -160,6 +212,7 @@ class _HomePageState extends State<HomePage> {
                             for (var i in key2.docs) {
                               if (i.data()["Status"]) {
                                 food_items.add(_Item(
+                                    alreadyitem: _check(i.data()["Name"]),
                                     image: i.data()["Photo"],
                                     name: i.data()["Name"],
                                     price: i.data()["Price"]));
@@ -263,12 +316,7 @@ class _HomePageState extends State<HomePage> {
                           try {
                             var key = await FirebaseFirestore.instance
                                 .collection("Canteens")
-                                .where("College",
-                                    isEqualTo:
-                                        BlocProvider.of<CanteenCubit>(context)
-                                            .state
-                                            .currentuser
-                                            .College)
+                                .where("Name", isEqualTo: canteen)
                                 .get();
                             canteenId = key.docs.first.id;
                             var key2 = await FirebaseFirestore.instance
@@ -282,6 +330,7 @@ class _HomePageState extends State<HomePage> {
                             for (var i in key2.docs) {
                               if (i.data()["Status"]) {
                                 food_items.add(_Item(
+                                    alreadyitem: _check(i.data()["Name"]),
                                     image: i.data()["Photo"],
                                     name: i.data()["Name"],
                                     price: i.data()["Price"]));
@@ -383,12 +432,7 @@ class _HomePageState extends State<HomePage> {
                           try {
                             var key = await FirebaseFirestore.instance
                                 .collection("Canteens")
-                                .where("College",
-                                    isEqualTo:
-                                        BlocProvider.of<CanteenCubit>(context)
-                                            .state
-                                            .currentuser
-                                            .College)
+                                .where("Name", isEqualTo: canteen)
                                 .get();
                             canteenId = key.docs.first.id;
                             var key2 = await FirebaseFirestore.instance
@@ -402,6 +446,7 @@ class _HomePageState extends State<HomePage> {
                             for (var i in key2.docs) {
                               if (i.data()["Status"]) {
                                 food_items.add(_Item(
+                                    alreadyitem: _check(i.data()["Name"]),
                                     image: i.data()["Photo"],
                                     name: i.data()["Name"],
                                     price: i.data()["Price"]));
@@ -512,12 +557,7 @@ class _HomePageState extends State<HomePage> {
                           try {
                             var key = await FirebaseFirestore.instance
                                 .collection("Canteens")
-                                .where("College",
-                                    isEqualTo:
-                                        BlocProvider.of<CanteenCubit>(context)
-                                            .state
-                                            .currentuser
-                                            .College)
+                                .where("Name", isEqualTo: canteen)
                                 .get();
                             canteenId = key.docs.first.id;
                             var key2 = await FirebaseFirestore.instance
@@ -531,6 +571,7 @@ class _HomePageState extends State<HomePage> {
                             for (var i in key2.docs) {
                               if (i.data()["Status"]) {
                                 food_items.add(_Item(
+                                    alreadyitem: _check(i.data()["Name"]),
                                     image: i.data()["Photo"],
                                     name: i.data()["Name"],
                                     price: i.data()["Price"]));
@@ -635,12 +676,7 @@ class _HomePageState extends State<HomePage> {
                           try {
                             var key = await FirebaseFirestore.instance
                                 .collection("Canteens")
-                                .where("College",
-                                    isEqualTo:
-                                        BlocProvider.of<CanteenCubit>(context)
-                                            .state
-                                            .currentuser
-                                            .College)
+                                .where("Name", isEqualTo: canteen)
                                 .get();
                             canteenId = key.docs.first.id;
                             var key2 = await FirebaseFirestore.instance
@@ -654,6 +690,7 @@ class _HomePageState extends State<HomePage> {
                             for (var i in key2.docs) {
                               if (i.data()["Status"]) {
                                 food_items.add(_Item(
+                                    alreadyitem: _check(i.data()["Name"]),
                                     image: i.data()["Photo"],
                                     name: i.data()["Name"],
                                     price: i.data()["Price"]));
@@ -758,12 +795,7 @@ class _HomePageState extends State<HomePage> {
                           try {
                             var key = await FirebaseFirestore.instance
                                 .collection("Canteens")
-                                .where("College",
-                                    isEqualTo:
-                                        BlocProvider.of<CanteenCubit>(context)
-                                            .state
-                                            .currentuser
-                                            .College)
+                                .where("Name", isEqualTo: canteen)
                                 .get();
                             canteenId = key.docs.first.id;
                             var key2 = await FirebaseFirestore.instance
@@ -777,6 +809,7 @@ class _HomePageState extends State<HomePage> {
                             for (var i in key2.docs) {
                               if (i.data()["Status"]) {
                                 food_items.add(_Item(
+                                    alreadyitem: _check(i.data()["Name"]),
                                     image: i.data()["Photo"],
                                     name: i.data()["Name"],
                                     price: i.data()["Price"]));
@@ -905,11 +938,21 @@ class MyImageView extends StatelessWidget {
   }
 }
 
-class _Item extends StatelessWidget {
-  _Item({required this.image, required this.name, required this.price});
+class _Item extends StatefulWidget {
+  _Item(
+      {required this.image,
+      required this.name,
+      required this.price,
+      required this.alreadyitem});
   String image, name;
   int price;
+  bool alreadyitem;
 
+  @override
+  State<_Item> createState() => _ItemState();
+}
+
+class _ItemState extends State<_Item> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -935,7 +978,7 @@ class _Item extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: getheight(context, 35),
-                  backgroundImage: NetworkImage(image),
+                  backgroundImage: NetworkImage(widget.image),
                 ),
                 SizedBox(
                   width: getwidth(context, 12),
@@ -945,14 +988,14 @@ class _Item extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        name,
+                        widget.name,
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize:
                                 textSize.getadaptiveTextSize(context, 17)),
                       ),
                       SizedBox(height: getheight(context, 10)),
-                      Text("Rs. $price",
+                      Text("Rs. ${widget.price}",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize:
@@ -962,33 +1005,41 @@ class _Item extends StatelessWidget {
                 Spacer(),
                 GestureDetector(
                   onTap: () {
-                    bool already = false;
+                    bool _already = false;
                     for (var i in cart_list) {
-                      if (i.contains(name)) {
+                      if (i.contains(widget.name)) {
                         Fluttertoast.showToast(msg: "Already in cart!");
-                        already = true;
+                        _already = true;
+                        break;
                       }
                     }
-                    !already
-                        ? cart_list.add([name, image, price, 1])
+                    !_already
+                        ? cart_list
+                            .add([widget.name, widget.image, widget.price, 1])
                         : cart_list;
                     BlocProvider.of<CanteenCubit>(context)
                         .update_cart(cart_list, context);
 
-                    !already
-                        ? Fluttertoast.showToast(msg: "$name Added to cart")
+                    setState(() {
+                      widget.alreadyitem = true;
+                    });
+
+                    !_already
+                        ? Fluttertoast.showToast(
+                            msg: "${widget.name} Added to cart")
                         : null;
                   },
                   child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
                       margin: EdgeInsets.only(top: getheight(context, 30)),
                       height: getheight(context, 23),
-                      width: getwidth(context, 55),
+                      // width: getwidth(context, 55),
                       decoration: BoxDecoration(
                           color: orange_color,
                           borderRadius: BorderRadius.circular(30)),
                       child: Center(
                           child: Text(
-                        "Add",
+                        !widget.alreadyitem ? "Add +" : "Check 🛒",
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -1006,4 +1057,13 @@ class _Item extends StatelessWidget {
       ],
     );
   }
+}
+
+bool _check(String name) {
+  for (var i in cart_list) {
+    if (i.contains(name)) {
+      return true;
+    }
+  }
+  return false;
 }

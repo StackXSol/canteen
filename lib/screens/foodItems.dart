@@ -48,7 +48,7 @@ class _Food_ItemsState extends State<Food_Items> {
                       Spacer(),
                       GestureDetector(
                           onTap: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => Cart()),
                             );

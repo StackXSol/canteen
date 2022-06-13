@@ -23,7 +23,9 @@ List<List> cart_list = [];
 String canteenId = "";
 appData app_data = appData(fee: 0, key: "");
 bool carousel = false;
+bool canteen_bool = false;
 List images = [];
+String canteen = "Select Canteen";
 
 class MyApp extends StatelessWidget {
   @override

@@ -89,7 +89,7 @@ class _ResetPasswordState extends State<ResetPassword> {
             ),
             GestureDetector(
               onTap: () {
-                Fluttertoast.showToast(msg: "Reset link sent!");
+                Fluttertoast.showToast(msg: "Reset link sent if registered!");
                 FirebaseAuth.instance.sendPasswordResetEmail(email: email);
               },
               child: Container(
