@@ -50,9 +50,12 @@ class _AddFoodState extends State<AddFood> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Icon(Icons.keyboard_arrow_left)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Icon(Icons.keyboard_arrow_left),
+                      )),
                   SizedBox(
-                    width: getwidth(context, 40),
+                    width: getwidth(context, 75),
                   ),
                   Text("Add Food",
                       style:

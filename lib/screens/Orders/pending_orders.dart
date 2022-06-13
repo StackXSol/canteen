@@ -35,17 +35,11 @@ class _PendingOrdersState extends State<PendingOrders> {
               padding: EdgeInsets.symmetric(horizontal: getwidth(context, 40)),
               child: Row(
                 children: [
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(Icons.keyboard_arrow_left)),
-                  SizedBox(
-                    width: getwidth(context, 90),
-                  ),
+                  Spacer(),
                   Text("Orders",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  Spacer(),
                 ],
               ),
             ),

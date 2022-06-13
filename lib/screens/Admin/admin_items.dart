@@ -30,11 +30,15 @@ class _AdminItemsState extends State<AdminItems> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: Icon(Icons.keyboard_arrow_left)),
-            Spacer(),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Icon(Icons.keyboard_arrow_left),
+                )),
+            SizedBox(
+              width: getwidth(context, 75),
+            ),
             Text(widget.category,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            Spacer(),
           ],
         ),
       ),

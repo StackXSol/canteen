@@ -45,13 +45,17 @@ class _SelectCanteenState extends State<SelectCanteen> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: Icon(Icons.keyboard_arrow_left)),
-              Spacer(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Icon(Icons.keyboard_arrow_left),
+                  )),
+              SizedBox(
+                width: getwidth(context, 75),
+              ),
               Text("Select Canteen",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: textSize.getadaptiveTextSize(context, 18))),
-              Spacer(),
             ]),
           ),
           SizedBox(

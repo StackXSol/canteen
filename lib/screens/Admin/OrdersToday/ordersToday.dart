@@ -33,9 +33,12 @@ class _OrdersTodayState extends State<OrdersToday> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Icon(Icons.keyboard_arrow_left)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Icon(Icons.keyboard_arrow_left),
+                      )),
                   SizedBox(
-                    width: getwidth(context, 80),
+                    width: getwidth(context, 75),
                   ),
                   Text("Orders Today",
                       style:

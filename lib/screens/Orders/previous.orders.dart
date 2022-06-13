@@ -40,13 +40,17 @@ class _PreviousOrdersState extends State<PreviousOrders> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Icon(Icons.keyboard_arrow_left)),
-                  Spacer(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Icon(Icons.keyboard_arrow_left),
+                      )),
+                  SizedBox(
+                    width: getwidth(context, 75),
+                  ),
                   Text("Orders",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: textSize.getadaptiveTextSize(context, 18))),
-                  Spacer(),
                 ],
               ),
             ),

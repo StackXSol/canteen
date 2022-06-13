@@ -52,13 +52,15 @@ class _TodayOrderDetailsState extends State<TodayOrderDetails> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      size: 18,
-                    ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Icon(Icons.keyboard_arrow_left),
+                      )),
+                  SizedBox(
+                    width: getwidth(context, 75),
                   ),
                   Text(
                     "Order details",

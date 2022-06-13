@@ -36,7 +36,10 @@ class _CartState extends State<Cart> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(Icons.keyboard_arrow_left)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Icon(Icons.keyboard_arrow_left),
+                        )),
                     Spacer(),
                     Text("Cart",
                         style: TextStyle(
