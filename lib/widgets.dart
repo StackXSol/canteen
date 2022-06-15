@@ -1,8 +1,8 @@
-import 'package:canteen/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'cubit/canteen_cubit.dart';
+import 'main.dart';
 
 double getheight(context, value) {
   return MediaQuery.of(context).size.height * (value / 812);
@@ -24,7 +24,7 @@ class CartWid extends StatelessWidget {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          padding: const EdgeInsets.fromLTRB(0, 0, 15, 10),
           child: Icon(
             Icons.shopping_cart_outlined,
             color: Colors.grey,
@@ -32,8 +32,8 @@ class CartWid extends StatelessWidget {
           ),
         ),
         Positioned(
-          left: getwidth(context, 25),
           top: getheight(context, 14),
+          left: getwidth(context, 22),
           child: CircleAvatar(
             radius: getheight(context, 15),
             backgroundColor: Colors.transparent,

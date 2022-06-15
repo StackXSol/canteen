@@ -1,12 +1,12 @@
-import 'package:canteen/backend_data.dart';
-import 'package:canteen/main.dart';
-import 'package:canteen/screens/Orders/pending_orders.dart';
-import 'package:canteen/screens/homepage.dart';
-import 'package:canteen/screens/profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
-import 'package:canteen/widgets.dart';
+import '../backend_data.dart';
+import '../main.dart';
+import '../widgets.dart';
+import 'Orders/pending_orders.dart';
+import 'homepage.dart';
+import 'profile.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({Key? key}) : super(key: key);

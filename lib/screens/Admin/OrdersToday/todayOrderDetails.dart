@@ -1,6 +1,7 @@
-import 'package:canteen/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../../../widgets.dart';
 
 class TodayOrderDetails extends StatefulWidget {
   TodayOrderDetails(

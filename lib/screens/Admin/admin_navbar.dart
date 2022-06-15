@@ -1,9 +1,10 @@
-import 'package:canteen/screens/Admin/admin_homepage.dart';
-import 'package:canteen/screens/Admin/admin_pending_orders.dart';
-import 'package:canteen/screens/Admin/admin_profile.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
-import 'package:canteen/widgets.dart';
+
+import '../../widgets.dart';
+import 'admin_homepage.dart';
+import 'admin_pending_orders.dart';
+import 'admin_profile.dart';
 
 class AdminNavbar extends StatefulWidget {
   const AdminNavbar({Key? key}) : super(key: key);

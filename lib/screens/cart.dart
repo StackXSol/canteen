@@ -1,14 +1,15 @@
 import 'dart:math';
 
-import 'package:canteen/PaymentGateway/payment.dart';
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/main.dart';
-import 'package:canteen/smtp.dart';
-import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../PaymentGateway/payment.dart';
+import '../cubit/canteen_cubit.dart';
+import '../main.dart';
+import '../smtp.dart';
+import '../widgets.dart';
 
 class Cart extends StatefulWidget {
   Cart({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _CartState extends State<Cart> {
                           Navigator.pop(context);
                         },
                         child: Padding(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.fromLTRB(0, 5, 5, 5),
                           child: Icon(Icons.keyboard_arrow_left),
                         )),
                     Spacer(),
@@ -260,7 +261,13 @@ class _CartState extends State<Cart> {
                                                       DateTime.now().toString(),
                                                   "Total_Price": total_price,
                                                   "Status": false,
-                                                  "Items": _orders
+                                                  "Items": _orders,
+                                                  "Canteen": canteen,
+                                                  "College": BlocProvider.of<
+                                                          CanteenCubit>(context)
+                                                      .state
+                                                      .currentuser
+                                                      .College
                                                 }, SetOptions(merge: true));
 
                                                 orderNotifyUser(
@@ -283,7 +290,13 @@ class _CartState extends State<Cart> {
                                                       DateTime.now().toString(),
                                                   "Total_Price": total_price,
                                                   "Status": false,
-                                                  "Items": _orders
+                                                  "Items": _orders,
+                                                  "Canteen": canteen,
+                                                  "College": BlocProvider.of<
+                                                          CanteenCubit>(context)
+                                                      .state
+                                                      .currentuser
+                                                      .College
                                                 }, SetOptions(merge: true));
 
                                                 FirebaseFirestore.instance

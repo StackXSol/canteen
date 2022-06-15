@@ -1,12 +1,13 @@
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/main.dart';
-import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import '../cubit/canteen_cubit.dart';
+import '../main.dart';
+import '../widgets.dart';
 
 class OrderDetails extends StatefulWidget {
   OrderDetails(
@@ -56,7 +57,7 @@ class _OrderDetailsState extends State<OrderDetails> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                  left: getwidth(context, 50), right: getwidth(context, 129)),
+                  left: getwidth(context, 40), right: getwidth(context, 129)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -65,7 +66,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         Navigator.pop(context);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Icon(Icons.keyboard_arrow_left),
                       )),
                   SizedBox(
@@ -81,7 +82,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               ),
             ),
             SizedBox(
-              height: getheight(context, 36),
+              height: getheight(context, 30),
             ),
             Align(
               alignment: Alignment.center,
@@ -131,8 +132,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                               );
                             } else {
                               return Container(
-                                height: getheight(context, 274),
-                                width: getwidth(context, 272),
+                                height: getheight(context, 194),
+                                width: getwidth(context, 194),
                                 child: QrImage(
                                     data: [
                                   widget.oid,
@@ -266,14 +267,17 @@ class _Items extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize:
-                                textSize.getadaptiveTextSize(context, 17)),
+                      Container(
+                        width: getwidth(context, 150),
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 16)),
+                        ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 5),
                       Text("₹$price - ${quantity.toString()}",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,

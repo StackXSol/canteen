@@ -1,9 +1,9 @@
-import 'package:canteen/screens/Admin/revenue.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets.dart';
 import '../Authentication/login_signup.dart';
+import 'revenue.dart';
 
 class AdminProfile extends StatelessWidget {
   const AdminProfile({Key? key}) : super(key: key);

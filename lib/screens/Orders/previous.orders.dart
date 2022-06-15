@@ -1,12 +1,13 @@
-import 'package:canteen/main.dart';
-import 'package:canteen/screens/order_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:canteen/widgets.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../cubit/canteen_cubit.dart';
+import '../../main.dart';
+import '../../widgets.dart';
+import '../order_details.dart';
 
 class PreviousOrders extends StatefulWidget {
   // PendingOrders({required this.food_items});
@@ -84,7 +85,34 @@ class _PreviousOrdersState extends State<PreviousOrders> {
                           }
                         }
                         return Column(
-                          children: _orders,
+                          children: _orders.length != 0
+                              ? _orders
+                              : [
+                                  SizedBox(
+                                    height: getheight(context, 230),
+                                  ),
+                                  Text(
+                                    "No orders Yet!",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: textSize.getadaptiveTextSize(
+                                            context, 24)),
+                                  ),
+                                  SizedBox(
+                                    height: getheight(context, 10),
+                                  ),
+                                  Text(
+                                    "Surf through main screen\nto Create an order",
+                                    style: TextStyle(
+                                        fontSize: textSize.getadaptiveTextSize(
+                                            context, 16)),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(
+                                    height: getheight(context, 235),
+                                  ),
+                                ],
                         );
                       })),
             ),

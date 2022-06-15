@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/screens/homepage.dart';
-import 'package:canteen/screens/navbar.dart';
-import 'package:canteen/smtp.dart';
-import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../cubit/canteen_cubit.dart';
+import '../smtp.dart';
+import '../widgets.dart';
+import 'navbar.dart';
 
 class EmailverificationScreen extends StatefulWidget {
   EmailverificationScreen({Key? key}) : super(key: key);
@@ -37,8 +37,7 @@ class _EmailverificationScreenState extends State<EmailverificationScreen> {
 
   void send_otp() {
     Fluttertoast.showToast(msg: "Sending OTP!");
-    String email =
-        BlocProvider.of<CanteenCubit>(context).state.currentuser.email;
+    String email = FirebaseAuth.instance.currentUser!.email!;
     Fluttertoast.showToast(msg: email);
     _sentOtp = Random().nextInt(1000000) +
         Random().nextInt(10000) +

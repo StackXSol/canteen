@@ -1,20 +1,21 @@
 import 'dart:math';
 
-import 'package:canteen/main.dart';
-import 'package:canteen/screens/Admin/admin_login.dart';
-import 'package:canteen/screens/Admin/admin_navbar.dart';
-import 'package:canteen/screens/email_verify_screen.dart';
-import 'package:canteen/screens/navbar.dart';
-import 'package:canteen/smtp.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:canteen/widgets.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../cubit/canteen_cubit.dart';
+import '../../main.dart';
+import '../../smtp.dart';
+import '../../widgets.dart';
+import '../Admin/admin_login.dart';
+import '../Admin/admin_navbar.dart';
+import '../email_verify_screen.dart';
+import '../navbar.dart';
 import 'forgotpassword.dart';
 
 class Login extends StatefulWidget {
@@ -257,6 +258,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                               }
                             });
                           } on FirebaseException catch (e) {
+                            showSpinner = false;
                             Fluttertoast.showToast(msg: e.message.toString());
                             print(e.message.toString());
                           }
@@ -326,8 +328,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                               style: TextStyle(color: Colors.black)),
                           TextFormField(
                               validator: (value) {
-                                if (value.toString().length <= 3) {
-                                  return "Enter Full name!";
+                                if (value.toString().length <= 3 ||
+                                    value.toString().length > 18) {
+                                  return "Enter name of valid length!";
                                 }
                                 return null;
                               },

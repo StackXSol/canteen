@@ -1,14 +1,15 @@
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/screens/Admin/admin_navbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:canteen/widgets.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import '../../cubit/canteen_cubit.dart';
+import '../../widgets.dart';
 import '../Authentication/forgotpassword.dart';
+import 'admin_navbar.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({Key? key}) : super(key: key);

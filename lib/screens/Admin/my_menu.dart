@@ -1,8 +1,8 @@
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/screens/Admin/admin_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../cubit/canteen_cubit.dart';
 import '../../widgets.dart';
+import 'admin_items.dart';
 
 class MyMenu extends StatelessWidget {
   const MyMenu({Key? key}) : super(key: key);

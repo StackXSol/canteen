@@ -46,7 +46,7 @@ class _SelectCanteenState extends State<SelectCanteen> {
                     Navigator.pop(context);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                     child: Icon(Icons.keyboard_arrow_left),
                   )),
               SizedBox(

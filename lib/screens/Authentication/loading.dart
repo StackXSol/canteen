@@ -1,13 +1,13 @@
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/screens/Admin/admin_navbar.dart';
-import 'package:canteen/screens/email_verify_screen.dart';
-import 'package:canteen/screens/navbar.dart';
-import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import '../../cubit/canteen_cubit.dart';
+import '../../widgets.dart';
+import '../Admin/admin_navbar.dart';
+import '../email_verify_screen.dart';
+import '../navbar.dart';
 import 'login_signup.dart';
 
 class LoadingPage extends StatefulWidget {

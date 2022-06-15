@@ -1,8 +1,8 @@
-import 'package:canteen/backend_data.dart';
-import 'package:canteen/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../backend_data.dart';
+import '../main.dart';
 import '../widgets.dart';
 part 'canteen_state.dart';
 
@@ -137,80 +137,89 @@ class _cartItem extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: getwidth(context, 10)),
-            child: Row(
+            child: Stack(
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(photo),
-                  radius: getheight(context, 35),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize:
-                                textSize.getadaptiveTextSize(context, 17)),
-                      ),
-                      SizedBox(height: getheight(context, 10)),
-                      Text("Rs. ${price * quantity}/",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize:
-                                  textSize.getadaptiveTextSize(context, 15),
-                              color: orange_color))
-                    ]),
-                Spacer(),
-                Container(
-                  margin: EdgeInsets.only(top: getheight(context, 30)),
-                  height: getheight(context, 35),
-                  width: getheight(context, 70),
-                  decoration: BoxDecoration(
-                      color: orange_color,
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          if (cart_list[index][3] != 1) {
-                            cart_list[index][3] -= 1;
-                          } else {
-                            cart_list.removeAt(index);
-                          }
-                          BlocProvider.of<CanteenCubit>(context)
-                              .update_cart(cart_list, context);
-                        },
-                        child: Icon(
-                          Icons.remove,
-                          color: Colors.white,
-                          size: getheight(context, 18),
+                Positioned(
+                  top: getheight(context, 27),
+                  right: getwidth(context, 7),
+                  child: Container(
+                    margin: EdgeInsets.only(top: getheight(context, 30)),
+                    height: getheight(context, 35),
+                    width: getheight(context, 70),
+                    decoration: BoxDecoration(
+                        color: orange_color,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if (cart_list[index][3] != 1) {
+                              cart_list[index][3] -= 1;
+                            } else {
+                              cart_list.removeAt(index);
+                            }
+                            BlocProvider.of<CanteenCubit>(context)
+                                .update_cart(cart_list, context);
+                          },
+                          child: Icon(
+                            Icons.remove,
+                            color: Colors.white,
+                            size: getheight(context, 18),
+                          ),
                         ),
-                      ),
-                      Text(
-                        quantity.toString(),
-                        style:
-                            TextStyle(color: Color(0xffffffff), fontSize: 12),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          cart_list[index][3] += 1;
-                          BlocProvider.of<CanteenCubit>(context)
-                              .update_cart(cart_list, context);
-                        },
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: getheight(context, 18),
+                        Text(
+                          quantity.toString(),
+                          style:
+                              TextStyle(color: Color(0xffffffff), fontSize: 12),
                         ),
-                      )
-                    ],
+                        GestureDetector(
+                          onTap: () {
+                            cart_list[index][3] += 1;
+                            BlocProvider.of<CanteenCubit>(context)
+                                .update_cart(cart_list, context);
+                          },
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: getheight(context, 18),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
+                ),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(photo),
+                      radius: getheight(context, 35),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FittedBox(
+                            child: Text(
+                              name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: getheight(context, 10)),
+                          Text("Rs. ${price * quantity}/",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize:
+                                      textSize.getadaptiveTextSize(context, 15),
+                                  color: orange_color))
+                        ]),
+                    Spacer(),
+                  ],
                 ),
               ],
             ),

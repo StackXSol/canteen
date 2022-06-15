@@ -1,10 +1,13 @@
-import 'package:canteen/screens/Admin/OrdersToday/todayOrderDetails.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:canteen/widgets.dart';
+
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import '../../../widgets.dart';
+import 'todayOrderDetails.dart';
 
 class OrdersToday extends StatefulWidget {
   @override

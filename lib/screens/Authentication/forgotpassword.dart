@@ -1,8 +1,9 @@
-import 'package:canteen/main.dart';
-import 'package:canteen/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../main.dart';
+import '../../widgets.dart';
 
 class ResetPassword extends StatefulWidget {
   @override

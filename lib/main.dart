@@ -1,17 +1,18 @@
-import 'package:canteen/backend_data.dart';
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/screens/homepage.dart';
-import 'package:canteen/widgets.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'backend_data.dart';
+import 'cubit/canteen_cubit.dart';
 import 'screens/Authentication/loading.dart';
+import 'widgets.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(BlocProvider(
     create: (context) => CanteenCubit(),
     child: MyApp(),
@@ -25,6 +26,7 @@ appData app_data = appData(fee: 0, key: "");
 bool carousel = false;
 bool canteen_bool = false;
 List images = [];
+List canteens = [];
 String canteen = "Select Canteen";
 
 class MyApp extends StatelessWidget {

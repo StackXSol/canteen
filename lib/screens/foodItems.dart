@@ -1,9 +1,11 @@
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/main.dart';
-import 'package:canteen/screens/cart.dart';
 import 'package:flutter/material.dart';
-import 'package:canteen/widgets.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../cubit/canteen_cubit.dart';
+import '../main.dart';
+import '../widgets.dart';
+import 'cart.dart';
 
 class Food_Items extends StatefulWidget {
   Food_Items(
@@ -39,7 +41,7 @@ class _Food_ItemsState extends State<Food_Items> {
                             Navigator.pop(context);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.fromLTRB(0, 5, 5, 5),
                             child: Icon(Icons.keyboard_arrow_left),
                           )),
                       Spacer(),

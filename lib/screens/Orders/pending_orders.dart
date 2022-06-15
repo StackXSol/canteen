@@ -1,13 +1,15 @@
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/main.dart';
-import 'package:canteen/screens/order_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:canteen/widgets.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import '../../cubit/canteen_cubit.dart';
+import '../../main.dart';
+import '../../widgets.dart';
+import '../order_details.dart';
 
 class PendingOrders extends StatefulWidget {
   // PendingOrders({required this.food_items});

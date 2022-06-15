@@ -1,14 +1,16 @@
-import 'package:canteen/screens/Orders/previous.orders.dart';
-import 'package:canteen/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:init/backend_data.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../cubit/canteen_cubit.dart';
+import '../main.dart';
+import '../widgets.dart';
 import 'Authentication/login_signup.dart';
+import 'Orders/previous.orders.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
@@ -145,9 +147,13 @@ class _ProfileState extends State<Profile> {
                                                       initialValue: name,
                                                       validator: (value) {
                                                         if (value
-                                                                .toString()
-                                                                .length <
-                                                            4) {
+                                                                    .toString()
+                                                                    .length <
+                                                                4 ||
+                                                            value
+                                                                    .toString()
+                                                                    .length >
+                                                                18) {
                                                           return "Enter valid Name!";
                                                         }
                                                         return null;
@@ -319,6 +325,10 @@ class _ProfileState extends State<Profile> {
                                                       Fluttertoast.showToast(
                                                           msg:
                                                               "Details Updated!");
+                                                      canteens.clear();
+                                                      canteen =
+                                                          "Select Canteen";
+                                                      canteen_bool = false;
                                                     }
                                                   },
                                                   child: Container(
@@ -521,6 +531,8 @@ class _ProfileState extends State<Profile> {
                                         onTap: () {
                                           Navigator.pop(context);
                                           FirebaseAuth.instance.signOut();
+                                          canteen = "Select College";
+                                          canteen_bool = false;
                                           Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(

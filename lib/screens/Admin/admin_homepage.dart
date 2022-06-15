@@ -1,15 +1,15 @@
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/screens/Admin/OrdersToday/ordersToday.dart';
-import 'package:canteen/screens/Admin/add_food.dart';
-import 'package:canteen/screens/Admin/my_menu.dart';
-import 'package:canteen/screens/Admin/MonthlyOrders/orders_this_month.dart';
-import 'package:canteen/screens/Admin/qrScanner.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../cubit/canteen_cubit.dart';
 import '../../widgets.dart';
+import 'MonthlyOrders/orders_this_month.dart';
+import 'OrdersToday/ordersToday.dart';
+import 'QrScanner.dart';
+import 'add_food.dart';
+import 'my_menu.dart';
 
 class AdminHomepage extends StatelessWidget {
   const AdminHomepage({Key? key}) : super(key: key);

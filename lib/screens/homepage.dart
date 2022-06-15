@@ -1,16 +1,18 @@
-import 'package:canteen/cubit/canteen_cubit.dart';
-import 'package:canteen/main.dart';
-import 'package:canteen/screens/canteens.dart';
-import 'package:canteen/screens/cart.dart';
-import 'package:canteen/screens/foodItems.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:canteen/widgets.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+
+import '../cubit/canteen_cubit.dart';
+import '../main.dart';
+import '../widgets.dart';
+import 'canteens.dart';
+import 'cart.dart';
+import 'foodItems.dart';
 
 class HomePage extends StatefulWidget {
   HomePage();
@@ -22,7 +24,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentPos = 0;
   int pvindex = 0;
-  List canteens = [];
   bool showSpinner = false;
 
   @override
@@ -72,6 +73,7 @@ class _HomePageState extends State<HomePage> {
         canteen = canteens[0].data()["Name"];
       });
     }
+
     canteen_bool = true;
   }
 
@@ -81,6 +83,10 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         return ModalProgressHUD(
           inAsyncCall: showSpinner,
+          progressIndicator: CircularProgressIndicator(
+            color: orange_color,
+          ),
+          opacity: 0.1,
           child: Scaffold(
               backgroundColor: Color(0xffF5F5F8),
               body: SingleChildScrollView(
@@ -109,6 +115,7 @@ class _HomePageState extends State<HomePage> {
                                   if (canteens.length == 0) {
                                     Fluttertoast.showToast(msg: "No canteens!");
                                   } else if (canteens.length == 1) {
+                                    print("reseted!");
                                     Fluttertoast.showToast(
                                         msg: "There is only one canteen!");
                                   } else {
@@ -122,19 +129,23 @@ class _HomePageState extends State<HomePage> {
                                 },
                                 child: Row(
                                   children: [
-                                    Text(
-                                      canteen,
-                                      style: TextStyle(
-                                        fontSize: textSize.getadaptiveTextSize(
-                                            context, 16),
+                                    FittedBox(
+                                      child: Text(
+                                        canteen,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Icon(
-                                      Icons.food_bank,
-                                      color: orange_color,
+                                    RotatedBox(
+                                      quarterTurns: 3,
+                                      child: Icon(
+                                        Icons.arrow_back_ios_new_outlined,
+                                        color: orange_color,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -155,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     SizedBox(
-                      height: getheight(context, 32),
+                      height: getheight(context, 26),
                     ),
                     Column(
                       children: [
@@ -232,6 +243,10 @@ class _HomePageState extends State<HomePage> {
                                 print("spinner false");
                               });
                             } catch (e) {
+                              setState(() {
+                                showSpinner = false;
+                                print("spinner false");
+                              });
                               food_items = [
                                 SizedBox(
                                   height: getheight(context, 200),
@@ -362,6 +377,10 @@ class _HomePageState extends State<HomePage> {
                                 print("spinner false");
                               });
                             } catch (e) {
+                              setState(() {
+                                showSpinner = false;
+                                print("spinner false");
+                              });
                               food_items = [
                                 SizedBox(
                                   height: getheight(context, 200),
@@ -491,6 +510,10 @@ class _HomePageState extends State<HomePage> {
                                 print("spinner false");
                               });
                             } catch (e) {
+                              setState(() {
+                                showSpinner = false;
+                                print("spinner false");
+                              });
                               food_items = [
                                 SizedBox(
                                   height: getheight(context, 200),
@@ -628,6 +651,10 @@ class _HomePageState extends State<HomePage> {
                                 print("spinner false");
                               });
                             } catch (e) {
+                              setState(() {
+                                showSpinner = false;
+                                print("spinner false");
+                              });
                               food_items = [
                                 SizedBox(
                                   height: getheight(context, 200),
@@ -759,6 +786,10 @@ class _HomePageState extends State<HomePage> {
                                 print("spinner false");
                               });
                             } catch (e) {
+                              setState(() {
+                                showSpinner = false;
+                                print("spinner false");
+                              });
                               food_items = [
                                 SizedBox(
                                   height: getheight(context, 200),
@@ -890,6 +921,10 @@ class _HomePageState extends State<HomePage> {
                                 print("spinner false");
                               });
                             } catch (e) {
+                              setState(() {
+                                showSpinner = false;
+                                print("spinner false");
+                              });
                               food_items = [
                                 SizedBox(
                                   height: getheight(context, 200),
@@ -1052,78 +1087,89 @@ class _ItemState extends State<_Item> {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: getheight(context, 10)),
-            child: Row(
+            child: Stack(
               children: [
-                CircleAvatar(
-                  radius: getheight(context, 35),
-                  backgroundImage: NetworkImage(widget.image),
-                ),
-                SizedBox(
-                  width: getwidth(context, 12),
-                ),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize:
-                                textSize.getadaptiveTextSize(context, 17)),
-                      ),
-                      SizedBox(height: getheight(context, 10)),
-                      Text("Rs. ${widget.price}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize:
-                                  textSize.getadaptiveTextSize(context, 16),
-                              color: orange_color))
-                    ]),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    bool _already = false;
-                    for (var i in cart_list) {
-                      if (i.contains(widget.name)) {
-                        Fluttertoast.showToast(msg: "Already in cart!");
-                        _already = true;
-                        break;
+                Positioned(
+                  right: getwidth(context, 7),
+                  top: getheight(context, 37),
+                  child: GestureDetector(
+                    onTap: () {
+                      bool _already = false;
+                      for (var i in cart_list) {
+                        if (i.contains(widget.name)) {
+                          Fluttertoast.showToast(msg: "Already in cart!");
+                          _already = true;
+                          break;
+                        }
                       }
-                    }
-                    !_already
-                        ? cart_list
-                            .add([widget.name, widget.image, widget.price, 1])
-                        : cart_list;
-                    BlocProvider.of<CanteenCubit>(context)
-                        .update_cart(cart_list, context);
+                      !_already
+                          ? cart_list
+                              .add([widget.name, widget.image, widget.price, 1])
+                          : cart_list;
+                      BlocProvider.of<CanteenCubit>(context)
+                          .update_cart(cart_list, context);
 
-                    setState(() {
-                      widget.alreadyitem = true;
-                    });
+                      setState(() {
+                        widget.alreadyitem = true;
+                      });
 
-                    !_already
-                        ? Fluttertoast.showToast(
-                            msg: "${widget.name} Added to cart")
-                        : null;
-                  },
-                  child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      margin: EdgeInsets.only(top: getheight(context, 30)),
-                      height: getheight(context, 23),
-                      // width: getwidth(context, 55),
-                      decoration: BoxDecoration(
-                          color: orange_color,
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                          child: Text(
-                        !widget.alreadyitem ? "Add +" : "Check 🛒",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize:
-                                textSize.getadaptiveTextSize(context, 14)),
-                      ))),
+                      !_already
+                          ? Fluttertoast.showToast(
+                              msg: "${widget.name} Added to cart")
+                          : null;
+                    },
+                    child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        margin: EdgeInsets.only(top: getheight(context, 30)),
+                        height: getheight(context, 23),
+                        // width: getwidth(context, 55),
+                        decoration: BoxDecoration(
+                            color: !widget.alreadyitem
+                                ? orange_color
+                                : Colors.green,
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Center(
+                            child: Text(
+                          !widget.alreadyitem ? "Add +" : "In Cart  🛒",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 14)),
+                        ))),
+                  ),
+                ),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: getheight(context, 35),
+                      backgroundImage: NetworkImage(widget.image),
+                    ),
+                    SizedBox(
+                      width: getwidth(context, 12),
+                    ),
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FittedBox(
+                            child: Text(
+                              widget.name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: getheight(context, 10)),
+                          Text("Rs. ${widget.price}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize:
+                                      textSize.getadaptiveTextSize(context, 16),
+                                  color: orange_color))
+                        ]),
+                    Spacer(),
+                  ],
                 ),
               ],
             ),
