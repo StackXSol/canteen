@@ -131,229 +131,248 @@ class _CartState extends State<Cart> {
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     child: Form(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Text(
-                                            "Bill Details",
-                                            style: TextStyle(
-                                                fontSize: textSize
-                                                    .getadaptiveTextSize(
-                                                        context, 19),
-                                                color: orange_color,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            height: getheight(context, 16),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  Text("Items",
-                                                      style: TextStyle(
-                                                          fontSize: textSize
-                                                              .getadaptiveTextSize(
-                                                                  context, 16),
-                                                          fontWeight:
-                                                              FontWeight.bold))
-                                                ],
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                              "Bill Details",
+                                              style: TextStyle(
+                                                  fontSize: textSize
+                                                      .getadaptiveTextSize(
+                                                          context, 19),
+                                                  color: orange_color,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                              height: getheight(context, 16),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    Text("Items",
+                                                        style: TextStyle(
+                                                            fontSize: textSize
+                                                                .getadaptiveTextSize(
+                                                                    context,
+                                                                    16),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))
+                                                  ],
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Text("Quantity",
+                                                        style: TextStyle(
+                                                            fontSize: textSize
+                                                                .getadaptiveTextSize(
+                                                                    context,
+                                                                    16),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: getheight(context, 15),
+                                            ),
+                                            Container(
+                                              child: Column(
+                                                children: dialogitemsList,
                                               ),
-                                              Column(
-                                                children: [
-                                                  Text("Quantity",
-                                                      style: TextStyle(
-                                                          fontSize: textSize
-                                                              .getadaptiveTextSize(
-                                                                  context, 16),
-                                                          fontWeight:
-                                                              FontWeight.bold))
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: getheight(context, 15),
-                                          ),
-                                          Column(
-                                            children: dialogitemsList,
-                                          ),
-                                          Divider(
-                                            color:
-                                                Colors.black.withOpacity(0.1),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  Text("Convenience Fee",
-                                                      style: TextStyle(
-                                                          fontSize: textSize
-                                                              .getadaptiveTextSize(
-                                                                  context, 16),
-                                                          fontWeight: FontWeight
-                                                              .normal))
-                                                ],
-                                              ),
-                                              Column(
-                                                children: [
-                                                  Text("₹2",
-                                                      style: TextStyle(
-                                                          fontSize: textSize
-                                                              .getadaptiveTextSize(
-                                                                  context, 16),
-                                                          fontWeight: FontWeight
-                                                              .normal))
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                          Divider(
-                                            color:
-                                                Colors.black.withOpacity(0.1),
-                                          ),
-                                          SizedBox(
-                                              height: getheight(context, 25)),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "To Pay",
-                                                style: TextStyle(
-                                                    fontSize: textSize
-                                                        .getadaptiveTextSize(
-                                                            context, 16),
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Spacer(),
-                                              Text(
-                                                  "\u{20B9} ${(total_price + app_data.fee).toString()}/-",
+                                            ),
+                                            Divider(
+                                              color:
+                                                  Colors.black.withOpacity(0.1),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    Text("Convenience Fee",
+                                                        style: TextStyle(
+                                                            fontSize: textSize
+                                                                .getadaptiveTextSize(
+                                                                    context,
+                                                                    16),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal))
+                                                  ],
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Text("₹2",
+                                                        style: TextStyle(
+                                                            fontSize: textSize
+                                                                .getadaptiveTextSize(
+                                                                    context,
+                                                                    16),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal))
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            Divider(
+                                              color:
+                                                  Colors.black.withOpacity(0.1),
+                                            ),
+                                            SizedBox(
+                                                height: getheight(context, 25)),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "To Pay",
                                                   style: TextStyle(
                                                       fontSize: textSize
                                                           .getadaptiveTextSize(
                                                               context, 16),
                                                       fontWeight:
-                                                          FontWeight.bold))
-                                            ],
-                                          ),
-                                          SizedBox(
-                                              height: getheight(context, 15)),
-                                          GestureDetector(
-                                            onTap: () async {
-                                              ///// Complete your order
-                                              ///
-                                              void reg_order() {
-                                                print("Registering Order!");
-                                                FirebaseFirestore.instance
-                                                    .collection("Users")
-                                                    .doc(FirebaseAuth.instance
-                                                        .currentUser!.uid)
-                                                    .collection("Orders")
-                                                    .doc(DateTime.now()
-                                                        .toString())
-                                                    .set({
-                                                  "OID": OID,
-                                                  "DateTime":
-                                                      DateTime.now().toString(),
-                                                  "Total_Price": total_price,
-                                                  "Status": false,
-                                                  "Items": _orders,
-                                                  "Canteen": canteen,
-                                                  "College": BlocProvider.of<
-                                                          CanteenCubit>(context)
-                                                      .state
-                                                      .currentuser
-                                                      .College
-                                                }, SetOptions(merge: true));
-
-                                                orderNotifyUser(
-                                                    BlocProvider.of<
+                                                          FontWeight.bold),
+                                                ),
+                                                Spacer(),
+                                                Text(
+                                                    "\u{20B9} ${(total_price + app_data.fee).toString()}/-",
+                                                    style: TextStyle(
+                                                        fontSize: textSize
+                                                            .getadaptiveTextSize(
+                                                                context, 16),
+                                                        fontWeight:
+                                                            FontWeight.bold))
+                                              ],
+                                            ),
+                                            SizedBox(
+                                                height: getheight(context, 15)),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                ///// Complete your order
+                                                ///
+                                                void reg_order() {
+                                                  print("Registering Order!");
+                                                  FirebaseFirestore.instance
+                                                      .collection("Users")
+                                                      .doc(FirebaseAuth.instance
+                                                          .currentUser!.uid)
+                                                      .collection("Orders")
+                                                      .doc(DateTime.now()
+                                                          .toString())
+                                                      .set({
+                                                    "OID": OID,
+                                                    "DateTime": DateTime.now()
+                                                        .toString(),
+                                                    "Total_Price": total_price,
+                                                    "Status": false,
+                                                    "Items": _orders,
+                                                    "Canteen": canteen,
+                                                    "College": BlocProvider.of<
                                                                 CanteenCubit>(
                                                             context)
                                                         .state
                                                         .currentuser
-                                                        .email,
-                                                    OID);
+                                                        .College
+                                                  }, SetOptions(merge: true));
 
-                                                FirebaseFirestore.instance
-                                                    .collection("Canteens")
-                                                    .doc(canteenId)
-                                                    .collection("Revenue")
-                                                    .doc(OID.toString())
-                                                    .set({
-                                                  "OID": OID,
-                                                  "DateTime":
-                                                      DateTime.now().toString(),
-                                                  "Total_Price": total_price,
-                                                  "Status": false,
-                                                  "Items": _orders,
-                                                  "Canteen": canteen,
-                                                  "College": BlocProvider.of<
+                                                  orderNotifyUser(
+                                                      BlocProvider.of<
+                                                                  CanteenCubit>(
+                                                              context)
+                                                          .state
+                                                          .currentuser
+                                                          .email,
+                                                      OID);
+
+                                                  FirebaseFirestore.instance
+                                                      .collection("Canteens")
+                                                      .doc(canteenId)
+                                                      .collection("Revenue")
+                                                      .doc(OID.toString())
+                                                      .set({
+                                                    "OID": OID,
+                                                    "DateTime": DateTime.now()
+                                                        .toString(),
+                                                    "Total_Price": total_price,
+                                                    "Status": false,
+                                                    "Items": _orders,
+                                                    "Canteen": canteen,
+                                                    "College": BlocProvider.of<
+                                                                CanteenCubit>(
+                                                            context)
+                                                        .state
+                                                        .currentuser
+                                                        .College
+                                                  }, SetOptions(merge: true));
+
+                                                  FirebaseFirestore.instance
+                                                      .collection("Canteens")
+                                                      .doc(canteenId)
+                                                      .set({
+                                                    "Total_Revenue":
+                                                        FieldValue.increment(
+                                                            total_price)
+                                                  }, SetOptions(merge: true));
+
+                                                  cart_list = [];
+                                                  BlocProvider.of<CanteenCubit>(
+                                                          context)
+                                                      .update_cart(
+                                                          cart_list, context);
+                                                  Navigator.pop(context);
+                                                }
+
+                                                await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            py_pg(
+                                                              price:
+                                                                  total_price +
+                                                                      app_data
+                                                                          .fee,
+                                                            ))).then((value) {
+                                                  if (BlocProvider.of<
                                                           CanteenCubit>(context)
                                                       .state
-                                                      .currentuser
-                                                      .College
-                                                }, SetOptions(merge: true));
-
-                                                FirebaseFirestore.instance
-                                                    .collection("Canteens")
-                                                    .doc(canteenId)
-                                                    .set({
-                                                  "Total_Revenue":
-                                                      FieldValue.increment(
-                                                          total_price)
-                                                }, SetOptions(merge: true));
-
-                                                cart_list = [];
-                                                BlocProvider.of<CanteenCubit>(
-                                                        context)
-                                                    .update_cart(
-                                                        cart_list, context);
-                                                Navigator.pop(context);
-                                              }
-
-                                              await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          py_pg(
-                                                            price: total_price +
-                                                                app_data.fee,
-                                                          ))).then((value) {
-                                                if (BlocProvider.of<
-                                                        CanteenCubit>(context)
-                                                    .state
-                                                    .paymentstatus) {
-                                                  reg_order();
-                                                }
-                                              });
-                                            },
-                                            child: Container(
-                                              height: getheight(context, 40),
-                                              width: getwidth(context, 130),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  color: orange_color),
-                                              child: Center(
-                                                child: Text(
-                                                  "Pay Now",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: textSize
-                                                          .getadaptiveTextSize(
-                                                              context, 17)),
+                                                      .paymentstatus) {
+                                                    reg_order();
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                height: getheight(context, 40),
+                                                width: getwidth(context, 130),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    color: orange_color),
+                                                child: Center(
+                                                  child: Text(
+                                                    "Pay Now",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: textSize
+                                                            .getadaptiveTextSize(
+                                                                context, 17)),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
