@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../main.dart';
 import '../../widgets.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -58,8 +59,9 @@ class _AddFoodState extends State<AddFood> {
                     width: getwidth(context, 75),
                   ),
                   Text("Add Food",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
+                      style: TextStyle(
+                          fontSize: textSize.getadaptiveTextSize(context, 24),
+                          fontWeight: FontWeight.w900)),
                 ],
               )),
           SizedBox(
@@ -77,12 +79,14 @@ class _AddFoodState extends State<AddFood> {
                       _foodname = value;
                     });
                   },
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: textSize.getadaptiveTextSize(context, 17),
+                      fontWeight: FontWeight.bold),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "Food Name",
                     hintStyle: TextStyle(
-                      fontSize: 16,
+                      fontSize: textSize.getadaptiveTextSize(context, 16),
                       color: Colors.grey.withOpacity(0.5),
                     ),
                   ),
@@ -101,12 +105,14 @@ class _AddFoodState extends State<AddFood> {
                       _price = value;
                     });
                   },
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: textSize.getadaptiveTextSize(context, 17),
+                      fontWeight: FontWeight.bold),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "Price",
                     hintStyle: TextStyle(
-                      fontSize: 16,
+                      fontSize: textSize.getadaptiveTextSize(context, 16),
                       color: Colors.grey.withOpacity(0.5),
                     ),
                   ),
@@ -300,7 +306,7 @@ class _AddFoodState extends State<AddFood> {
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 17),
+                      fontSize: textSize.getadaptiveTextSize(context, 17)),
                 ),
               ),
             ),

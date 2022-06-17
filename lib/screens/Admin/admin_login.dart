@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../cubit/canteen_cubit.dart';
+import '../../main.dart';
 import '../../widgets.dart';
 import '../Authentication/forgotpassword.dart';
 import 'admin_navbar.dart';
@@ -103,7 +104,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                 "Sign-up",
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 18,
+                    fontSize: textSize.getadaptiveTextSize(context, 18),
                     fontWeight: FontWeight.bold),
               ),
             ],
@@ -280,12 +281,15 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                               });
                             },
                             style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 17),
+                                fontWeight: FontWeight.bold),
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Code",
                                 hintStyle: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16),
                                     color: Colors.grey.withOpacity(0.5)))),
                         Divider(
                           height: 2,
@@ -311,12 +315,15 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                               });
                             },
                             style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 17),
+                                fontWeight: FontWeight.bold),
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Canteen name",
                                 hintStyle: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16),
                                     color: Colors.grey.withOpacity(0.5)))),
                         Divider(
                           height: 2,
@@ -342,12 +349,15 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                               });
                             },
                             style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 17),
+                                fontWeight: FontWeight.bold),
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Enter Email",
                                 hintStyle: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 16),
                                     color: Colors.grey.withOpacity(0.5)))),
                         Divider(
                           height: 2,
@@ -362,7 +372,9 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                           children: [
                             Text(
                               "🇮🇳",
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(
+                                  fontSize: textSize.getadaptiveTextSize(
+                                      context, 20)),
                             ),
                             Text(
                               " +91",
@@ -385,19 +397,21 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                                     FilteringTextInputFormatter.digitsOnly
                                   ],
                                   style: TextStyle(
-                                      fontSize: 17,
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 17),
                                       fontWeight: FontWeight.bold),
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Phone number",
                                       hintStyle: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: textSize
+                                              .getadaptiveTextSize(context, 16),
                                           color:
                                               Colors.grey.withOpacity(0.5)))),
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: getheight(context, 20)),
                         /////////////// college
                         Text("College", style: TextStyle(color: Colors.black)),
 
@@ -423,7 +437,7 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                           }).toList(),
                         ),
 
-                        SizedBox(height: 20),
+                        SizedBox(height: getheight(context, 20)),
 
                         ///////////////// password
                         Text("Set Password",
@@ -442,7 +456,9 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                           },
                           obscureText: _isObscure,
                           style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 17),
+                              fontWeight: FontWeight.bold),
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
                                 onPressed: () {
@@ -457,7 +473,8 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                             border: InputBorder.none,
                             hintText: "Enter Password",
                             hintStyle: TextStyle(
-                              fontSize: 16,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 16),
                               color: Colors.grey.withOpacity(0.5),
                             ),
                           ),
@@ -564,7 +581,8 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 17),
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 17)),
                               ),
                             ),
                           ),

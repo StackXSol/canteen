@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../cubit/canteen_cubit.dart';
+import '../../main.dart';
 import '../../widgets.dart';
 
 class AdminItems extends StatefulWidget {
@@ -38,7 +39,9 @@ class _AdminItemsState extends State<AdminItems> {
               width: getwidth(context, 75),
             ),
             Text(widget.category,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: textSize.getadaptiveTextSize(context, 18))),
           ],
         ),
       ),
@@ -82,7 +85,8 @@ class _AdminItemsState extends State<AdminItems> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 22),
+                                    fontSize: textSize.getadaptiveTextSize(
+                                        context, 22)),
                               ),
                             )
                           ]);
@@ -149,12 +153,12 @@ class _ItemState extends State<_Item> {
             child: Row(
               children: [
                 CircleAvatar(
-                  radius: 32,
+                  radius: getheight(context, 32),
                   // backgroundImage: NetworkImage(image),
                   backgroundImage: NetworkImage(widget.image),
                 ),
                 SizedBox(
-                  width: 12,
+                  width: getwidth(context, 12),
                 ),
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -165,7 +169,9 @@ class _ItemState extends State<_Item> {
                         child: Text(
                           widget.name,
                           style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 15),
+                              fontWeight: FontWeight.w600,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 15)),
                         ),
                       ),
                       SizedBox(height: 5),
@@ -189,10 +195,13 @@ class _ItemState extends State<_Item> {
                                         children: <Widget>[
                                           Text(
                                             "Edit",
-                                            style: TextStyle(fontSize: 20),
+                                            style: TextStyle(
+                                                fontSize: textSize
+                                                    .getadaptiveTextSize(
+                                                        context, 20)),
                                           ),
                                           SizedBox(
-                                            height: 15,
+                                            height: getheight(context, 15),
                                           ),
                                           Padding(
                                             padding: EdgeInsets.all(8.0),
@@ -209,17 +218,21 @@ class _ItemState extends State<_Item> {
                                                   widget.name = value;
                                                 }),
                                                 style: TextStyle(
-                                                    fontSize: 17,
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 17),
                                                     fontWeight:
                                                         FontWeight.bold),
                                                 decoration: InputDecoration(
                                                     border: OutlineInputBorder(
                                                         borderRadius:
-                                                            BorderRadius
-                                                                .circular(30)),
+                                                            BorderRadius.circular(
+                                                                30)),
                                                     hintText: "Food Name",
                                                     hintStyle: TextStyle(
-                                                        fontSize: 16,
+                                                        fontSize: textSize
+                                                            .getadaptiveTextSize(
+                                                                context, 16),
                                                         color: Colors.grey
                                                             .withOpacity(
                                                                 0.5)))),
@@ -234,22 +247,27 @@ class _ItemState extends State<_Item> {
                                                 keyboardType:
                                                     TextInputType.number,
                                                 style: TextStyle(
-                                                    fontSize: 17,
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 17),
                                                     fontWeight:
                                                         FontWeight.bold),
                                                 decoration: InputDecoration(
                                                     hintText: "Enter price",
                                                     border: OutlineInputBorder(
                                                         borderRadius:
-                                                            BorderRadius
-                                                                .circular(30)),
+                                                            BorderRadius.circular(
+                                                                30)),
                                                     hintStyle: TextStyle(
-                                                        fontSize: 16,
+                                                        fontSize: textSize
+                                                            .getadaptiveTextSize(
+                                                                context, 16),
                                                         color: Colors.grey
                                                             .withOpacity(
                                                                 0.5)))),
                                           ),
-                                          SizedBox(height: 20),
+                                          SizedBox(
+                                              height: getheight(context, 20)),
                                           GestureDetector(
                                             onTap: () async {
                                               print(widget.docid);
@@ -291,7 +309,9 @@ class _ItemState extends State<_Item> {
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      fontSize: 17),
+                                                      fontSize: textSize
+                                                          .getadaptiveTextSize(
+                                                              context, 17)),
                                                 ),
                                               ),
                                             ),
@@ -306,7 +326,8 @@ class _ItemState extends State<_Item> {
                         child: Text("Edit",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                fontSize: 15,
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 15),
                                 color: orange_color)),
                       )
                     ]),

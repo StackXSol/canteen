@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/canteen_cubit.dart';
+import '../../main.dart';
 import '../../widgets.dart';
 import 'MonthlyOrders/orders_this_month.dart';
 import 'OrdersToday/ordersToday.dart';
@@ -37,7 +38,9 @@ class AdminHomepage extends StatelessWidget {
                                     .currentCanteenUser
                                     .getter()[4],
                             style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.w900)),
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 22),
+                                fontWeight: FontWeight.w900)),
                         SizedBox(
                           height: 13,
                         ),
@@ -46,7 +49,9 @@ class AdminHomepage extends StatelessWidget {
                               .state
                               .currentCanteenUser
                               .getter()[0],
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 20)),
                         ),
                       ],
                     ),
@@ -71,7 +76,9 @@ class AdminHomepage extends StatelessWidget {
                         Text(
                           "Today's revenue",
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 18),
+                              fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
                           height: 5,
@@ -97,7 +104,8 @@ class AdminHomepage extends StatelessWidget {
 
                               return Text("\u{20B9} $total_revenue",
                                   style: TextStyle(
-                                      fontSize: 26,
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 26),
                                       fontWeight: FontWeight.bold));
                             })
                       ],
@@ -132,7 +140,7 @@ class AdminHomepage extends StatelessWidget {
                       children: [
                         CircleAvatar(
                             backgroundColor: Colors.white,
-                            radius: 45,
+                            radius: getheight(context, 45),
                             backgroundImage: NetworkImage(
                                 'https://static.thenounproject.com/png/3186085-200.png')),
                         SizedBox(
@@ -166,7 +174,7 @@ class AdminHomepage extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          radius: 45,
+                          radius: getheight(context, 45),
                           backgroundImage: NetworkImage(
                               'https://i.pinimg.com/564x/dd/9d/c9/dd9dc9d83423bc037b511d73b29e6b80.jpg'),
                         ),
@@ -208,7 +216,7 @@ class AdminHomepage extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.white,
-                          radius: 45,
+                          radius: getheight(context, 45),
                           backgroundImage: NetworkImage(
                               'https://cdn-icons-png.flaticon.com/512/1356/1356594.png'),
                         ),
@@ -243,7 +251,7 @@ class AdminHomepage extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.white,
-                          radius: 45,
+                          radius: getheight(context, 45),
                           backgroundImage: NetworkImage(
                               'https://cdn-icons-png.flaticon.com/512/2649/2649223.png'),
                         ),
@@ -278,7 +286,7 @@ class AdminHomepage extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 17),
+                        fontSize: textSize.getadaptiveTextSize(context, 17)),
                   ),
                 ),
               ),

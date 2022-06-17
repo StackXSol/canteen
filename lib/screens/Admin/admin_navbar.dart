@@ -56,11 +56,16 @@ class _AdminNavbarState extends State<AdminNavbar> {
           },
           items: [
             BottomNavigationBarItem(
-                icon: Icon(Icons.home, size: 30), label: ""),
+                icon: Icon(Icons.home, size: getheight(context, 30)),
+                label: ""),
             BottomNavigationBarItem(
-                icon: Icon(Icons.receipt_long_rounded, size: 30), label: ""),
+                icon: Icon(Icons.receipt_long_rounded,
+                    size: getheight(context, 30)),
+                label: ""),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline_rounded, size: 30), label: ""),
+                icon: Icon(Icons.person_outline_rounded,
+                    size: getheight(context, 30)),
+                label: ""),
           ],
           selectedItemColor: orange_color,
           iconSize: 50,

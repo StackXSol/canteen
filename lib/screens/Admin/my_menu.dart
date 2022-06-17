@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubit/canteen_cubit.dart';
+import '../../main.dart';
 import '../../widgets.dart';
 import 'admin_items.dart';
 
@@ -32,8 +33,9 @@ class MyMenu extends StatelessWidget {
                               .state
                               .currentCanteenUser
                               .getter()[4],
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
+                      style: TextStyle(
+                          fontSize: textSize.getadaptiveTextSize(context, 22),
+                          fontWeight: FontWeight.w900)),
                 ],
               )),
           SizedBox(
@@ -92,7 +94,9 @@ class _MenuItems extends StatelessWidget {
                 ),
                 Text(
                   category,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: textSize.getadaptiveTextSize(context, 24),
+                      fontWeight: FontWeight.bold),
                 )
               ])),
           SizedBox(

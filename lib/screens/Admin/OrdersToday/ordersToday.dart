@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../../../main.dart';
 import '../../../widgets.dart';
 import 'todayOrderDetails.dart';
 
@@ -44,8 +44,9 @@ class _OrdersTodayState extends State<OrdersToday> {
                     width: getwidth(context, 75),
                   ),
                   Text("Orders Today",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: textSize.getadaptiveTextSize(context, 18))),
                   Spacer(),
                 ],
               ),
@@ -89,7 +90,8 @@ class _OrdersTodayState extends State<OrdersToday> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w800,
-                                        fontSize: 24),
+                                        fontSize: textSize.getadaptiveTextSize(
+                                            context, 24)),
                                   ),
                                   SizedBox(
                                     height: 10,
@@ -150,10 +152,10 @@ class _PendingItem extends StatelessWidget {
                 children: [
                   QrImage(
                     data: oid.toString(),
-                    size: 90,
+                    size: getheight(context, 90),
                   ),
                   SizedBox(
-                    width: 12,
+                    width: getwidth(context, 12),
                   ),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -162,7 +164,9 @@ class _PendingItem extends StatelessWidget {
                         Text(
                           oid.toString(),
                           style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 17),
+                              fontWeight: FontWeight.w600,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 17)),
                         ),
                         SizedBox(height: 10),
                         Text(
@@ -170,7 +174,8 @@ class _PendingItem extends StatelessWidget {
                             DateFormat.jm().format(datetime),
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                fontSize: 15,
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 15),
                                 color: orange_color))
                       ]),
                   Spacer(),
@@ -179,7 +184,7 @@ class _PendingItem extends StatelessWidget {
                     child: Text("$total_price/-",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: textSize.getadaptiveTextSize(context, 15),
                             color: orange_color)),
                   ),
                 ],

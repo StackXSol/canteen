@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../main.dart';
 import '../../../widgets.dart';
 
 class TodayOrderDetails extends StatefulWidget {
@@ -65,7 +66,9 @@ class _TodayOrderDetailsState extends State<TodayOrderDetails> {
                   ),
                   Text(
                     "Order details",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        fontSize: textSize.getadaptiveTextSize(context, 18),
+                        fontWeight: FontWeight.w600),
                   )
                 ],
               ),
@@ -82,13 +85,13 @@ class _TodayOrderDetailsState extends State<TodayOrderDetails> {
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 30),
+                        fontSize: textSize.getadaptiveTextSize(context, 30)),
                   ),
                   SizedBox(height: getheight(context, 28)),
                   RichText(
                     text: TextSpan(
                         style: TextStyle(
-                            fontSize: 18,
+                            fontSize: textSize.getadaptiveTextSize(context, 18),
                             fontWeight: FontWeight.w600,
                             color: Color(0xff000000)),
                         children: [
@@ -103,7 +106,7 @@ class _TodayOrderDetailsState extends State<TodayOrderDetails> {
                   RichText(
                     text: TextSpan(
                         style: TextStyle(
-                            fontSize: 18,
+                            fontSize: textSize.getadaptiveTextSize(context, 18),
                             fontWeight: FontWeight.w600,
                             color: Colors.black),
                         children: [
@@ -130,10 +133,10 @@ class _TodayOrderDetailsState extends State<TodayOrderDetails> {
                   34,
                 ),
               ),
-              child: const Text(
+              child: Text(
                 "Items Ordered",
                 style: TextStyle(
-                    fontSize: 17,
+                    fontSize: textSize.getadaptiveTextSize(context, 17),
                     fontWeight: FontWeight.w400,
                     color: Color(0xffF94A0D)),
               ),
@@ -198,11 +201,11 @@ class _Items extends StatelessWidget {
                             Border.all(color: Colors.grey.withOpacity(0.2))),
                     child: CircleAvatar(
                       backgroundImage: NetworkImage(image),
-                      radius: 35,
+                      radius: getheight(context, 35),
                       backgroundColor: Colors.grey.withOpacity(0.1),
                     )),
                 SizedBox(
-                  width: 20,
+                  width: getwidth(context, 20),
                 ),
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -213,14 +216,17 @@ class _Items extends StatelessWidget {
                         child: Text(
                           name,
                           style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 16),
+                              fontWeight: FontWeight.w600,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 16)),
                         ),
                       ),
                       SizedBox(height: 5),
                       Text("₹$price",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: 15,
+                              fontSize:
+                                  textSize.getadaptiveTextSize(context, 15),
                               color: orange_color))
                     ]),
                 Spacer(),
@@ -228,7 +234,7 @@ class _Items extends StatelessWidget {
                   quantity.toString(),
                   style: TextStyle(
                       color: orange_color,
-                      fontSize: 16,
+                      fontSize: textSize.getadaptiveTextSize(context, 16),
                       fontWeight: FontWeight.w600),
                 ),
                 SizedBox(

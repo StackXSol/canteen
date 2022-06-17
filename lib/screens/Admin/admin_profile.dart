@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
 import '../../widgets.dart';
 import '../Authentication/login_signup.dart';
 import 'revenue.dart';
@@ -17,7 +18,9 @@ class AdminProfile extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: getwidth(context, 40)),
         child: Text(
           "My Profile",
-          style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontSize: textSize.getadaptiveTextSize(context, 26),
+              fontWeight: FontWeight.w600),
         ),
       ),
       SizedBox(
@@ -100,7 +103,9 @@ class _profileFunctions extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: textSize.getadaptiveTextSize(context, 18)),
               ),
               Spacer(),
               Icon(Icons.keyboard_arrow_right)

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../main.dart';
 import '../../widgets.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -75,8 +76,9 @@ class _RevenueState extends State<Revenue> {
                     ),
                     Text(
                       "Revenue",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          fontSize: textSize.getadaptiveTextSize(context, 30),
+                          fontWeight: FontWeight.w600),
                     )
                   ],
                 ),
@@ -107,8 +109,9 @@ class _RevenueState extends State<Revenue> {
                     });
                   },
                   child: Text("${_displayMonth} ${_displayYear}",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: textSize.getadaptiveTextSize(context, 16))),
                 ),
                 Spacer(),
                 GestureDetector(
@@ -177,12 +180,14 @@ class _RevenueState extends State<Revenue> {
                 children: [
                   Text(
                     "Your revenue",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: textSize.getadaptiveTextSize(context, 17)),
                   ),
                   Text(
                     "${revenue.toString()}/-",
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: textSize.getadaptiveTextSize(context, 22),
                       color: Colors.green,
                       fontWeight: FontWeight.bold,
                     ),
@@ -216,12 +221,14 @@ class _RevenueState extends State<Revenue> {
                 children: [
                   Text(
                     "Total orders",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: textSize.getadaptiveTextSize(context, 17)),
                   ),
                   Text(
                     "$orders",
                     style: TextStyle(
-                        fontSize: 22,
+                        fontSize: textSize.getadaptiveTextSize(context, 22),
                         color: orange_color,
                         fontWeight: FontWeight.bold),
                   ),
