@@ -202,7 +202,8 @@ class _cartItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FittedBox(
+                          Container(
+                            width: getwidth(context, 150),
                             child: Text(
                               name,
                               style: TextStyle(

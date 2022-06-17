@@ -329,6 +329,8 @@ class _ProfileState extends State<Profile> {
                                                       canteen =
                                                           "Select Canteen";
                                                       canteen_bool = false;
+                                                      //change this
+                                                      cart_list.clear();
                                                     }
                                                   },
                                                   child: Container(

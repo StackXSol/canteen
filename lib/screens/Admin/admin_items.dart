@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -150,7 +149,7 @@ class _ItemState extends State<_Item> {
             child: Row(
               children: [
                 CircleAvatar(
-                  radius: 35,
+                  radius: 32,
                   // backgroundImage: NetworkImage(image),
                   backgroundImage: NetworkImage(widget.image),
                 ),
@@ -161,12 +160,15 @@ class _ItemState extends State<_Item> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 17),
+                      Container(
+                        width: getwidth(context, 170),
+                        child: Text(
+                          widget.name,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 15),
+                        ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 5),
                       GestureDetector(
                         onTap: () {
                           showDialog(

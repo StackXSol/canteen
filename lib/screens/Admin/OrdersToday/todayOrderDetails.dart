@@ -48,7 +48,7 @@ class _TodayOrderDetailsState extends State<TodayOrderDetails> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                  left: getwidth(context, 50), right: getwidth(context, 129)),
+                  left: getwidth(context, 30), right: getwidth(context, 129)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -208,12 +208,15 @@ class _Items extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 17),
+                      Container(
+                        width: getwidth(context, 160),
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 16),
+                        ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 5),
                       Text("₹$price",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,

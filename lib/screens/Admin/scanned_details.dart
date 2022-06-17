@@ -306,12 +306,15 @@ class _Items extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 17),
+                      Container(
+                        width: getwidth(context, 150),
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 17),
+                        ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 5),
                       Text("₹$price - ${quantity.toString()}",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,

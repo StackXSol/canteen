@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<CanteenCubit>(context).update_cart(cart_list, context);
     if (!carousel) {
       getCaroselImages();
     }
@@ -119,12 +120,20 @@ class _HomePageState extends State<HomePage> {
                                     Fluttertoast.showToast(
                                         msg: "There is only one canteen!");
                                   } else {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => SelectCanteen(
-                                                  canteens: canteens,
-                                                )));
+                                    print(cart_list);
+                                    if (!cart_list.isEmpty) {
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              "Please Order/delete items in cart to switch canteen!");
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SelectCanteen(
+                                                    canteens: canteens,
+                                                  )));
+                                    }
                                   }
                                 },
                                 child: Row(
@@ -1112,11 +1121,6 @@ class _ItemState extends State<_Item> {
                       setState(() {
                         widget.alreadyitem = true;
                       });
-
-                      !_already
-                          ? Fluttertoast.showToast(
-                              msg: "${widget.name} Added to cart")
-                          : null;
                     },
                     child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -1152,7 +1156,8 @@ class _ItemState extends State<_Item> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FittedBox(
+                          Container(
+                            width: getwidth(context, 150),
                             child: Text(
                               widget.name,
                               style: TextStyle(
