@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:init/screens/Authentication/login_signup.dart';
 
 import '../cubit/canteen_cubit.dart';
 import '../smtp.dart';
@@ -171,6 +172,23 @@ class _EmailverificationScreenState extends State<EmailverificationScreen> {
                       fontWeight: FontWeight.normal,
                       fontSize: 18),
                 ),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            GestureDetector(
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Login()));
+              },
+              child: Text(
+                "Wrong email?",
+                style: TextStyle(
+                    color: orange_color,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
               ),
             )
           ],

@@ -428,9 +428,12 @@ class _ItemRow extends StatelessWidget {
       children: [
         Column(
           children: [
-            Text(
-              item,
-              style: TextStyle(fontWeight: FontWeight.normal),
+            Container(
+              width: getwidth(context, 180),
+              child: Text(
+                item,
+                style: TextStyle(fontWeight: FontWeight.normal),
+              ),
             ),
             SizedBox(
               height: getheight(context, 10),

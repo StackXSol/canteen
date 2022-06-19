@@ -32,7 +32,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   late String fullname;
   late String phone;
   final _gkey = GlobalKey<FormState>();
-  late String rollno;
+  String rollno = "1234";
   bool showSpinner = false;
 
   List<String> collegelist = [];
@@ -480,7 +480,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                   fontWeight: FontWeight.bold),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: "Enter Roll number",
+                                  hintText: "Enter Roll number (Optional)",
                                   hintStyle: TextStyle(
                                       fontSize: textSize.getadaptiveTextSize(
                                           context, 16),
@@ -540,7 +540,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           // Spacer(),
                           InkWell(
                             onTap: () async {
-                              if (_gkey.currentState!.validate()) {
+                              if (_gkey.currentState!.validate() &&
+                                  dropdownValue != "Select College") {
                                 setState(() {
                                   showSpinner = true;
                                 });
@@ -576,7 +577,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                                 .state
                                                 .cart_items);
 
-                                    Register(_email);
+                                    send_Register_email(_email);
 
                                     await Navigator.pushReplacement(
                                       context,
@@ -591,11 +592,18 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                     });
                                   });
                                 } on FirebaseException catch (e) {
+                                  print(e);
                                   await Fluttertoast.showToast(
                                       msg: e.message.toString());
                                 }
                                 setState(() {
                                   showSpinner = false;
+                                });
+                              } else if (dropdownValue == "Select College") {
+                                setState(() {
+                                  showSpinner = false;
+                                  Fluttertoast.showToast(
+                                      msg: "Please select a college!");
                                 });
                               }
                             },

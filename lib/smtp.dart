@@ -53,7 +53,7 @@ void orderNotifyAdmin(email, orderid) async {
   }
 }
 
-void Register(email) async {
+void send_Register_email(email) async {
   // Create our message.
   final message = Message()
     ..from = Address(username, "InIt")

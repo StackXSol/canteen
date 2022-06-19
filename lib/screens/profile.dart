@@ -289,8 +289,11 @@ class _ProfileState extends State<Profile> {
                                                       showSpinner = true;
                                                       print("spinner true");
                                                     });
+                                                    print(dropdownValue);
                                                     if (_formKey.currentState!
-                                                        .validate()) {
+                                                            .validate() &&
+                                                        dropdownValue !=
+                                                            "Select College") {
                                                       FirebaseFirestore.instance
                                                           .collection("Users")
                                                           .doc(BlocProvider.of<
@@ -331,6 +334,14 @@ class _ProfileState extends State<Profile> {
                                                       canteen_bool = false;
                                                       //change this
                                                       cart_list.clear();
+                                                    } else {
+                                                      Fluttertoast.showToast(
+                                                          msg:
+                                                              "Please select a college!");
+                                                      setState(() {
+                                                        showSpinner = false;
+                                                        print("spinner false");
+                                                      });
                                                     }
                                                   },
                                                   child: Container(

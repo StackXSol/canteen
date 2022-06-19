@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -29,6 +30,8 @@ class _py_pgState extends State<py_pg> {
       'key': app_data.key,
       'amount': widget.price * 100,
       'name': 'InIt',
+      'email': FirebaseAuth.instance.currentUser!.email,
+      'phone': BlocProvider.of<CanteenCubit>(context).state.currentuser.phone,
       'description': 'Init Payment',
       'prefill': {'contact': 'Enter Mobile'},
     };

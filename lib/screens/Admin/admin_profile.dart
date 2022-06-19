@@ -63,9 +63,77 @@ class AdminProfile extends StatelessWidget {
             _profileFunctions(
               title: "Sign out",
               ontap: () {
-                FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => Login()));
+                showDialog(
+                    context: context,
+                    builder: (context) => Dialog(
+                          backgroundColor: Colors.transparent,
+                          child: Container(
+                            padding: EdgeInsets.all(getwidth(context, 10)),
+                            // height: getheight(context, 180),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Alert!",
+                                  style: TextStyle(
+                                      color: orange_color,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: textSize.getadaptiveTextSize(
+                                          context, 22)),
+                                ),
+                                SizedBox(
+                                  height: getheight(context, 22),
+                                ),
+                                Center(
+                                  child: Text(
+                                    "Are you sure you want to log out the app!",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: textSize.getadaptiveTextSize(
+                                            context, 18)),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: getheight(context, 22),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    FirebaseAuth.instance.signOut();
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Login()));
+                                  },
+                                  child: Container(
+                                    height: getheight(context, 40),
+                                    width: getwidth(context, 130),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: orange_color),
+                                    child: Center(
+                                      child: Text(
+                                        "Log out",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize:
+                                                textSize.getadaptiveTextSize(
+                                                    context, 17)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ));
               },
             ),
           ],
