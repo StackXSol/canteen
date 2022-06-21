@@ -142,7 +142,6 @@ class _PendingItem extends StatelessWidget {
                         )));
           },
           child: Container(
-            height: getheight(context, 102),
             width: getwidth(context, 325),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -157,7 +156,9 @@ class _PendingItem extends StatelessWidget {
               ],
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: getheight(context, 10)),
+              padding: EdgeInsets.symmetric(
+                  horizontal: getheight(context, 10),
+                  vertical: getheight(context, 12)),
               child: Row(
                 children: [
                   QrImage(

@@ -121,7 +121,9 @@ class _cartItem extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: getheight(context, 102),
+          constraints: BoxConstraints(
+            maxHeight: double.infinity,
+          ),
           width: getwidth(context, 325),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -135,61 +137,62 @@ class _cartItem extends StatelessWidget {
               ),
             ],
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: getwidth(context, 10)),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: getheight(context, 27),
-                  right: getwidth(context, 7),
-                  child: Container(
-                    margin: EdgeInsets.only(top: getheight(context, 30)),
-                    height: getheight(context, 35),
-                    width: getheight(context, 70),
-                    decoration: BoxDecoration(
-                        color: orange_color,
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            if (cart_list[index][3] != 1) {
-                              cart_list[index][3] -= 1;
-                            } else {
-                              cart_list.removeAt(index);
-                            }
-                            BlocProvider.of<CanteenCubit>(context)
-                                .update_cart(cart_list, context);
-                          },
-                          child: Icon(
-                            Icons.remove,
-                            color: Colors.white,
-                            size: getheight(context, 18),
-                          ),
+          child: Stack(
+            children: [
+              Positioned(
+                right: getwidth(context, 14),
+                child: Container(
+                  margin: EdgeInsets.only(top: getheight(context, 30)),
+                  height: getheight(context, 35),
+                  width: getheight(context, 70),
+                  decoration: BoxDecoration(
+                      color: orange_color,
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (cart_list[index][3] != 1) {
+                            cart_list[index][3] -= 1;
+                          } else {
+                            cart_list.removeAt(index);
+                          }
+                          BlocProvider.of<CanteenCubit>(context)
+                              .update_cart(cart_list, context);
+                        },
+                        child: Icon(
+                          Icons.remove,
+                          color: Colors.white,
+                          size: getheight(context, 18),
                         ),
-                        Text(
-                          quantity.toString(),
-                          style:
-                              TextStyle(color: Color(0xffffffff), fontSize: 12),
+                      ),
+                      Text(
+                        quantity.toString(),
+                        style:
+                            TextStyle(color: Color(0xffffffff), fontSize: 12),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          cart_list[index][3] += 1;
+                          BlocProvider.of<CanteenCubit>(context)
+                              .update_cart(cart_list, context);
+                        },
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: getheight(context, 18),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            cart_list[index][3] += 1;
-                            BlocProvider.of<CanteenCubit>(context)
-                                .update_cart(cart_list, context);
-                          },
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
-                            size: getheight(context, 18),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
-                Row(
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: getwidth(context, 10),
+                    vertical: getheight(context, 12)),
+                child: Row(
                   children: [
                     CircleAvatar(
                       backgroundImage: NetworkImage(photo),
@@ -207,6 +210,8 @@ class _cartItem extends StatelessWidget {
                             child: Text(
                               name,
                               style: TextStyle(
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 15),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -222,8 +227,8 @@ class _cartItem extends StatelessWidget {
                     Spacer(),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         SizedBox(

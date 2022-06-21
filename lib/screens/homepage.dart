@@ -29,13 +29,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<CanteenCubit>(context).update_cart(cart_list, context);
     if (!carousel) {
       getCaroselImages();
     }
-    if (!canteen_bool) {
+    if (!canteen_bool || canteen == 'No canteen found!') {
       get_canteens();
     }
+    BlocProvider.of<CanteenCubit>(context).update_cart(cart_list, context);
   }
 
   Future<void> getCaroselImages() async {
@@ -1080,7 +1080,6 @@ class _ItemState extends State<_Item> {
     return Column(
       children: [
         Container(
-          height: getheight(context, 102),
           width: getwidth(context, 325),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -1094,56 +1093,57 @@ class _ItemState extends State<_Item> {
               ),
             ],
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: getheight(context, 10)),
-            child: Stack(
-              children: [
-                Positioned(
-                  right: getwidth(context, 7),
-                  top: getheight(context, 37),
-                  child: GestureDetector(
-                    onTap: () {
-                      bool _already = false;
-                      for (var i in cart_list) {
-                        if (i.contains(widget.name)) {
-                          Fluttertoast.showToast(msg: "Already in cart!");
-                          _already = true;
-                          break;
-                        }
+          child: Stack(
+            children: [
+              Positioned(
+                right: getwidth(context, 14),
+                top: getheight(context, 27),
+                child: GestureDetector(
+                  onTap: () {
+                    bool _already = false;
+                    for (var i in cart_list) {
+                      if (i.contains(widget.name)) {
+                        Fluttertoast.showToast(msg: "Already in cart!");
+                        _already = true;
+                        break;
                       }
-                      !_already
-                          ? cart_list
-                              .add([widget.name, widget.image, widget.price, 1])
-                          : cart_list;
-                      BlocProvider.of<CanteenCubit>(context)
-                          .update_cart(cart_list, context);
+                    }
+                    !_already
+                        ? cart_list
+                            .add([widget.name, widget.image, widget.price, 1])
+                        : cart_list;
+                    BlocProvider.of<CanteenCubit>(context)
+                        .update_cart(cart_list, context);
 
-                      setState(() {
-                        widget.alreadyitem = true;
-                      });
-                    },
-                    child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        margin: EdgeInsets.only(top: getheight(context, 30)),
-                        height: getheight(context, 23),
-                        // width: getwidth(context, 55),
-                        decoration: BoxDecoration(
-                            color: !widget.alreadyitem
-                                ? orange_color
-                                : Colors.green,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Center(
-                            child: Text(
-                          !widget.alreadyitem ? "Add +" : "In Cart  🛒",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize:
-                                  textSize.getadaptiveTextSize(context, 14)),
-                        ))),
-                  ),
+                    setState(() {
+                      widget.alreadyitem = true;
+                    });
+                  },
+                  child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      margin: EdgeInsets.only(top: getheight(context, 30)),
+                      height: getheight(context, 23),
+                      // width: getwidth(context, 55),
+                      decoration: BoxDecoration(
+                          color:
+                              !widget.alreadyitem ? orange_color : Colors.green,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Center(
+                          child: Text(
+                        !widget.alreadyitem ? "Add +" : "In Cart  🛒",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize:
+                                textSize.getadaptiveTextSize(context, 14)),
+                      ))),
                 ),
-                Row(
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: getheight(context, 10),
+                    vertical: getheight(context, 12)),
+                child: Row(
                   children: [
                     CircleAvatar(
                       radius: getheight(context, 35),
@@ -1157,7 +1157,7 @@ class _ItemState extends State<_Item> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: getwidth(context, 150),
+                            width: getwidth(context, 160),
                             child: Text(
                               widget.name,
                               style: TextStyle(
@@ -1176,8 +1176,8 @@ class _ItemState extends State<_Item> {
                     Spacer(),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         SizedBox(

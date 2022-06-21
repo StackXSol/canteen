@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:init/backend_data.dart';
+import 'package:init/screens/reportBug.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../cubit/canteen_cubit.dart';
@@ -492,9 +493,13 @@ class _ProfileState extends State<Profile> {
                     }),
                     info_containers("About Us", () {}),
                     info_containers("Report Bug", () {
-                      String form_link =
-                          "https://docs.google.com/forms/d/e/1FAIpQLSdXMHY8ThkaPg0009EHGeR1NrCdfoNLUxyRGFogmGwgbSUp7Q/viewform?usp=send_form";
-                      launchUrl(Uri.parse(form_link));
+                      // String form_link =
+                      //     "https://docs.google.com/forms/d/e/1FAIpQLSdXMHY8ThkaPg0009EHGeR1NrCdfoNLUxyRGFogmGwgbSUp7Q/viewform?usp=send_form";
+                      // launchUrl(Uri.parse(form_link));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Issue_Collector()));
                     }),
                     info_containers("Logout", () {
                       showDialog(

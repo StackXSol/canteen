@@ -271,7 +271,6 @@ class _Items extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: getheight(context, 102),
           width: getwidth(context, 315),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -286,7 +285,9 @@ class _Items extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: getheight(context, 17)),
+            padding: EdgeInsets.symmetric(
+                horizontal: getheight(context, 17),
+                vertical: getheight(context, 12)),
             child: Row(
               children: [
                 Container(

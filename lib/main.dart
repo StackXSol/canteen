@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Canteen',
+      title: 'Init',
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xffF5F5F8),
         fontFamily: "Gilroy",

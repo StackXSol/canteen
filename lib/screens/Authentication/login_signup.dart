@@ -235,15 +235,30 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                               }
 
                               if (_user) {
-                                BlocProvider.of<CanteenCubit>(context)
-                                    .get_user_data(user!.uid, context);
+                                var key = await FirebaseFirestore.instance
+                                    .collection("Users")
+                                    .doc(user!.uid)
+                                    .get();
 
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Navbar(),
-                                  ),
-                                );
+                                BlocProvider.of<CanteenCubit>(context)
+                                    .get_user_data(user.uid, context);
+
+                                if ((key.data() as dynamic)["Verified"]) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Navbar(),
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          EmailverificationScreen(),
+                                    ),
+                                  );
+                                }
                               } else {
                                 {
                                   BlocProvider.of<CanteenCubit>(context)

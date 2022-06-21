@@ -133,8 +133,7 @@ class _ItemState extends State<_Item> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          height: getheight(context, 102),
+        Container(          
           width: getwidth(context, 315),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -149,7 +148,7 @@ class _ItemState extends State<_Item> {
             ],
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: getheight(context, 10)),
+            padding: EdgeInsets.symmetric(horizontal: getheight(context, 10), vertical: getheight(context, 12)),
             child: Row(
               children: [
                 CircleAvatar(
