@@ -162,7 +162,7 @@ class _PendingItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          oid.toString(),
+                          "OID: " + oid.toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize:

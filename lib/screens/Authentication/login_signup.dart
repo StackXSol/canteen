@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:init/Policies/privacy.dart';
+import 'package:init/Policies/terms.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../cubit/canteen_cubit.dart';
 import '../../main.dart';
@@ -64,6 +67,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
   @override
   bool _isObscure = true;
+  bool check = false;
 
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -78,6 +82,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
             elevation: 0,
+            systemOverlayStyle:
+                SystemUiOverlayStyle(statusBarColor: Colors.black),
             backgroundColor: Color(0xffF5F5F8),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
@@ -551,12 +557,80 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             height: 2,
                             color: Colors.black,
                           ),
-                          SizedBox(height: getheight(context, 50)),
+                          SizedBox(
+                            height: getheight(context, 25),
+                          ),
+                          Row(
+                            children: [
+                              Checkbox(
+                                  activeColor: orange_color,
+                                  value: check,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      check = val!;
+                                    });
+                                  }),
+                              Container(
+                                width: getwidth(context, 270),
+                                child: Wrap(
+                                  children: [
+                                    Text(
+                                      'I agree to the ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.black,
+                                          fontSize: 14),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Terms()));
+                                      },
+                                      child: Text(
+                                        'Terms & conditions ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            color: orange_color,
+                                            fontSize: 14),
+                                      ),
+                                    ),
+                                    Text(
+                                      'and ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.black,
+                                          fontSize: 14),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Privacy()));
+                                      },
+                                      child: Text(
+                                        'Privacy Policy ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            color: orange_color,
+                                            fontSize: 14),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: getheight(context, 25)),
                           // Spacer(),
                           InkWell(
                             onTap: () async {
                               if (_gkey.currentState!.validate() &&
-                                  dropdownValue != "Select College") {
+                                  dropdownValue != "Select College" &&
+                                  check == true) {
                                 setState(() {
                                   showSpinner = true;
                                 });
@@ -619,6 +693,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                   showSpinner = false;
                                   Fluttertoast.showToast(
                                       msg: "Please select a college!");
+                                });
+                              } else if (check == false) {
+                                setState(() {
+                                  showSpinner = false;
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          "Please accept terms and privacy policy!");
                                 });
                               }
                             },

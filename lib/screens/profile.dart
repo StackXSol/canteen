@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:init/Policies/aboutUs.dart';
 import 'package:init/backend_data.dart';
 import 'package:init/screens/reportBug.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -491,8 +492,11 @@ class _ProfileState extends State<Profile> {
                           MaterialPageRoute(
                               builder: (context) => PreviousOrders()));
                     }),
-                    info_containers("About Us", () {}),
-                    info_containers("Report Bug", () {
+                    info_containers("About Us", () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => AboutUs()));
+                    }),
+                    info_containers("Report an issue", () {
                       // String form_link =
                       //     "https://docs.google.com/forms/d/e/1FAIpQLSdXMHY8ThkaPg0009EHGeR1NrCdfoNLUxyRGFogmGwgbSUp7Q/viewform?usp=send_form";
                       // launchUrl(Uri.parse(form_link));

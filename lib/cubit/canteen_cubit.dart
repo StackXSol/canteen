@@ -217,7 +217,7 @@ class _cartItem extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: getheight(context, 10)),
-                          Text("Rs. ${price * quantity}/",
+                          Text("₹ ${price * quantity}/-",
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize:

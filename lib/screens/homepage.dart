@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -93,7 +94,7 @@ class _HomePageState extends State<HomePage> {
               body: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: getheight(context, 65)),
+                    SizedBox(height: getheight(context, 60)),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: getwidth(context, 22)),
@@ -1166,7 +1167,7 @@ class _ItemState extends State<_Item> {
                             ),
                           ),
                           SizedBox(height: getheight(context, 10)),
-                          Text("Rs. ${widget.price}",
+                          Text("₹ ${widget.price}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize:

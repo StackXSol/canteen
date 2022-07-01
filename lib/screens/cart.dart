@@ -113,8 +113,10 @@ class _CartState extends State<Cart> {
                         };
                       }
                       for (var i in cart_list) {
-                        dialogitemsList.add(
-                            _ItemRow(item: i[0].toString(), quantity: i[3]));
+                        dialogitemsList.add(_ItemRow(
+                            item: i[0].toString(),
+                            quantity: i[3],
+                            price: i[2]));
                       }
 
                       showDialog(
@@ -165,6 +167,7 @@ class _CartState extends State<Cart> {
                                                                     .bold))
                                                   ],
                                                 ),
+                                                Spacer(),
                                                 Column(
                                                   children: [
                                                     Text("Quantity",
@@ -177,7 +180,23 @@ class _CartState extends State<Cart> {
                                                                 FontWeight
                                                                     .bold))
                                                   ],
-                                                )
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Text("Price",
+                                                        style: TextStyle(
+                                                            fontSize: textSize
+                                                                .getadaptiveTextSize(
+                                                                    context,
+                                                                    16),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold))
+                                                  ],
+                                                ),
                                               ],
                                             ),
                                             SizedBox(
@@ -234,7 +253,7 @@ class _CartState extends State<Cart> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  "To Pay",
+                                                  "Total amount",
                                                   style: TextStyle(
                                                       fontSize: textSize
                                                           .getadaptiveTextSize(
@@ -417,10 +436,10 @@ class _CartState extends State<Cart> {
 }
 
 class _ItemRow extends StatelessWidget {
-  _ItemRow({required this.item, required this.quantity});
+  _ItemRow({required this.item, required this.quantity, required this.price});
 
   String item;
-  int quantity;
+  int quantity, price;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -442,6 +461,12 @@ class _ItemRow extends StatelessWidget {
         ),
         Column(
           children: [Text(quantity.toString())],
+        ),
+        SizedBox(
+          width: 20,
+        ),
+        Column(
+          children: [Text("₹" + (quantity * price).toString())],
         )
       ],
     );

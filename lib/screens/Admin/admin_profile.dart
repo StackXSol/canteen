@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:init/screens/reportBug.dart';
 
+import '../../Policies/aboutUs.dart';
 import '../../main.dart';
 import '../../widgets.dart';
 import '../Authentication/login_signup.dart';
@@ -43,18 +45,24 @@ class AdminProfile extends StatelessWidget {
               height: getheight(context, 30),
             ),
             _profileFunctions(
-              title: "Faq",
+              title: "Report an issue",
               ontap: () {
-                ///////// faq ///////
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Issue_Collector()));
               },
             ),
             SizedBox(
               height: getheight(context, 30),
             ),
             _profileFunctions(
-              title: "Contact Us",
+              title: "About Us",
               ontap: () {
-                ///////// contact us ///////
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AboutUs(),
+                  ),
+                );
               },
             ),
             SizedBox(

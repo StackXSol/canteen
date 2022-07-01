@@ -76,6 +76,8 @@ class _AdminLoginState extends State<AdminLogin> with TickerProviderStateMixin {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarColor: Colors.black),
           title: Padding(
             padding: EdgeInsets.only(left: getwidth(context, 75), top: 5),
           ),

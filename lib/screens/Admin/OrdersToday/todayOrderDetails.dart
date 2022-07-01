@@ -81,7 +81,7 @@ class _TodayOrderDetailsState extends State<TodayOrderDetails> {
               child: Column(
                 children: [
                   Text(
-                    widget.oid.toString(),
+                    "OID: " + widget.oid.toString(),
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
