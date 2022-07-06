@@ -113,8 +113,9 @@ class _cartItem extends StatelessWidget {
       required this.photo,
       required this.quantity});
 
-  int price, quantity, index;
+  int quantity, index;
   String photo, name;
+  double price;
 
   @override
   Widget build(BuildContext context) {

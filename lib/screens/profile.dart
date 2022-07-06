@@ -555,6 +555,9 @@ class _ProfileState extends State<Profile> {
                                           FirebaseAuth.instance.signOut();
                                           canteen = "Select College";
                                           canteen_bool = false;
+                                          cart_list = [];
+                                          BlocProvider.of<CanteenCubit>(context)
+                                              .update_cart(cart_list, context);
                                           Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(

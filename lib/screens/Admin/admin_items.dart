@@ -64,6 +64,7 @@ class _AdminItemsState extends State<AdminItems> {
                 for (var i in snapshot.data.docs) {
                   print(i.id);
                   _itemlist.add(_Item(
+                    price: double.parse(i.data()["Price"]),
                     category: widget.category,
                     toggle: i.data()["Status"],
                     ontap: () {},
@@ -115,9 +116,12 @@ class _Item extends StatefulWidget {
       required this.ontap,
       required this.name,
       required this.docid,
+      required this.price,
       required this.category,
       required this.image});
   late Function ontap;
+
+  var price;
 
   String name, image, docid, category;
   bool toggle;
@@ -127,13 +131,11 @@ class _Item extends StatefulWidget {
 }
 
 class _ItemState extends State<_Item> {
-  int price = 0;
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(          
+        Container(
           width: getwidth(context, 315),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -148,7 +150,9 @@ class _ItemState extends State<_Item> {
             ],
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: getheight(context, 10), vertical: getheight(context, 12)),
+            padding: EdgeInsets.symmetric(
+                horizontal: getheight(context, 10),
+                vertical: getheight(context, 12)),
             child: Row(
               children: [
                 CircleAvatar(
@@ -239,9 +243,11 @@ class _ItemState extends State<_Item> {
                                           Padding(
                                             padding: EdgeInsets.all(8.0),
                                             child: TextFormField(
-                                                initialValue: price.toString(),
+                                                initialValue:
+                                                    widget.price.toString(),
                                                 onChanged: (value) {
-                                                  price = int.parse(value);
+                                                  widget.price =
+                                                      double.parse(value);
                                                 },
                                                 keyboardType:
                                                     TextInputType.number,
@@ -285,7 +291,7 @@ class _ItemState extends State<_Item> {
                                                     .doc(widget.docid)
                                                     .set({
                                                   "Name": widget.name,
-                                                  "Price": price
+                                                  "Price": widget.price
                                                 }, SetOptions(merge: true));
                                                 Fluttertoast.showToast(
                                                     msg: "Price updated!");

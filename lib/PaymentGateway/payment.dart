@@ -9,7 +9,7 @@ import '../main.dart';
 
 class py_pg extends StatefulWidget {
   py_pg({required this.price});
-  int price;
+  double price;
   @override
   _py_pgState createState() => _py_pgState();
 }

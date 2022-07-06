@@ -241,11 +241,18 @@ class _HomePageState extends State<HomePage> {
 
                               for (var i in key2.docs) {
                                 if (i.data()["Status"]) {
-                                  food_items.add(_Item(
+                                  food_items.add(
+                                    _Item(
+                                      index: _check(i.data()["Name"])
+                                          ? _getIndex(i.data()["Name"])
+                                          : -1,
                                       alreadyitem: _check(i.data()["Name"]),
                                       image: i.data()["Photo"],
                                       name: i.data()["Name"],
-                                      price: i.data()["Price"]));
+                                      price: double.parse(
+                                          i.data()["Price"].toString()),
+                                    ),
+                                  );
                                 }
                               }
                               setState(() {
@@ -375,11 +382,18 @@ class _HomePageState extends State<HomePage> {
 
                               for (var i in key2.docs) {
                                 if (i.data()["Status"]) {
-                                  food_items.add(_Item(
+                                  food_items.add(
+                                    _Item(
+                                      index: _check(i.data()["Name"])
+                                          ? _getIndex(i.data()["Name"])
+                                          : -1,
                                       alreadyitem: _check(i.data()["Name"]),
                                       image: i.data()["Photo"],
                                       name: i.data()["Name"],
-                                      price: i.data()["Price"]));
+                                      price: double.parse(
+                                          i.data()["Price"].toString()),
+                                    ),
+                                  );
                                 }
                               }
                               setState(() {
@@ -508,11 +522,18 @@ class _HomePageState extends State<HomePage> {
 
                               for (var i in key2.docs) {
                                 if (i.data()["Status"]) {
-                                  food_items.add(_Item(
+                                  food_items.add(
+                                    _Item(
+                                      index: _check(i.data()["Name"])
+                                          ? _getIndex(i.data()["Name"])
+                                          : -1,
                                       alreadyitem: _check(i.data()["Name"]),
                                       image: i.data()["Photo"],
                                       name: i.data()["Name"],
-                                      price: i.data()["Price"]));
+                                      price: double.parse(
+                                          i.data()["Price"].toString()),
+                                    ),
+                                  );
                                 }
                               }
                               setState(() {
@@ -650,10 +671,15 @@ class _HomePageState extends State<HomePage> {
                               for (var i in key2.docs) {
                                 if (i.data()["Status"]) {
                                   food_items.add(_Item(
-                                      alreadyitem: _check(i.data()["Name"]),
-                                      image: i.data()["Photo"],
-                                      name: i.data()["Name"],
-                                      price: i.data()["Price"]));
+                                    index: _check(i.data()["Name"])
+                                        ? _getIndex(i.data()["Name"])
+                                        : -1,
+                                    alreadyitem: _check(i.data()["Name"]),
+                                    image: i.data()["Photo"],
+                                    name: i.data()["Name"],
+                                    price: double.parse(
+                                        i.data()["Price"].toString()),
+                                  ));
                                 }
                               }
                               setState(() {
@@ -784,11 +810,18 @@ class _HomePageState extends State<HomePage> {
 
                               for (var i in key2.docs) {
                                 if (i.data()["Status"]) {
-                                  food_items.add(_Item(
+                                  food_items.add(
+                                    _Item(
+                                      index: _check(i.data()["Name"])
+                                          ? _getIndex(i.data()["Name"])
+                                          : -1,
                                       alreadyitem: _check(i.data()["Name"]),
                                       image: i.data()["Photo"],
                                       name: i.data()["Name"],
-                                      price: i.data()["Price"]));
+                                      price: double.parse(
+                                          i.data()["Price"].toString()),
+                                    ),
+                                  );
                                 }
                               }
                               setState(() {
@@ -920,10 +953,15 @@ class _HomePageState extends State<HomePage> {
                               for (var i in key2.docs) {
                                 if (i.data()["Status"]) {
                                   food_items.add(_Item(
-                                      alreadyitem: _check(i.data()["Name"]),
-                                      image: i.data()["Photo"],
-                                      name: i.data()["Name"],
-                                      price: i.data()["Price"]));
+                                    index: _check(i.data()["Name"])
+                                        ? _getIndex(i.data()["Name"])
+                                        : -1,
+                                    alreadyitem: _check(i.data()["Name"]),
+                                    image: i.data()["Photo"],
+                                    name: i.data()["Name"],
+                                    price: double.parse(
+                                        i.data()["Price"].toString()),
+                                  ));
                                 }
                               }
                               setState(() {
@@ -1066,9 +1104,11 @@ class _Item extends StatefulWidget {
       {required this.image,
       required this.name,
       required this.price,
+      required this.index,
       required this.alreadyitem});
   String image, name;
-  int price;
+  int index;
+  double price;
   bool alreadyitem;
 
   @override
@@ -1076,6 +1116,19 @@ class _Item extends StatefulWidget {
 }
 
 class _ItemState extends State<_Item> {
+  @override
+  void initState() {
+    if (widget.index != -1) {
+      top = 17;
+      right = 19;
+    }
+    setState(() {});
+    super.initState();
+  }
+
+  double top = 27;
+  double right = 17;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -1097,48 +1150,95 @@ class _ItemState extends State<_Item> {
           child: Stack(
             children: [
               Positioned(
-                right: getwidth(context, 14),
-                top: getheight(context, 27),
-                child: GestureDetector(
-                  onTap: () {
-                    bool _already = false;
-                    for (var i in cart_list) {
-                      if (i.contains(widget.name)) {
-                        Fluttertoast.showToast(msg: "Already in cart!");
-                        _already = true;
-                        break;
-                      }
-                    }
-                    !_already
-                        ? cart_list
-                            .add([widget.name, widget.image, widget.price, 1])
-                        : cart_list;
-                    BlocProvider.of<CanteenCubit>(context)
-                        .update_cart(cart_list, context);
+                right: getwidth(context, right),
+                top: getheight(context, top),
+                child: !widget.alreadyitem
+                    ? GestureDetector(
+                        onTap: () {
+                          cart_list.add(
+                              [widget.name, widget.image, widget.price, 1]);
 
-                    setState(() {
-                      widget.alreadyitem = true;
-                    });
-                  },
-                  child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      margin: EdgeInsets.only(top: getheight(context, 30)),
-                      height: getheight(context, 23),
-                      // width: getwidth(context, 55),
-                      decoration: BoxDecoration(
-                          color:
-                              !widget.alreadyitem ? orange_color : Colors.green,
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                          child: Text(
-                        !widget.alreadyitem ? "Add +" : "In Cart  🛒",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize:
-                                textSize.getadaptiveTextSize(context, 14)),
-                      ))),
-                ),
+                          widget.index = cart_list.length - 1;
+
+                          BlocProvider.of<CanteenCubit>(context)
+                              .update_cart(cart_list, context);
+
+                          setState(() {
+                            top = 17;
+                            right = 19;
+                            widget.alreadyitem = true;
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          margin: EdgeInsets.only(top: getheight(context, 30)),
+                          height: getheight(context, 23),
+                          // width: getwidth(context, 55),
+                          decoration: BoxDecoration(
+                              color: !widget.alreadyitem
+                                  ? orange_color
+                                  : Colors.green,
+                              borderRadius: BorderRadius.circular(30)),
+                          child: Center(
+                              child: Text(
+                            !widget.alreadyitem ? "Add +" : "In Cart  🛒",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize:
+                                    textSize.getadaptiveTextSize(context, 14)),
+                          )),
+                        ),
+                      )
+                    : Container(
+                        margin: EdgeInsets.only(top: getheight(context, 30)),
+                        height: getheight(context, 35),
+                        width: getheight(context, 70),
+                        decoration: BoxDecoration(
+                            color: orange_color,
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                if (cart_list[widget.index][3] != 1) {
+                                  cart_list[widget.index][3] -= 1;
+                                } else {
+                                  cart_list.removeAt(widget.index);
+                                  widget.alreadyitem = false;
+                                }
+                                setState(() {});
+                                BlocProvider.of<CanteenCubit>(context)
+                                    .update_cart(cart_list, context);
+                              },
+                              child: Icon(
+                                Icons.remove,
+                                color: Colors.white,
+                                size: getheight(context, 18),
+                              ),
+                            ),
+                            Text(
+                              cart_list[widget.index][3].toString(),
+                              style: TextStyle(
+                                  color: Color(0xffffffff), fontSize: 12),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                cart_list[widget.index][3] += 1;
+                                setState(() {});
+                                BlocProvider.of<CanteenCubit>(context)
+                                    .update_cart(cart_list, context);
+                              },
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: getheight(context, 18),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -1196,4 +1296,16 @@ bool _check(String name) {
     }
   }
   return false;
+}
+
+int _getIndex(String name) {
+  int index = 0;
+  for (var i in cart_list) {
+    if (i.contains(name)) {
+      return index;
+    } else {
+      index += 1;
+    }
+  }
+  return -1;
 }

@@ -94,7 +94,7 @@ class _CartState extends State<Cart> {
                   alignment: Alignment.bottomCenter,
                   child: GestureDetector(
                     onTap: () {
-                      int total_price = 0;
+                      double total_price = 0;
                       DateTime time = DateTime.now();
                       Map _orders = {};
                       List<Widget> dialogitemsList = [];
@@ -103,7 +103,7 @@ class _CartState extends State<Cart> {
                           Random().nextInt(10000) +
                           Random().nextInt(100);
                       for (var i in cart_list) {
-                        total_price += int.parse(i[2].toString()) *
+                        total_price += double.parse(i[2].toString()) *
                             int.parse(i[3].toString());
                         _orders[i[0]] = {
                           "Price": i[2] * i[3],
@@ -351,15 +351,14 @@ class _CartState extends State<Cart> {
                                                 }
 
                                                 await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            py_pg(
-                                                              price:
-                                                                  total_price +
-                                                                      app_data
-                                                                          .fee,
-                                                            ))).then((value) {
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => py_pg(
+                                                      price: total_price +
+                                                          app_data.fee,
+                                                    ),
+                                                  ),
+                                                ).then((value) {
                                                   if (BlocProvider.of<
                                                           CanteenCubit>(context)
                                                       .state
@@ -439,7 +438,8 @@ class _ItemRow extends StatelessWidget {
   _ItemRow({required this.item, required this.quantity, required this.price});
 
   String item;
-  int quantity, price;
+  int quantity;
+  double price;
   @override
   Widget build(BuildContext context) {
     return Row(

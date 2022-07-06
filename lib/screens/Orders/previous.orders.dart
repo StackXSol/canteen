@@ -79,7 +79,8 @@ class _PreviousOrdersState extends State<PreviousOrders> {
                                   items: i.data()["Items"],
                                   datetime:
                                       DateTime.parse(i.data()["DateTime"]),
-                                  total_price: i.data()["Total_Price"],
+                                  total_price: double.parse(
+                                      i.data()["Total_Price"].toString()),
                                   oid: i.data()["OID"]));
                             }
                           }
@@ -131,7 +132,8 @@ class _PrevItem extends StatelessWidget {
       required this.items,
       required this.datetime});
 
-  int total_price, oid;
+  int oid;
+  double total_price;
   Map items;
   DateTime datetime;
 

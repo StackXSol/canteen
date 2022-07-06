@@ -36,7 +36,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   void get_items() {
     widget.items.forEach((k, v) => _order_items.add(_Items(
           name: k,
-          price: v["Price"],
+          price: double.parse(v["Price"].toString()),
           quantity: v["Quantity"],
           image: v["Image"],
           oid: widget.oid,
@@ -222,7 +222,8 @@ class _Items extends StatelessWidget {
       required this.oid,
       required this.image});
   String name, image;
-  int price, quantity, oid;
+  int quantity, oid;
+  double price;
 
   @override
   Widget build(BuildContext context) {

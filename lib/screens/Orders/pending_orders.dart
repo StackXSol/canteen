@@ -66,7 +66,8 @@ class _PendingOrdersState extends State<PendingOrders> {
                           for (var i in odocs.reversed) {
                             if (!i.data()["Status"]) {
                               _orders.add(_PendingItem(
-                                  total_price: i.data()["Total_Price"],
+                                  total_price: double.parse(
+                                      i.data()["Total_Price"].toString()),
                                   items: i.data()["Items"],
                                   datetime:
                                       DateTime.parse(i.data()["DateTime"]),
@@ -121,7 +122,8 @@ class _PendingItem extends StatelessWidget {
       required this.items,
       required this.datetime});
 
-  int total_price, oid;
+  int oid;
+  double total_price;
   Map items;
   DateTime datetime;
 
