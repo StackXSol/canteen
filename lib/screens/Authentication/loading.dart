@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../cubit/canteen_cubit.dart';
 import '../../widgets.dart';
 import '../Admin/admin_navbar.dart';
@@ -19,10 +21,32 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
+  var subscription;
   @override
-  void initState() {
-    check_admin();
+  initState() {
     super.initState();
+    check_net();
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      print(result);
+      if (result != ConnectivityResult.none) {
+        check_admin();
+      }
+    });
+  }
+
+  void check_net() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      Fluttertoast.showToast(msg: "No internet connection!");
+    }
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+    subscription.cancel();
   }
 
   Future<void> check_admin() async {
