@@ -18,7 +18,7 @@ class _RevenueState extends State<Revenue> {
   late String _displayMonth;
   late String _displayYear;
   int orders = 0;
-  int revenue = 0;
+  double revenue = 0;
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _RevenueState extends State<Revenue> {
                 DateTime.parse(i.data()["DateTime"]),
               )) {
         orders += 1;
-        revenue += int.parse(i.data()["Total_Price"].toString());
+        revenue += double.parse(i.data()["Total_Price"].toString());
         chartData.add(ChartData(orders, revenue.toDouble()));
       }
     }

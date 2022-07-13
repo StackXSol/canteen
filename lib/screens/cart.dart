@@ -231,7 +231,7 @@ class _CartState extends State<Cart> {
                                                 ),
                                                 Column(
                                                   children: [
-                                                    Text("₹2",
+                                                    Text("₹0",
                                                         style: TextStyle(
                                                             fontSize: textSize
                                                                 .getadaptiveTextSize(
@@ -263,7 +263,7 @@ class _CartState extends State<Cart> {
                                                 ),
                                                 Spacer(),
                                                 Text(
-                                                    "\u{20B9} ${(total_price + app_data.fee).toString()}/-",
+                                                    "\u{20B9} ${(total_price + 0).toString()}/-",
                                                     style: TextStyle(
                                                         fontSize: textSize
                                                             .getadaptiveTextSize(
@@ -354,8 +354,8 @@ class _CartState extends State<Cart> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) => py_pg(
-                                                      price: total_price +
-                                                          app_data.fee,
+                                                      price: total_price + 0
+                                                          // app_data.fee,
                                                     ),
                                                   ),
                                                 ).then((value) {

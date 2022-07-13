@@ -263,7 +263,8 @@ class _Items extends StatelessWidget {
       required this.quantity,
       required this.image});
   String name, image, uid;
-  int price, quantity, oid;
+  int quantity, oid;
+  double price;
   bool status;
 
   @override

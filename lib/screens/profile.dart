@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:init/Policies/aboutUs.dart';
 import 'package:init/backend_data.dart';
@@ -62,10 +63,52 @@ class _ProfileState extends State<Profile> {
         BlocProvider.of<CanteenCubit>(context).state.currentuser.phone;
     String dropdownValue =
         BlocProvider.of<CanteenCubit>(context).state.currentuser.College;
+    final isDialOpen = ValueNotifier(false);
 
     return BlocBuilder<CanteenCubit, CanteenState>(
       builder: (context, state) {
         return Scaffold(
+          floatingActionButton: SpeedDial(
+            child: Image(
+              image: AssetImage('images/customer-service.png'),
+              height: 100,
+            ),
+            // animatedIcon: AnimatedIcons.menu_close,
+            // backgroundColor: Colors.black,
+            overlayColor: Colors.black,
+            overlayOpacity: 0.4,
+            spacing: 10,
+            spaceBetweenChildren: 10,
+            closeManually: false,
+            openCloseDial: isDialOpen,
+            children: [
+              // SpeedDialChild(
+              //     child: Icon(Icons.call),
+              //     backgroundColor: Colors.green,
+              //     label: 'Call',
+              //     onTap: () {
+              //       var a = '+91 7386692006';
+              //       launch("tel: ${a}");
+              //     }),
+              SpeedDialChild(
+                  child: Image(
+                    image: AssetImage('images/gmail.png'),
+                    height: 35,
+                  ),
+                  backgroundColor: Colors.transparent,
+                  label: 'Mail',
+                  onTap: () {
+                    launch('mailto:savnatechnologies1@gmail.com');
+                  }),
+              SpeedDialChild(
+                  child: Image(image: AssetImage('images/whatsapp.png')),
+                  backgroundColor: Colors.indigo,
+                  label: 'Whatsapp',
+                  onTap: () {
+                    launch("https://wa.me/+917386692006");
+                  }),
+            ],
+          ),
           resizeToAvoidBottomInset: false,
           backgroundColor: Color(0xffF5F5F8),
           body: ModalProgressHUD(
@@ -607,7 +650,7 @@ class _ProfileState extends State<Profile> {
       child: Center(
         child: Container(
           margin: EdgeInsets.only(bottom: getwidth(context, 21)),
-          height: getheight(context, 60),
+          height: getheight(context, 54),
           width: getwidth(context, 315),
           decoration: BoxDecoration(
               color: Color(0xffFFFFFF),

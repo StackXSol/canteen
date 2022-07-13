@@ -278,7 +278,7 @@ class _AddFoodState extends State<AddFood> {
                   "Name": _foodname,
                   "Status": true,
                   "Photo": _url,
-                  "Price": int.parse(_price)
+                  "Price": double.parse(_price)
                 }, SetOptions(merge: true));
                 Navigator.pop(context);
                 setState(() {

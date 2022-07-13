@@ -64,7 +64,7 @@ class _AdminItemsState extends State<AdminItems> {
                 for (var i in snapshot.data.docs) {
                   print(i.id);
                   _itemlist.add(_Item(
-                    price: double.parse(i.data()["Price"]),
+                    price: double.parse(i.data()["Price"].toString()),
                     category: widget.category,
                     toggle: i.data()["Status"],
                     ontap: () {},
@@ -258,6 +258,10 @@ class _ItemState extends State<_Item> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                                 decoration: InputDecoration(
+                                                    prefixIcon: Icon(
+                                                      Icons.money,
+                                                      color: Colors.black,
+                                                    ),
                                                     hintText: "Enter price",
                                                     border: OutlineInputBorder(
                                                         borderRadius:
@@ -311,12 +315,12 @@ class _ItemState extends State<_Item> {
                                                 child: Text(
                                                   "Done",
                                                   style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: textSize
-                                                          .getadaptiveTextSize(
-                                                              context, 17)),
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 17),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -337,32 +341,124 @@ class _ItemState extends State<_Item> {
                       )
                     ]),
                 Spacer(),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: getheight(context, 30),
-                      right: getwidth(context, 15)),
-                  child: FlutterSwitch(
-                      height: getheight(context, 25),
-                      width: getwidth(context, 45),
-                      toggleColor: Colors.white,
-                      inactiveColor: Colors.grey,
-                      activeColor: Colors.greenAccent,
-                      value: widget.toggle,
-                      onToggle: (value) {
-                        setState(() {
-                          widget.toggle = !widget.toggle;
-                          FirebaseFirestore.instance
-                              .collection("Canteens")
-                              .doc(FirebaseAuth.instance.currentUser!.uid)
-                              .collection("Menu")
-                              .doc(widget.category)
-                              .collection("Items")
-                              .doc(widget.docid)
-                              .set({"Status": widget.toggle},
-                                  SetOptions(merge: true));
-                          print(widget.toggle);
-                        });
-                      }),
+                Column(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => Dialog(
+                                    backgroundColor: Colors.transparent,
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.all(getwidth(context, 10)),
+                                      // height: getheight(context, 180),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: Colors.white,
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Alert!",
+                                            style: TextStyle(
+                                                color: orange_color,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: textSize
+                                                    .getadaptiveTextSize(
+                                                        context, 22)),
+                                          ),
+                                          SizedBox(
+                                            height: getheight(context, 22),
+                                          ),
+                                          Center(
+                                            child: Text(
+                                              "Are you sure you want to delete this item!",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: textSize
+                                                      .getadaptiveTextSize(
+                                                          context, 18)),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: getheight(context, 22),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              FirebaseFirestore.instance
+                                                  .collection("Canteens")
+                                                  .doc(FirebaseAuth.instance
+                                                      .currentUser!.uid)
+                                                  .collection("Menu")
+                                                  .doc(widget.category)
+                                                  .collection("Items")
+                                                  .doc(widget.docid)
+                                                  .delete();
+                                              Navigator.pop(context);
+                                            },
+                                            child: Container(
+                                              height: getheight(context, 40),
+                                              width: getwidth(context, 130),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  color: orange_color),
+                                              child: Center(
+                                                child: Text(
+                                                  "Delete Item",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: textSize
+                                                        .getadaptiveTextSize(
+                                                            context, 17),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ));
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.black,
+                        )),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: getheight(context, 5),
+                          right: getwidth(context, 15)),
+                      child: FlutterSwitch(
+                          height: getheight(context, 25),
+                          width: getwidth(context, 45),
+                          toggleColor: Colors.white,
+                          inactiveColor: Colors.grey,
+                          activeColor: Colors.greenAccent,
+                          value: widget.toggle,
+                          onToggle: (value) {
+                            setState(() {
+                              widget.toggle = !widget.toggle;
+                              FirebaseFirestore.instance
+                                  .collection("Canteens")
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .collection("Menu")
+                                  .doc(widget.category)
+                                  .collection("Items")
+                                  .doc(widget.docid)
+                                  .set({"Status": widget.toggle},
+                                      SetOptions(merge: true));
+                              print(widget.toggle);
+                            });
+                          }),
+                    ),
+                  ],
                 ),
               ],
             ),

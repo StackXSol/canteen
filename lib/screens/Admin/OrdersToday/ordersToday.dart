@@ -115,7 +115,8 @@ class _PendingItem extends StatelessWidget {
       required this.items,
       required this.datetime});
 
-  int total_price, oid;
+  double total_price;
+  int oid;
   Map items;
   DateTime datetime;
 

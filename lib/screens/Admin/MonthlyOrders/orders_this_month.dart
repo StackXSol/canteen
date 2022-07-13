@@ -39,7 +39,7 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
           (_displayYear ==
               DateFormat.y().format(DateTime.parse(i.data()["DateTime"]))))
         _orders.add(_Orders(
-            total_price: i.data()["Total_Price"],
+            total_price: double.parse(i.data()["Total_Price"].toString()),
             oid: int.parse(i.id.toString())));
     }
     setState(() {});
@@ -160,7 +160,8 @@ class _OrdersOfMonthState extends State<OrdersOfMonth> {
 class _Orders extends StatelessWidget {
   _Orders({required this.total_price, required this.oid});
 
-  int total_price, oid;
+  int oid;
+  double total_price;
 
   @override
   Widget build(BuildContext context) {
